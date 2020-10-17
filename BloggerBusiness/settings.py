@@ -40,9 +40,49 @@ INSTALLED_APPS = [
 
     # Third party
     'rest_framework',
+    'phonenumber_field',
 
-    
+    # Local
+    'account',
+    'blogger',
+    'business',
+    'offer'
 ]
+
+
+AUTH_USER_MODEL = "account.User"
+
+BLOG_LANGUAGES = [
+    ("EN", "ENGLISH"),
+    ("RU", "RUSSIAN"),
+    ("PL", "POLISH")
+]
+
+# TODO location
+COUNTRIES = [
+    ("BLR", "BELARUS"),
+    ("RUS", "RUSSIA"),
+    ("USA", "UNITES STATES OF AMERICA"),
+]
+
+CITIES = [
+    ("MINSK", "MINSK"),
+    ("MOSKOW", "MOSKOW"),
+    ("WASHINGTON", "WASHINGTON"),
+]
+
+BLOG_SPECIALIZATIONS = [
+    ("TECH", "TECH"),
+    ("FUN CONTENT", "FUN CONTENT"),
+    ("BEAUTY", "BEAUTY"),
+    ("FASHION", "FACHION"),
+]
+
+SEXES = [
+    ("M", "MAN"),
+    ("W", "WOMAN"),
+]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
