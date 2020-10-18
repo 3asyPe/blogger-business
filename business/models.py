@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 
+from .utils import upload_image_path_business
 from account.models import Location
 from phonenumber_field.modelfields import PhoneNumberField
 
@@ -22,7 +23,7 @@ class Business(models.Model):
         - Facebook (link)
     '''
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    # image = models.ImageField()
+    image = models.ImageField(upload_to=upload_image_path_business, null=True, blank=True) 
     business_name = models.CharField(max_length=120)
     business_owner_name = models.CharField(max_length=120)
     email = models.EmailField()

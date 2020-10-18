@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 
+from .utils import upload_image_path_blogger
 from account.models import Location
 from phonenumber_field.modelfields import PhoneNumberField
 
@@ -26,7 +27,7 @@ class Blogger(models.Model):
         - Birthday *
     '''
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    # image = models.ImageField() 
+    image = models.ImageField(upload_to=upload_image_path_blogger, null=True, blank=True) 
     blog_name = models.CharField(max_length=100)
     email = models.EmailField(max_length=255, unique=True)
     instagram = models.CharField(max_length=255, null=True, blank=True)

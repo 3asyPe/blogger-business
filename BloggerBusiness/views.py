@@ -9,7 +9,7 @@ def home_view(request):
 
 
 def contact_view(request):
-    return HttpResponse("<h1>Contact page</h1>")
+    return render(request, "base.html", {})
 
 
 def about_view(request):
