@@ -13,7 +13,6 @@ SEXES = settings.SEXES
 
 class Blogger(models.Model):
     '''
-    Blogger
         - User
         - Image *
         - Name *
@@ -28,7 +27,7 @@ class Blogger(models.Model):
     '''
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     # image = models.ImageField() 
-    name = models.CharField(max_length=100)
+    blog_name = models.CharField(max_length=100)
     email = models.EmailField(max_length=255, unique=True)
     instagram = models.CharField(max_length=255, null=True, blank=True)
     youtube = models.CharField(max_length=255, null=True, blank=True)
@@ -36,6 +35,9 @@ class Blogger(models.Model):
     location = models.OneToOneField(Location, on_delete=models.SET_NULL, null=True, blank=True)
     sex = models.CharField(max_length=1, choices=SEXES)
     birthday = models.DateField()
+
+    def __str__(self):
+        return self.blog_name
     
 
 class BlogLanguage(models.Model):

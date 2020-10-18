@@ -33,14 +33,14 @@ Database
     4. Offer
         - Business owner *
         - Title *
-        - Discription *
+        - Description *
         - Conditions
         - Price (or barter)
         - Barter (or price)
         - Timestamp *
         - Validity (calengar)
-        + User model (sorting)
-        - User rates (like, dislike) (many to many)
+        + Blogger's model (sorting)
+        + Bloggers' rates (like, dislike)
         - State (requested, accepted, declined)
 
     + Language
@@ -49,12 +49,18 @@ Database
     + Location
         - Country
         - City
-    + User model
+    + Blogger's model
         + Location
-        - Languages of blog (dropdown) (several)
+        + Languages of blog (dropdown) (several)
+        + Specializations (0 < x < 5)
         - Age (dropdown of different age groups)
         - Number of subscribers (dropdown of ranges) (multiple choice)
         - Sex
+
+    + Blogger's rate
+        - upvote
+        + blogger
+        + business
 
 
 

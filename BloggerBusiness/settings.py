@@ -72,15 +72,28 @@ CITIES = [
 ]
 
 BLOG_SPECIALIZATIONS = [
-    ("TECH", "TECH"),
-    ("FUN CONTENT", "FUN CONTENT"),
-    ("BEAUTY", "BEAUTY"),
-    ("FASHION", "FACHION"),
+    ("TECH", "Tech"),
+    ("FUN CONTENT", "Fun content"),
+    ("BEAUTY", "Beauty"),
+    ("FASHION", "Fashion"),
 ]
 
 SEXES = [
     ("M", "MAN"),
     ("W", "WOMAN"),
+]
+
+OFFER_STATES = [
+    ("ACCEPTED", "ACCEPTED"),
+    ("DECLINED", "DECLINED"),
+    ("REQUESTED", "REQUESTED")
+]
+
+AGE_GROUPS = [
+    ("KIDS", "Kids"),
+    ("TEENAGERS", "Teenagers"),
+    ("ADULTS", "Adults"),
+    ("OLD", "Old")
 ]
 
 
