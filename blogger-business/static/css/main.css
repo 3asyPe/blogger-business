@@ -1,0 +1,16 @@
+.fnt-40{
+    font-size: 40px;
+}
+
+.about-link{
+    font-size: 50px;
+    color: rgb(77, 76, 76);
+    border-bottom: 3px solid rgb(107, 152, 194)
+    
+}
+
+.about-link:hover{
+    text-decoration: none;
+    color: #000;
+    border-color: #000;
+}

@@ -5,7 +5,7 @@ from rest_framework.response import Response
 
 
 def home_view(request):
-    return JsonResponse({"message": "Home page"}, status=200)
+    return render(request, "pages/home.html", {})
 
 
 def contact_view(request):

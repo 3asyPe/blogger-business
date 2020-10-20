@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-6 border-right">    
+            <a class="about-link" href="/about">About us</a>
+            <h3>Become more popular</h3>
+            <h3>New contacts</h3>
+            <h3>Without any bots and blocks</h3>
+            <h3>Subscribers who are interested in your content</h3>
+            <h3>Soon! START EARNING MONEY</h3>
+        </div>
+        <div class="col-6">
+            <h3>Start getting new active subscribers</h3>
+            <button class="btn btn-success" onclick="blogger_login()">I am a blogger</button>
+            <button class="btn btn-primary" onclick="business_login()">I am a business</button>
+            <button class="btn btn-info" onclick="login()">Sign in</button>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/home.js' %}"></script>
+
+
+{% endblock %}

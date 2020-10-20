@@ -18,7 +18,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 from .views import (
     home_view,
@@ -32,6 +32,7 @@ urlpatterns = [
     path('', home_view),
     path('contact/', contact_view),
     path('about/', about_view),
+    path('', include('blogger.urls')),
 ]
 
 if settings.DEBUG:

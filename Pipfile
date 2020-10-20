@@ -4,13 +4,27 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+pylint = "*"
 
 [packages]
-django = "==3.1"
-djangorestframework = "*"
-psycopg2 = "*"
-django-phonenumber-field = "*"
-pillow = "*"
+djangorestframework = "==3.12.1"
+psycopg2 = "==2.8.6"
+django-phonenumber-field = "==5.0.0"
+asgiref = "==3.2.10"
+astroid = "==2.4.2"
+colorama = "==0.4.4"
+isort = "==5.6.4"
+lazy-object-proxy = "==1.4.3"
+mccabe = "==0.6.1"
+phonenumbers = "==8.12.11"
+pylint = "==2.6.0"
+pytz = "==2020.1"
+six = "==1.15.0"
+sqlparse = "==0.4.1"
+toml = "==0.10.1"
+wrapt = "==1.12.1"
+Django = "==3.1"
+Pillow = "==8.0.0"
 
 [requires]
 python_version = "3.8"
