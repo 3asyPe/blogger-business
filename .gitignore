@@ -159,3 +159,4 @@ dmypy.json
 .pyre/
 .vscode/settings.json
 graphics/
+blogger-business/BloggerBusiness/secret.py
