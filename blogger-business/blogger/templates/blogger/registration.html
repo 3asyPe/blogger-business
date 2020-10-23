@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% load static %}
+
+<div class='container'>
+    <div class="row">
+        <h2>Fill out the form or sign via</h2>
+        <button class="btn btn-primary">Facebook</button>
+    </div>
+    <form class="form" action="complete" method="POST" id="registration-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="image-input" class="form-label">
+                Your photo.
+                <img class="upload-image-icon" id="upload-image-icon" src="{% static 'images/TapToUploadPicture.png' %}"/>
+            </label>
+            <input id="image-input" class="image-input" name="image" type="file" onchange="previewImage(event)"/>
+        </div>
+        <div class="form-group row">
+            <label for="name" class="col-4 col-form-label form-label">Your name</label>
+            <input type="text" name="name" class="form-control col-8">
+        </div>
+        <div class="form-group row">
+            <div class="form-label">Account in social networks</div>
+            <button class="btn btn-info">Connect Instagram</button>
+            <button class="btn btn-danger">Connect Youtube</button>
+        </div>
+        <div class="form-group">
+            <input type="text" name="email" class='form-control' placeholder="Email">
+            <input type="text" name="phone" class='form-control' placeholder="Phone">
+        </div> 
+        <div class="form-group">
+            <label for="languages">Languages of blog</label>
+            <select id="languages" name="languages" multiple class="custom-select">
+                <option selected>Choose...</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="country">Country:</label>
+            <input type="text" name='country' id='country' class='form-control'>
+            <label for="city">City:</label>
+            <input type="text" name='city' id='city' class='form-control'>
+        </div> 
+        <div class="form-group">
+            <label for="specializations">Specializations of blog</label>
+            <select id="specializations" name="specializations" multiple class="custom-select">
+                <option selected>Choose...</option>
+            </select>
+        </div> 
+        <div class="form-group">
+            Sex:
+            <label for="sexM">Man</label>
+            <input type="radio" name="sex" id="sexM" value="M">
+            <label for="sexW">Woman</label>
+            <input type="radio" name="sex" id="sexW" value="W">
+        </div>
+        <div class="form-group">
+            Birthday:
+            <select name="month" onchange="enterDay()" class="custom-select">
+                <option value=""></option>
+                <option value="1">Jan</option>
+                <option value="2">Feb</option>
+                <option value="3">Mar</option>
+                <option value="4">Apr</option>
+                <option value="5">May</option>
+                <option value="6">Jun</option>
+                <option value="7">Jul</option>
+                <option value="8">Aug</option>
+                <option value="9">Sep</option>
+                <option value="10">Oct</option>
+                <option value="11">Nov</option>
+                <option value="12">Dec</option>
+            </select>
+
+            Day :
+            <select name="day" class="custom-select">
+            </select>
+
+            Year:
+            <select name="year" onchange="enterDay()" class="custom-select">
+            </select>
+        </div>
+        
+
+        <button type='submit' class='btn btn-success'>Submit</button>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="{% static 'js/registration.js' %}">
+
+</script>
+
+{% endblock %}

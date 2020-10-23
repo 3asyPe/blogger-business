@@ -14,3 +14,12 @@
     color: #000;
     border-color: #000;
 }
+
+.upload-image-icon{
+    height:200px;
+    cursor: pointer;
+}
+
+#image-input{
+    display: none;
+}

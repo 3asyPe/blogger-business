@@ -32,6 +32,7 @@ urlpatterns = [
     path('', home_view),
     path('contact/', contact_view),
     path('about/', about_view),
+    path('', include('account.urls')),
     path('', include('blogger.urls')),
 ]
 
