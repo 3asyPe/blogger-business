@@ -5,6 +5,8 @@ from django.contrib.auth.models import (
     BaseUserManager,
 )
 
+from blogger.models import Blogger
+
 
 COUNTRIES = settings.COUNTRIES
 CITIES = settings.CITIES
@@ -87,5 +89,6 @@ class User(AbstractBaseUser):
 
 
 class Location(models.Model):
-    country = models.CharField(max_length=3, choices=COUNTRIES)
-    city = models.CharField(max_length=120, choices=CITIES)
+    country = models.CharField(max_length=120)
+    city = models.CharField(max_length=120)
+    blogger = models.OneToOneField(Blogger, on_delete=models.CASCADE)

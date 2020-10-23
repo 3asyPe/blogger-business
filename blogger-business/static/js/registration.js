@@ -31,7 +31,6 @@ fetch("/api/blog-specializations")
         let selectElHTML = selectEl.innerHTML
         for(let specialization of specializations){
             selectElHTML += getSpecializationOptionHtml(specialization)
-            console.log(specialization.specialization)
         }
         selectEl.innerHTML = selectElHTML
     })
@@ -88,7 +87,7 @@ form.addEventListener('submit', function(ev) {
     oReq.open("POST", "/api/registration/complete", true)
     oReq.onload = function(oEvent) {
         if (oReq.status == 201) {
-            console.log(oReq.message)
+            console.log(oReq.response)
         } else {
             console.log("Error " + oReq.status + " occurred when trying to upload your file.")
         }

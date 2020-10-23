@@ -4,7 +4,12 @@ from django.conf import settings
 from django.shortcuts import render
 from django.http import Http404
 
+from .services import (
+    send_password_email,
+)
 from blogger.models import Blogger
+from blogger.services import register_blogger
+from BloggerBusiness.utils import querydict_to_dict
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -36,6 +41,9 @@ def register_account(request):
     print(request.FILES)
     print(account_type)
     if account_type == "blogger":
+        # send_password_email(email)
+        data = querydict_to_dict(request.POST)
+        register_blogger(data=data, image=request.FILES.get("image"))
         return Response({"message": "Account was created successfully"}, status=201)
     elif account_type == "business":
         return Response({"message": "Account was created successfully"}, status=201)
