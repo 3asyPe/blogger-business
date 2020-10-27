@@ -1,5 +1,4 @@
 from django.contrib.auth import get_user_model
-from django.conf import settings
 from django.http import QueryDict
 
 from .models import (
@@ -33,12 +32,20 @@ def register_blogger(data: QueryDict, image):
     print(f"birthday-{birthday}")
 
     try:
+        location = Location.objects.create(country=data['country'], city=data['city'])
+    except KeyError:
+        raise KeyError("Data object doesn't have country or city field")
+    print(f"location-{location}")
+    location.save()
+
+    try:
         blogger = Blogger(
             user=user,
             image=image,
             blog_name=data['blog_name'],
             email=data['email'],
             phone=data['phone'],
+            location=location,
             sex=data['sex'],
             birthday=birthday,
         )
@@ -47,12 +54,6 @@ def register_blogger(data: QueryDict, image):
     print(f"blogger-{blogger}")
 
     blogger.save()
-
-    try:
-        location = Location.objects.create(country=data['country'], city=data['city'], blogger=blogger)
-    except KeyError:
-        raise KeyError("Data object doesn't have country or city field")
-    print(f"location-{location}")
 
     try:
         languages = create_list_of_languages(languages=data['languages'], blogger=blogger)

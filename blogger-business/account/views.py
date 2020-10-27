@@ -11,6 +11,8 @@ from blogger.models import Blogger
 from blogger.services import register_blogger
 from BloggerBusiness.utils import querydict_to_dict
 
+from business.services import register_business
+
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -18,15 +20,11 @@ from rest_framework.response import Response
 BLOG_LANGUAGES = settings.BLOG_LANGUAGES
 BLOG_SPECIALIZATIONS = settings.BLOG_SPECIALIZATIONS
 
-GOOGLE_API_KEY = settings.GOOGLE_API_KEY
-
 
 def registration_view(request):
     account_type = request.GET.get("type") or request.POST.get("type")
     context = {}
     if account_type == "bl":
-        context["languages"] = BLOG_LANGUAGES
-        context["specializations"] = BLOG_SPECIALIZATIONS
         return render(request, "blogger/registration.html", context)
     elif account_type == "bu":
         return render(request, "business/registration.html", context)
@@ -44,9 +42,10 @@ def register_account(request):
         # send_password_email(email)
         data = querydict_to_dict(request.POST)
         register_blogger(data=data, image=request.FILES.get("image"))
-        return Response({"message": "Account was created successfully"}, status=201)
+        return Response({"message": "Blogger account was created successfully"}, status=201)
     elif account_type == "business":
-        return Response({"message": "Account was created successfully"}, status=201)
+        register_business(data=request.POST, image=request.FILES.get("image"))
+        return Response({"message": "Business account was created successfully"}, status=201)
     else:
         return Response({"message": "Specify type of account you want to register"}, status=404)
 
@@ -58,7 +57,6 @@ def profile_view(request, blogger_id:int):
         return Http404(f"Blogger with id-{blogger_id} doesn't exist")
     context = {
         "blogger": blogger,
-        "GOOGLE_API_KEY": GOOGLE_API_KEY,
     }
     return render(request, "account/profile.html", context)
 

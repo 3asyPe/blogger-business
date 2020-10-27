@@ -2,6 +2,50 @@
 
 {% block content %}
 
-<h1>Business registration form</h1>
+{% load static %}
+
+<div class='container'>
+    <form class="form" action="complete" method="POST" id="registration-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="image-input" class="form-label">
+                Photo/Logo
+                <img class="upload-image-icon" id="upload-image-icon" src="{% static 'images/TapToUploadPicture.png' %}"/>
+            </label>
+            <input id="image-input" class="image-input" name="image" type="file" onchange="previewImage(event)"/>
+        </div>
+        <div class="form-group row">
+            <label for="business_name" class="col-4 col-form-label form-label">Company name</label>
+            <input type="text" name="business_name" id="business_name" class="form-control col-8">
+        </div>
+        <div class="form-group row">
+            <label for="business_owner_name" class="col-4 col-form-label form-label"> Name of the representative</label>
+            <input type="text" name="business_owner_name" id="business_owner_name" class="form-control col-8">
+        </div>
+        <div class="form-group">
+            <input type="text" name="email" class='form-control' placeholder="Email">
+            <input type="text" name="phone" class='form-control' placeholder="Phone">
+        </div> 
+        <div class="form-group">
+            <label for="country">Country:</label>
+            <input type="text" name='country' id='country' class='form-control'>
+            <label for="city">City:</label>
+            <input type="text" name='city' id='city' class='form-control'>
+        </div> 
+        <div class="form-group">
+            <input type="text" name="site" class='form-control' placeholder="Site">
+            <input type="text" name="instagram" class='form-control' placeholder="Instagram(link or name)">
+            <input type="text" name="facebook" class='form-control' placeholder="Facebook(link)">
+        </div> 
+        
+
+        <button type='submit' class='btn btn-success'>Submit</button>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="{% static 'js/business-registration.js' %}">
+
+</script>
 
 {% endblock %}

@@ -2,6 +2,7 @@ from django.conf import settings
 from django.db import models
 
 from .utils import upload_image_path_blogger
+from account.models import Location
 from phonenumber_field.modelfields import PhoneNumberField
 
 
@@ -32,6 +33,7 @@ class Blogger(models.Model):
     instagram = models.CharField(max_length=255, null=True, blank=True)
     youtube = models.CharField(max_length=255, null=True, blank=True)
     phone = PhoneNumberField()
+    location = models.OneToOneField(Location, on_delete=models.SET_NULL, null=True, blank=True)
     sex = models.CharField(max_length=1, choices=SEXES)
     birthday = models.DateField()
 

@@ -89,7 +89,7 @@ form.addEventListener('submit', function(ev) {
         if (oReq.status == 201) {
             console.log(oReq.response)
         } else {
-            console.log("Error " + oReq.status + " occurred when trying to upload your file.")
+            console.log("Error " + oReq.status + " occurred when trying to register your account.")
         }
     };
 

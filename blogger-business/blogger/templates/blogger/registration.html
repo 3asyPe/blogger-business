@@ -6,7 +6,7 @@
 
 <div class='container'>
     <div class="row">
-        <h2>Fill out the form or sign via</h2>
+        <h2>Fill out the form or sign in via</h2>
         <button class="btn btn-primary">Facebook</button>
     </div>
     <form class="form" action="complete" method="POST" id="registration-form" enctype="multipart/form-data">
@@ -19,7 +19,7 @@
             <input id="image-input" class="image-input" name="image" type="file" onchange="previewImage(event)"/>
         </div>
         <div class="form-group row">
-            <label for="blog_name" class="col-4 col-form-label form-label">Your name</label>
+            <label for="blog_name" class="col-4 col-form-label form-label">Blog name</label>
             <input type="text" name="blog_name" id="blog_name" class="form-control col-8">
         </div>
         <div class="form-group row">
@@ -89,7 +89,7 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="{% static 'js/registration.js' %}">
+<script src="{% static 'js/blogger-registration.js' %}">
 
 </script>
 
