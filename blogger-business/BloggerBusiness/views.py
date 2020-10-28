@@ -14,3 +14,7 @@ def contact_view(request):
 
 def about_view(request):
     return HttpResponse("<h1>About page</h1>")
+
+
+def terms_of_use_view(request):
+    return render(request, "pages/terms-of-use.html", {})

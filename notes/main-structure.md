@@ -45,5 +45,5 @@ routes:
     "about"
     "contacts"
     "help"
-    "terms-of-use
+    "terms-of-use"
     

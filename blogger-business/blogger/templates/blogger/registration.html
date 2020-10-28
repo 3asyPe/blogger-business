@@ -13,54 +13,54 @@
         {% csrf_token %}
         <div class="form-group">
             <label for="image-input" class="form-label">
-                Your photo.
+                Your photo
                 <img class="upload-image-icon" id="upload-image-icon" src="{% static 'images/TapToUploadPicture.png' %}"/>
             </label>
             <input id="image-input" class="image-input" name="image" type="file" onchange="previewImage(event)"/>
         </div>
         <div class="form-group row">
             <label for="blog_name" class="col-4 col-form-label form-label">Blog name</label>
-            <input type="text" name="blog_name" id="blog_name" class="form-control col-8">
+            <input type="text" required name="blog_name" id="blog_name" class="form-control col-8">
         </div>
         <div class="form-group row">
             <div class="form-label">Account in social networks</div>
-            <button class="btn btn-info">Connect Instagram</button>
-            <button class="btn btn-danger">Connect Youtube</button>
+            <button type='button' class="btn btn-info">Connect Instagram</button>
+            <button type='button' class="btn btn-danger">Connect Youtube</button>
         </div>
         <div class="form-group">
-            <input type="text" name="email" class='form-control' placeholder="Email">
-            <input type="text" name="phone" class='form-control' placeholder="Phone">
+            <input type="text" required name="email" class='form-control' placeholder="Email">
+            <input type="text" required name="phone" class='form-control' placeholder="Phone">
         </div> 
         <div class="form-group">
             <label for="languages">Languages of blog</label>
-            <select id="languages" name="languages" multiple class="custom-select">
-                <option selected>Choose...</option>
+            <select id="languages" required name="languages" multiple class="custom-select">
+
             </select>
         </div>
         <div class="form-group">
             <label for="country">Country:</label>
-            <input type="text" name='country' id='country' class='form-control'>
+            <input type="text" required name='country' id='country' class='form-control'>
             <label for="city">City:</label>
-            <input type="text" name='city' id='city' class='form-control'>
+            <input type="text" required name='city' id='city' class='form-control'>
         </div> 
         <div class="form-group">
-            <label for="specializations">Specializations of blog</label>
-            <select id="specializations" name="specializations" multiple class="custom-select">
-                <option selected>Choose...</option>
+            <label for="specializations">Specializations of blog (max 3)</label>
+            <select id="specializations" required name="specializations" multiple class="multiselect custom-select">
+
             </select>
         </div> 
         <div class="form-group">
             Sex:
             <label for="sexM">Man</label>
-            <input type="radio" name="sex" id="sexM" value="M">
+            <input type="radio" name="sex" required id="sexM" value="M">
             <label for="sexW">Woman</label>
-            <input type="radio" name="sex" id="sexW" value="W">
+            <input type="radio" name="sex" required id="sexW" value="W">
         </div>
-        <div class="form-group">
+        <div class="form-group row">
             Birthday:
-            <select name="month" onchange="enterDay()" class="custom-select">
-                <option value=""></option>
-                <option value="1">Jan</option>
+
+            <select name="month" onchange="enterDay()" required class="custom-select col-1">
+                <option value="1" selected>Jan</option>
                 <option value="2">Feb</option>
                 <option value="3">Mar</option>
                 <option value="4">Apr</option>
@@ -73,21 +73,24 @@
                 <option value="11">Nov</option>
                 <option value="12">Dec</option>
             </select>
-
-            Day :
-            <select name="day" class="custom-select">
+            
+            <select name="day" required class="custom-select col-1">
             </select>
-
-            Year:
-            <select name="year" onchange="enterDay()" class="custom-select">
+            
+            <select name="year" required onchange="enterDay()" class="custom-select col-1">
             </select>
         </div>
+            
+        <div class="from-group row">
+            <input type="checkbox" id="" required>
+            I have read, understood and accepted
+            <a href="/terms-of-use" target="_blank"> the terms of the user agreement</a>
+        </div>
         
-
         <button type='submit' class='btn btn-success'>Submit</button>
     </form>
 </div>
-
+    
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="{% static 'js/blogger-registration.js' %}">
 

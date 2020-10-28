@@ -75,12 +75,21 @@ function enterDay(){
     validate_date();
 }
 
+enterDay()
+
 // Form submiting
 
 var form = document.querySelector("#registration-form");
 
 form.addEventListener('submit', function(ev) {
+    ev.preventDefault()
     var oData = new FormData(form)
+    
+    if(oData.get('image').size === 0){
+        alert("Image field is also required")
+        return
+    }
+
     oData.append("accountType", "blogger");
 
     var oReq = new XMLHttpRequest()
@@ -94,5 +103,11 @@ form.addEventListener('submit', function(ev) {
     };
 
     oReq.send(oData)
-    ev.preventDefault()
 }, false)
+
+$("#specializations").on('change', function(e) {
+    if (Object.keys($(this).val()).length > 3) {
+        $('option[value="' +$(this).val().toString().split(',')[3] + '"]').prop('selected', false);
+
+    }
+});
