@@ -6,7 +6,10 @@ from django.http import Http404
 
 from .services import (
     send_password_email,
+    custom_login,
+    get_next_url_after_login,
 )
+from .forms import LoginForm
 from blogger.models import Blogger
 from blogger.services import register_blogger
 from BloggerBusiness.utils import querydict_to_dict
@@ -19,6 +22,32 @@ from rest_framework.response import Response
 
 BLOG_LANGUAGES = settings.BLOG_LANGUAGES
 BLOG_SPECIALIZATIONS = settings.BLOG_SPECIALIZATIONS
+
+
+def login_view(request):
+    return render(request, "account/login.html", {})
+
+
+@api_view(["POST"])
+def login_account(request):
+    print(f"user-{request.user}")
+    print(request.POST)
+    username = request.POST.get("username")
+    password = request.POST.get("password")
+    user = custom_login(request=request, username=username, password=password) 
+    if user is not None:
+        next_url = get_next_url_after_login(user)
+        data = {
+            "message": "You was logged in successfuly",
+            "next_url": next_url,
+        }
+        return Response(data, status=200)
+    else:
+        data = {
+            "message": "You wasn't logged in",
+        }
+        return Response(data, status=401)
+    
 
 
 def registration_view(request):

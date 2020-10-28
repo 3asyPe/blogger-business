@@ -30,10 +30,10 @@ from .views import (
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home_view),
-    path('contact/', contact_view),
-    path('about/', about_view),
-    path('terms-of-use/', terms_of_use_view),
+    path('', home_view, name="home"),
+    path('contact/', contact_view, name="contact"),
+    path('about/', about_view, name="about"),
+    path('terms-of-use/', terms_of_use_view, name="terms-of-use"),
     path('', include('account.urls')),
     path('', include('blogger.urls')),
 ]

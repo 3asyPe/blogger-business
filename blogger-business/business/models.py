@@ -22,7 +22,7 @@ class Business(models.Model):
         - Instagram (link or name)
         - Facebook (link)
     '''
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to=upload_image_path_business, null=True, blank=True) 
     business_name = models.CharField(max_length=120)
     business_owner_name = models.CharField(max_length=120)

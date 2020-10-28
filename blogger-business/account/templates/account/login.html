@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form action="api/login/complete" method=POST id="login-form">
+    {% csrf_token %}
+    <div class="form-group">
+        Username:
+        <input type="text" required class="form-control" name="username">
+        Password:
+        <input type="password" required class="form-control" name="password">
+    </div>
+    <button type="submit" class="btn btn-success">Login</button>
+</form>
+
+<script>
+    const form = document.querySelector("#login-form")
+    const next = new URL(window.location.href).searchParams.get("next")
+
+    form.addEventListener("submit", function(event){
+        event.preventDefault()
+        var oData = new FormData(form)
+        var oReq = new XMLHttpRequest()
+        oReq.open("POST", "api/login/complete", true)
+        oReq.onload = function(oEvent) {
+            if (oReq.status == 200) {
+                window.location.href = next !== null ? next : JSON.parse(oReq.response).next_url
+            } else {
+                console.log("Error " + oReq.status + " occurred when trying to login your account.")
+            }
+        };
+        oReq.send(oData)
+    })
+</script>
+
+{% endblock %}
