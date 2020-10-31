@@ -14,29 +14,15 @@ User = get_user_model()
 
 
 def register_blogger(data: dict, image):
-    try:
-        user = create_user_blogger(username=data['blog_name'])
-    except KeyError:
-        raise KeyError("Data object doesn't have field username")
-    print(f"user-{user}")
+    user = _create_user_blogger(data=data)
+    blogger = _create_blogger(data=data, image=image, user=user)
+    return blogger
+    
 
-    try:
-        birthday = create_birthday_object(
-            day=data['day'],
-            month=data['month'],
-            year=data['year']
-        )
-    except KeyError:
-        raise KeyError("Data object doesn't have day, month or year field")
-    print(f"birthday-{birthday}")
-
-    try:
-        location = Location.objects.create(country=data['country'], city=data['city'])
-    except KeyError:
-        raise KeyError("Data object doesn't have country or city field")
-    print(f"location-{location}")
-    location.save()
-
+def _create_blogger(data: dict, image, user: User) -> Blogger:
+    birthday = _create_birthday_object(data=data)
+    location = _create_location(data=data)
+    
     try:
         blogger = Blogger(
             user=user,
@@ -50,36 +36,69 @@ def register_blogger(data: dict, image):
         )
     except KeyError:
         raise KeyError("Data object doesn't have one of field that blogger account require")
+    blogger.save()
     print(f"blogger-{blogger}")
 
-    blogger.save()
-
-    try:
-        languages = create_list_of_languages(languages=data['languages'], blogger=blogger)
-    except KeyError:
-        raise KeyError("Data object doesn't have field with languages")
-    print(f"languages-{languages}")
-
-    try:
-        specializations = create_list_of_specializations(specializations=data['specializations'], blogger=blogger)
-    except KeyError:
-        raise KeyError("Data object doesn't have field with specializations")
-    print(f"specializations-{specializations}")
+    _create_list_of_languages(data=data, blogger=blogger)
+    _create_list_of_specializations(data=data, blogger=blogger)
     
+    return blogger
 
-def create_user_blogger(username):
+
+def _create_location(data: dict) -> Location:
+    try:
+        location = Location.objects.create(country=data['country'], city=data['city'])
+    except KeyError:
+        raise KeyError("Data object doesn't have country or city field")
+    print(f"location-{location}")
+    location.save()
+
+    return location
+
+
+def _create_birthday_object(data: dict):
+    try:
+        birthday = create_birthday_object(
+            day=data['day'],
+            month=data['month'],
+            year=data['year']
+        )
+    except KeyError:
+        raise KeyError("Data object doesn't have day, month or year field")
+    print(f"birthday-{birthday}")
+
+    return birthday
+
+
+def _create_user_blogger(data: dict) -> User:
     password = generate_password()
-    user = User.objects.create_user(username=username, password=password)
+    try:
+        user = User.objects.create_user(username=data['blog_name'], password=password)
+    except KeyError:
+        raise KeyError("Data object doesn't have field username")
+    print(f"user-{user}")
     return user
 
 
-def create_list_of_languages(languages, blogger:Blogger):
+def _create_list_of_languages(data: dict, blogger: Blogger):
+    try:
+        languages = data.get("languages")
+    except KeyError:
+        raise KeyError("Data object doesn't have languages field")
     for language in languages:
-        language = BlogLanguage(language=language, blogger=blogger)
-        language.save()
+        BlogLanguage.objects.create(
+            language=language, 
+            blogger=blogger
+        )
 
 
-def create_list_of_specializations(specializations, blogger:Blogger):
+def _create_list_of_specializations(data: dict, blogger: Blogger):
+    try:
+        specializations = data.get("specializations")
+    except KeyError:
+        raise KeyError("Data object doesn't have specializations field")
     for specialization in specializations:
-        specialization = BlogSpecialization(specialization=specialization, blogger=blogger)
-        specialization.save()
+        BlogSpecialization.objects.create(
+            specialization=specialization, 
+            blogger=blogger
+        )

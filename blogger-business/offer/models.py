@@ -26,7 +26,6 @@ class BloggerModel(models.Model):
     # if null -> any location is allowed
     location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True, blank=True)
     age_group = models.CharField(max_length=50)
-    subscribers_number_group = models.CharField(max_length=50, default=3)
     sex = models.CharField(max_length=3)
 
 
@@ -85,3 +84,8 @@ class BloggerModelSpecialization(models.Model):
 
     def __str__(self):
         return self.specialization
+
+
+class SubscribersNumberGroup(models.Model):
+    group = models.IntegerField()
+    blogger_model = models.ForeignKey(BloggerModel, on_delete=models.CASCADE)

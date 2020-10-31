@@ -68,13 +68,14 @@ def register_account(request):
     print(request.POST)
     print(request.FILES)
     print(account_type)
+    data = querydict_to_dict(request.POST)
     if account_type == "blogger":
         # send_password_email(email)
-        data = querydict_to_dict(request.POST)
         register_blogger(data=data, image=request.FILES.get("image"))
         return Response({"message": "Blogger account was created successfully"}, status=201)
     elif account_type == "business":
-        register_business(data=request.POST, image=request.FILES.get("image"))
+        # send_password_email(email)
+        register_business(data=data, image=request.FILES.get("image"))
         return Response({"message": "Business account was created successfully"}, status=201)
     else:
         return Response({"message": "Specify type of account you want to register"}, status=404)
