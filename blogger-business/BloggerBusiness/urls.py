@@ -36,6 +36,7 @@ urlpatterns = [
     path('terms-of-use/', terms_of_use_view, name="terms-of-use"),
     path('', include('account.urls')),
     path('', include('blogger.urls')),
+    path('', include('offer.urls')),
 ]
 
 if settings.DEBUG:

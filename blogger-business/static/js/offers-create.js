@@ -43,43 +43,9 @@ function getSpecializationOptionHtml(specialization){
     return "<option class='specialization-option' value='" + specialization.prefix + "'>" + specialization.specialization + "</option>"
 }
 
-// Adding content in the birthday field
-function enterDay(){
-    var kcyear = document.getElementsByName("year")[0],
-    kcmonth = document.getElementsByName("month")[0],
-    kcday = document.getElementsByName("day")[0];
-        
-    var d = new Date();
-    var n = d.getFullYear();
-    for (var i = n; i >= 1950; i--) {
-        var opt = new Option();
-        opt.value = opt.text = i;
-        kcyear.add(opt);
-    }
-    kcyear.addEventListener("change", validate_date);
-    kcmonth.addEventListener("change", validate_date);
-
-    function validate_date() {
-        var y = +kcyear.value, m = kcmonth.value, d = kcday.value;
-        if (m === "2")
-            var mlength = 28 + (!(y & 3) && ((y % 100) !== 0 || !(y & 15)));
-        else var mlength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][m - 1];
-        kcday.length = 0;
-        for (var i = 1; i <= mlength; i++) {
-            var opt = new Option();
-            opt.value = opt.text = i;
-            if (i == d) opt.selected = true;
-            kcday.add(opt);
-        }
-    }
-    validate_date();
-}
-
-enterDay()
-
 // Form submiting
 
-var form = document.querySelector("#registration-form");
+var form = document.querySelector("#offer-creation-form");
 
 form.addEventListener('submit', function(ev) {
     ev.preventDefault()
@@ -90,26 +56,24 @@ form.addEventListener('submit', function(ev) {
         return
     }
 
-    oData.append("accountType", "blogger");
-
     var oReq = new XMLHttpRequest()
-    oReq.open("POST", "/api/registration/complete", true)
+    oReq.open("POST", "/api/offers/create/", true)
     oReq.onload = function(oEvent) {
         if (oReq.status == 201) {
             console.log(oReq.response)
         } else {
-            console.log("Error " + oReq.status + " occurred when trying to register your account.")
+            console.log("Error " + oReq.status + " occurred when trying to create new offer.")
         }
     };
 
     oReq.send(oData)
 }, false)
 
-// Set limit of choosing specializations to max 3
+// Set limit of choosing specializations to max 5
 
 $("#specializations").on('change', function(e) {
-    if (Object.keys($(this).val()).length > 3) {
-        $('option[value="' +$(this).val().toString().split(',')[3] + '"]').prop('selected', false);
+    if (Object.keys($(this).val()).length > 5) {
+        $('option[value="' +$(this).val().toString().split(',')[5] + '"]').prop('selected', false);
 
     }
 });

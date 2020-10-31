@@ -21,7 +21,7 @@
         event.preventDefault()
         var oData = new FormData(form)
         var oReq = new XMLHttpRequest()
-        oReq.open("POST", "api/login/complete", true)
+        oReq.open("POST", "/api/login/complete", true)
         oReq.onload = function(oEvent) {
             if (oReq.status == 200) {
                 window.location.href = next !== null ? next : JSON.parse(oReq.response).next_url

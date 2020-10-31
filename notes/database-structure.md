@@ -2,7 +2,7 @@ Database
     1. User
         - Username
         - Password
-        - Account Type 
+        - Account Type
 
     2. Blogger
         - User
@@ -29,7 +29,6 @@ Database
         - Instagram (link or name)
         - Facebook (link)
 
-    
     4. Offer
         - Business owner *
         - Title *
@@ -38,6 +37,7 @@ Database
         - Price (or barter)
         - Barter (or price)
         - Timestamp *
+        + Receiving method (model)
         - Validity (calengar)
         + Blogger's model (sorting)
         + Bloggers' rates (like, dislike)
@@ -62,7 +62,9 @@ Database
         + blogger
         + business
 
-
+    + Receiving method (model) (could be both)
+        - delivery (to blogger)
+        + location (location that business specifies as his place)
 
 
 

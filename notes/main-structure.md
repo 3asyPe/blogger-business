@@ -14,10 +14,12 @@ Business
     - Offer details "offers/id"
     - Offer creation "/offers/create"
     - Waiting for applications "/apllications/"
+    - Application page "/application/id/"
     - Profile "/profile/id" (If can be changed in settings, by default slugified name)
 
 routes:
     "/"
+    ""
     "login"
     "registration"
         for business
@@ -36,6 +38,8 @@ routes:
             "/create"
         for blogger
     "applications"
+        for business:
+            "/id"
     "profile/id"
         for business
         for blogger

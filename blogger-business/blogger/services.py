@@ -1,5 +1,4 @@
 from django.contrib.auth import get_user_model
-from django.http import QueryDict
 
 from .models import (
     Blogger,
@@ -14,7 +13,7 @@ from account.utils import generate_password, create_birthday_object
 User = get_user_model()
 
 
-def register_blogger(data: QueryDict, image):
+def register_blogger(data: dict, image):
     try:
         user = create_user_blogger(username=data['blog_name'])
     except KeyError:

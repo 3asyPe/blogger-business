@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 
+from.utils import upload_image_path_offer
 from account.models import Location
 from blogger.models import Blogger
 from business.models import Business
@@ -8,7 +9,7 @@ from business.models import Business
 
 OFFER_STATES = settings.OFFER_STATES
 AGE_GROUPS = settings.AGE_GROUPS
-SEXES = settings.SEXES
+SEXES = settings.SEXES + [("ANY", "ANY")]
 BLOG_LANGUAGES = settings.BLOG_LANGUAGES
 BLOG_SPECIALIZATIONS = settings.BLOG_SPECIALIZATIONS
 
@@ -22,15 +23,22 @@ class BloggerModel(models.Model):
         - Number of subscribers (dropdown of ranges) (multiple choice)
         - Sex
     '''
-    location = models.OneToOneField(Location, on_delete=models.SET_NULL, null=True, blank=True)
-    age_group = models.CharField(max_length=120, choices=AGE_GROUPS)
-    sex = models.CharField(max_length=1, choices=SEXES)
+    # if null -> any location is allowed
+    location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True, blank=True)
+    age_group = models.CharField(max_length=50)
+    subscribers_number_group = models.CharField(max_length=50, default=3)
+    sex = models.CharField(max_length=3)
 
 
 class BloggersRate(models.Model):
     blogger = models.ForeignKey(Blogger, on_delete=models.CASCADE)
     business = models.ForeignKey(Business, on_delete=models.CASCADE)
     upvote = models.BooleanField()
+
+
+class ReceivingModel(models.Model):
+    delivery = models.BooleanField(default=True)
+    address = models.CharField(max_length=255, null=True, blank=True)
 
 
 class Offer(models.Model):
@@ -46,18 +54,18 @@ class Offer(models.Model):
         - Validity (calengar)
         + Blogger's model (sorting)
         + Bloggers' rates (like, dislike)
-        - State (requested, accepted, declined)
     '''
     business = models.ForeignKey(Business, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to=upload_image_path_offer, null=True, blank=True)
     title = models.CharField(max_length=255)
     description = models.TextField()
     conditions = models.TextField()
     price = models.IntegerField(null=True, blank=True)
     barter = models.BooleanField(default=True)
-    timestamp = models.DateTimeField(auto_now_add=True)
+    receiving_model = models.OneToOneField(ReceivingModel, on_delete=models.SET_NULL, null=True, blank=True)
     validity = models.DateTimeField(null=True, blank=True)
     blogger_model = models.OneToOneField(BloggerModel, on_delete=models.CASCADE)
-    state = models.CharField(max_length=255, choices=OFFER_STATES)
+    timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title

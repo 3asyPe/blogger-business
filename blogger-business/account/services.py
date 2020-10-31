@@ -28,6 +28,8 @@ def get_next_url_after_login(user: User) -> str:
     print(f"user.is_blogger-{user.is_blogger}")
     print(f"user.is_business-{user.is_business}")
     if user.is_blogger:
+        # TODO check if blogger has 6 or more publications
+
         return "/offers/"
     elif user.is_business:
         return "/offers/actions/"

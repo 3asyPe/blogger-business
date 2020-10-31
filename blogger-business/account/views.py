@@ -10,6 +10,7 @@ from .services import (
     get_next_url_after_login,
 )
 from .forms import LoginForm
+from account.decorators import unauthenticated_user
 from blogger.models import Blogger
 from blogger.services import register_blogger
 from BloggerBusiness.utils import querydict_to_dict
@@ -24,6 +25,7 @@ BLOG_LANGUAGES = settings.BLOG_LANGUAGES
 BLOG_SPECIALIZATIONS = settings.BLOG_SPECIALIZATIONS
 
 
+@unauthenticated_user
 def login_view(request):
     return render(request, "account/login.html", {})
 
@@ -46,8 +48,7 @@ def login_account(request):
         data = {
             "message": "You wasn't logged in",
         }
-        return Response(data, status=401)
-    
+        return Response(data, status=401) 
 
 
 def registration_view(request):
