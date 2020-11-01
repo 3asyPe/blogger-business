@@ -2,12 +2,11 @@ from django.conf import settings
 from django.db import models
 
 from.utils import upload_image_path_offer
+
 from account.models import Location
-from blogger.models import Blogger
 from business.models import Business
 
 
-OFFER_STATES = settings.OFFER_STATES
 AGE_GROUPS = settings.AGE_GROUPS
 SEXES = settings.SEXES + [("ANY", "ANY")]
 BLOG_LANGUAGES = settings.BLOG_LANGUAGES
@@ -29,12 +28,6 @@ class BloggerModel(models.Model):
     sex = models.CharField(max_length=3)
 
 
-class BloggersRate(models.Model):
-    blogger = models.ForeignKey(Blogger, on_delete=models.CASCADE)
-    business = models.ForeignKey(Business, on_delete=models.CASCADE)
-    upvote = models.BooleanField()
-
-
 class ReceivingModel(models.Model):
     delivery = models.BooleanField(default=True)
     address = models.CharField(max_length=255, null=True, blank=True)
@@ -52,7 +45,6 @@ class Offer(models.Model):
         - Timestamp *
         - Validity (calengar)
         + Blogger's model (sorting)
-        + Bloggers' rates (like, dislike)
     '''
     business = models.ForeignKey(Business, on_delete=models.CASCADE)
     image = models.ImageField(upload_to=upload_image_path_offer, null=True, blank=True)

@@ -37,6 +37,7 @@ routes:
             "/actions"
             "/create"
         for blogger
+            "//dashboard"
     "applications"
         for business:
             "/id"

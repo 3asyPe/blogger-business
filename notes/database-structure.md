@@ -40,8 +40,13 @@ Database
         + Receiving method (model)
         - Validity (calengar)
         + Blogger's model (sorting)
-        + Bloggers' rates (like, dislike)
-        - State (requested, accepted, declined)
+
+    5. Application
+        - Blogger
+        - Offer
+        - Upvote (if dislike don't show offer to this blogger anymore. If like -> send application to business)
+        - Timestamp
+        + BusinessRate (want to deal with this blogger or not)
 
     + Language
         - language (choices)
@@ -49,6 +54,7 @@ Database
     + Location
         - Country
         - City
+        
     + Blogger's model
         + Location
         + Languages of blog (dropdown) (several)
@@ -57,14 +63,13 @@ Database
         - Number of subscribers (dropdown of ranges) (multiple choice)
         - Sex
 
-    + Blogger's rate
-        - upvote
-        + blogger
-        + business
-
     + Receiving method (model) (could be both)
         - delivery (to blogger)
         + location (location that business specifies as his place)
 
-
+    + BusinessRate
+        - Business
+        - Application (with upvote by blogger)
+        - Upvote (if dislike -> nothing happens. If like -> send email to blogger with contacts of business want the partnership with him)
+        - Timestamp
 

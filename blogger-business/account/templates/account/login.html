@@ -24,6 +24,7 @@
         oReq.open("POST", "/api/login/complete", true)
         oReq.onload = function(oEvent) {
             if (oReq.status == 200) {
+                console.log(JSON.parse(oReq.response))
                 window.location.href = next !== null ? next : JSON.parse(oReq.response).next_url
             } else {
                 console.log("Error " + oReq.status + " occurred when trying to login your account.")

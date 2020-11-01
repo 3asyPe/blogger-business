@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
     # Local
     'account',
+    'application',
     'blogger',
     'business',
     'offer'

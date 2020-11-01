@@ -35,6 +35,7 @@ urlpatterns = [
     path('about/', about_view, name="about"),
     path('terms-of-use/', terms_of_use_view, name="terms-of-use"),
     path('', include('account.urls')),
+    path('', include('application.urls')),
     path('', include('blogger.urls')),
     path('', include('offer.urls')),
 ]

@@ -1,5 +1,7 @@
 import datetime
 
+from django.db.models import QuerySet
+
 from .models import (
     BloggerModel,
     BloggerModelLanguage,
@@ -9,7 +11,12 @@ from .models import (
     Offer,
 )
 from account.models import Location
+from blogger.models import Blogger
 from business.models import Business
+
+
+def get_offers_for_blogger(blogger: Blogger) -> QuerySet[Offer]:
+    return Offer.objects.all()
 
 
 def create_new_offer(data:dict, image, business:Business) -> Offer:

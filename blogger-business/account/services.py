@@ -25,12 +25,8 @@ def custom_login(request, username: str, password: str) -> Optional[User]:
 
 
 def get_next_url_after_login(user: User) -> str:
-    print(f"user.is_blogger-{user.is_blogger}")
-    print(f"user.is_business-{user.is_business}")
     if user.is_blogger:
-        # TODO check if blogger has 6 or more publications
-
-        return "/offers/"
+        return "/dashboard/"
     elif user.is_business:
         return "/offers/actions/"
     raise ValueError("User neither blogger or business")

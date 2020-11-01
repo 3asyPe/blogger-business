@@ -11,9 +11,9 @@
   crossorigin="anonymous"
 ></script>
 
-<h1>Offers</h1>
+<h1>Dashboard</h1>
 
-<!-- Modal -->
+<!-- Modal Help -->
 <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
     
@@ -34,6 +34,16 @@
     </div>
 </div>
 
-<script src="{% static 'js/offers.js' %}"></script>
+<div class="offers-container" id="offers-container">
+    <div class="alert alert-info no-offers-alert">
+        We are sorry, but you don't have any offers now.
+    </div>
+</div>
+
+<script>
+    var csrftoken = "{{ csrf_token }}"
+</script>
+
+<script src="{% static 'js/dashboard.js' %}"></script>
 
 {% endblock %}
