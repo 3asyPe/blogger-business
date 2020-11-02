@@ -8,6 +8,7 @@ from .services import (
     send_password_email,
     custom_login,
     get_next_url_after_login,
+    get_next_path,
 )
 from .forms import LoginForm
 from account.decorators import unauthenticated_user

@@ -19,17 +19,19 @@ def unauthenticated_user(view_func):
 def allowed_users(allowed_roles:list=[]):
     def decorator(view_func):
         def wrapper_func(request, *args, **kwargs):
+            end_point = request.META.get('PATH_INFO', None)
+            
             user = request.user
             roles = []
             for role in allowed_roles:
                 roles.append(role.lower())
             if not user.is_authenticated:
-                return redirect("/login/")
+                return redirect("/login?next=" + end_point)
             if user.is_blogger and "blogger" in roles:
                 return view_func(request, *args, **kwargs)
             if user.is_business and "business" in roles:
                 return view_func(request, *args, **kwargs)
-            return redirect("/login/")
+            return redirect("/login?next=" + end_point)
             
         return wrapper_func
     return decorator

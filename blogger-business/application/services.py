@@ -1,6 +1,9 @@
+from django.db.models.query import QuerySet
+
 from .models import Application
-from offer.models import Offer
 from blogger.models import Blogger
+from business.models import Business
+from offer.models import Offer
 
 
 def create_application(offer, upvote, blogger) -> Application:
@@ -34,3 +37,8 @@ def delete_application(offer: Offer, blogger: Blogger) -> bool:
 
     return deleted
 
+
+def get_applications_for_business(business: Business) -> QuerySet[Application]:
+    offers = Offer.objects.filter(business=business)
+    applications = Application.objects.filter(offer__in=offers, upvote=True)
+    return applications

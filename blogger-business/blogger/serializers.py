@@ -3,7 +3,7 @@ from rest_framework import serializers
 from .models import Blogger
 
 
-class BloggerCreateSerializer(serializers.ModelSerializer):
+class BloggerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Blogger
-        fields = ['image', 'blog_name', 'email', 'phone', 'sex']
+        fields = ['id', 'image', 'blog_name', 'email', 'instagram', 'youtube', 'phone', 'location', 'sex', 'birthday']

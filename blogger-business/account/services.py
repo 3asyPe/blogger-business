@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib.auth import authenticate, login
+from django.utils.http import is_safe_url
 
 from typing import Optional
 
@@ -30,3 +31,14 @@ def get_next_url_after_login(user: User) -> str:
     elif user.is_business:
         return "/offers/actions/"
     raise ValueError("User neither blogger or business")
+
+
+def get_next_path(request, base_url='/') -> str:
+    next_ = None
+    next_ = request.GET.get('next')
+    next_post = request.POST.get("next")
+    redirect_path = next_ or next_post or None
+    if is_safe_url(redirect_path, request.get_host()):
+        return redirect_path
+    else:
+        return base_url
