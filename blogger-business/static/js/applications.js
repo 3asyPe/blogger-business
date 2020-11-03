@@ -48,7 +48,9 @@ fetchData()
         
 function createApplicationDiv(id, image, blog_name, instagram, youtube){
     return '<div class="card" id="application-' + id + '" style="width: 18rem;">' +
-                '<img src="' + image + '" class="card-img-top">' +
+                '<a href="/applications/' + id + '">' +
+                    '<img src="' + image + '" class="card-img-top">' +
+                '</a>' +
                 '<div class="card-body">' +
                     '<h5 class="card-title">' + blog_name + '</h5>' +
                     '<div class="row">'+

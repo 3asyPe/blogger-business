@@ -6,7 +6,7 @@ if (!saw_help){
 }
 
 function fetchData(){
-    fetch("/api/offers/fetch/")
+    fetch("/api/dashboard/fetch/")
     .then(response => {
         return response.json()
     })
@@ -35,7 +35,9 @@ fetchData()
         
 function createOfferDiv(id, image, title, decription){
     return '<div class="card" id="offer-' + id + '" style="width: 18rem;">' +
-                '<img src="/media/' + image + '" class="card-img-top">' +
+                '<a href="/offers/' + id + '">' +
+                    '<img src="/media/' + image + '" class="card-img-top">' +
+                '</a>' +
                 '<div class="card-body">' +
                     '<h5 class="card-title">' + title + '</h5>' +
                     '<p class="card-text">' + description + '</p>' +

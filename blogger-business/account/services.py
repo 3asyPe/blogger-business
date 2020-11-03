@@ -29,7 +29,7 @@ def get_next_url_after_login(user: User) -> str:
     if user.is_blogger:
         return "/dashboard/"
     elif user.is_business:
-        return "/offers/actions/"
+        return "/offers/"
     raise ValueError("User neither blogger or business")
 
 

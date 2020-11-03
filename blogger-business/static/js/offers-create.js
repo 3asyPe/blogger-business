@@ -61,6 +61,7 @@ form.addEventListener('submit', function(ev) {
     oReq.onload = function(oEvent) {
         if (oReq.status == 201) {
             console.log(oReq.response)
+            window.location.href = "/offers/?action=created"
         } else {
             console.log("Error " + oReq.status + " occurred when trying to create new offer.")
         }

@@ -10,7 +10,7 @@ def unauthenticated_user(view_func):
         elif user.is_blogger:
             return redirect("/dashboard/")
         elif user.is_business:
-            return redirect("/offers/actions")
+            return redirect("/offers/")
         raise ValueError("User account neither blogger or business")
 
     return wrapper_func

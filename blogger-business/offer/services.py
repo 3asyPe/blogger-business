@@ -19,6 +19,11 @@ def get_offers_for_blogger(blogger: Blogger) -> QuerySet[Offer]:
     return Offer.objects.all()
 
 
+def get_offers_for_business(business: Business) -> QuerySet[Offer]:
+    offers = Offer.objects.filter(business=business)
+    return offers
+
+
 def create_new_offer(data:dict, image, business:Business) -> Offer:
     blogger_model = _create_blogger_model(data=data)
     receiving_model = _create_receiving_model(data=data)

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% load static %}
+
+<script
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+  integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+  crossorigin="anonymous"
+></script>
+
+Offers actions
+
+<!-- Modal Help -->
+<div class="modal fade" id="myModalHelp" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h4 class="modal-title">Modal Header</h4>
+            </div>
+            <div class="modal-body">
+                <p>Some text in the modal.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+      
+    </div>
+</div>
+
+<!-- Modal Created -->
+<div class="modal fade" id="myModalCreated" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h4 class="modal-title">Thanks for creating new offer</h4>
+            </div>
+            <div class="modal-body">
+                <p>We will let you know when someone will create new application</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+      
+    </div>
+</div>
+
+<a class="btn btn-info" href="create">Create new offer</a>
+
+<div class="offers-container" id="offers-container">
+
+</div>
+
+<script src="{% static 'js/offers.js' %}"></script>
+
+{% endblock %}
