@@ -1,0 +1,99 @@
+.content-block{
+    padding-top: 100px;
+    height: auto;
+    max-height: 100vh;
+}
+
+.about-link{
+    margin-left: 60px;
+
+    font-size: 50px;
+    color: rgb(77, 76, 76);
+    border-bottom: 3px solid rgb(107, 152, 194)
+}
+
+.about-link:hover{
+    text-decoration: none;
+    color: #000;
+    border-color: #000;
+}
+
+.advantage{
+    margin: 30px 0;
+
+    font-size: 40px;
+    font-weight: 500;
+    line-height: 1.1;
+    text-transform: uppercase;
+}
+
+.agitation{
+    text-align: center;
+    font-size: 50px;
+    text-transform: uppercase;
+}
+
+.authentication-buttons{
+    display: flex;
+    flex-direction: column;
+
+    margin: 20px 40px;
+}
+
+.authentication-btn{
+    margin: 10px 0;
+
+    border: 2px solid;
+    border-radius: 10px;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 20px;
+    transition: background-color .1s linear;
+}
+
+.btn-blogger{
+    width: 195px;
+}
+
+.authentication-btn:hover{
+    background-color: rgb(107, 152, 194);
+}
+
+.btn-business{
+    width: 195px;
+    /* background-color: rgba(14, 104, 206, 0.8);
+    border-color: rgba(14, 104, 206, 0.8); */
+}
+
+.btn-login{
+    width: 160px;
+    border-radius: 20px;
+}
+
+.app-title{
+    font-size: 40px;
+    text-align: center;
+}
+
+.app-buttons{
+    display: flex;
+    justify-content: center;
+}
+
+.app-btn{
+    margin: 10px;
+
+    border: 2px solid;
+    border-radius: 10px;
+    font-size:18px;
+    font-weight: 500;
+    text-transform: uppercase;
+    width: 100px;
+}
+
+
+@media(max-width: 540px){
+    .authentication-btn{
+        margin: 10px auto;
+    }
+}

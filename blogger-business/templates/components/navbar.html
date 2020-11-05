@@ -12,23 +12,28 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav mr-auto">
-                {% if request.user.is_blogger %}
+            <ul class="navbar-nav">
+                <div class="nav-block">
+                    {% if request.user.is_blogger %}
                     <li class="nav-item {% if request.path == dashboard_url %} active {% endif %}">
                         <a class="nav-link" href="{{ dashboard_url }}">Dashboard</a>
                     </li>
-                {% endif %}
-                {% if request.user.is_business %}
+                    {% endif %}
+                    {% if request.user.is_business %}
                     <li class="nav-item {% if request.path == offers_url %} active {% endif %}">
                         <a class="nav-link" href="{{ offers_url }}">My offers</a>
                     </li>
                     <li class="nav-item {% if request.path == applications_url %} active {% endif %}">
                         <a class="nav-link" href="{{ applications_url }}">My applications</a>
                     </li>
-                {% endif %}
-                <li class="nav-item">
-                    <a class="nav-link" href="/logout/">Logout</a>
-                </li>
+                    {% endif %}
+                </div>
+                    
+                <div class="nav-block">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout/">Logout</a>
+                    </li>
+                </div>
 
             </ul>
         </div>
