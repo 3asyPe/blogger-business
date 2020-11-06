@@ -56,6 +56,7 @@ def offer_details_view(request, offer_id):
 def fetch_dashboard_offers(request):
     blogger = request.user.blogger
     offers = get_offers_for_blogger(blogger=blogger)
+    print(f"offers-{offers}")
     offers_json = serializers.serialize("json", offers)
     return Response(offers_json, status=200)
 
