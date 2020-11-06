@@ -2,15 +2,6 @@
     font-size: 40px;
 }
 
-.upload-image-icon{
-    height:200px;
-    cursor: pointer;
-}
-
-#image-input{
-    display: none;
-}
-
 .navbar{
     background-color: rgb(107, 152, 194);
 }

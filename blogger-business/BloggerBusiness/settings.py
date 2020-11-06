@@ -11,7 +11,9 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-from .secret import *
+from . import secret
+from . import languages
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -19,6 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
+SECRET_KEY = secret.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -51,11 +54,7 @@ INSTALLED_APPS = [
 
 AUTH_USER_MODEL = "account.User"
 
-BLOG_LANGUAGES = [
-    ("EN", "ENGLISH"),
-    ("RU", "RUSSIAN"),
-    ("PL", "POLISH")
-]
+BLOG_LANGUAGES = languages.iso_639_choices
 
 # TODO location
 COUNTRIES = [
@@ -74,7 +73,26 @@ BLOG_SPECIALIZATIONS = [
     ("TECH", "Tech"),
     ("FUN CONTENT", "Fun content"),
     ("BEAUTY", "Beauty"),
-    ("FASHION", "Fashion"),
+    ("TRAVEL", "Travel"),
+    ("KIDS", "Kids"),
+    ("SPORT", "Sport"),
+    ("HUMOR", "Humor"),
+    ("SOCIETY", "Society"),
+    ("BUSINESS/FINANCES", "Business/Finances"),
+    ("DESIGN", "Design"),
+    ("VIDEO GAMES", "Video games"),
+    ("ANIMALS", "Animals"),
+    ("IT", "IT"),
+    ("CREATIVITY", "Creativity"),
+    ("FOOD/DRINKS", "Food/Drinks"),
+    ("LIFESTYLE", "Lifestyle"),
+    ("MUSIC/MOVIES", "Music/Movies"),
+    ("EDUCATION", "Education"),
+    ("HEALTH", "Health"),
+    ("WEB-SITES/APPLICATIONS", "Web-sites/Applications"),
+    ("AUTO/MOTO", "Auto/Moto"),
+    ("BOOKS", "Books"),
+    ("HOUSE/RENOVATION", "House/Renovation"),
 ]
 
 SEXES = [

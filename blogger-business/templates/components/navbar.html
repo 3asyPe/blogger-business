@@ -2,10 +2,11 @@
 {% url "offer:offers" as offers_url %}
 {% url "application:applications" as applications_url %}
 
+{% load static %}
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="{% if home_page %}{{ home_page }}{% else %}/{% endif %}">
-        <img src="/docs/4.4/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+        <img src="{% static 'images/favicon.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
     </a>
     {% if request.user.is_authenticated %}
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">

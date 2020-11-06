@@ -1,3 +1,24 @@
+$.confirm({
+    title: 'Blogger registration',
+    content: 'You can fill out the form or sign in via Facebook',
+    theme: 'material',
+    buttons: {
+        form: function () {
+            showForm()
+        },
+        facebook: function() {
+
+        }
+    },
+    animation: 'zoom',
+    closeAnimation: 'scale'
+});
+
+function showForm(){
+    let div_form = document.querySelector(".registration")
+    div_form.classList.remove("d-none")    
+}
+
 function previewImage(event){
     var reader = new FileReader();
     reader.onload = function() {
@@ -79,14 +100,19 @@ enterDay()
 
 // Form submiting
 
-var form = document.querySelector("#registration-form");
+var form = document.querySelector("#registration-form")
 
 form.addEventListener('submit', function(ev) {
     ev.preventDefault()
+
     var oData = new FormData(form)
     
     if(oData.get('image').size === 0){
-        alert("Image field is also required")
+        $.alert({
+            title: 'Image is also required',
+            content: "Please fill the image field",
+            theme: 'material',
+        })
         return
     }
 
@@ -96,11 +122,43 @@ form.addEventListener('submit', function(ev) {
     oReq.open("POST", "/api/registration/complete", true)
     oReq.onload = function(oEvent) {
         if (oReq.status == 201) {
-            console.log(oReq.response)
+            $.confirm({
+                title: 'You have created your account',
+                content: "We sent you new password. Please check your email.",
+                type: 'blue',
+                typeAnimated: true,
+                buttons: {
+                    ok: {
+                        text: 'OK',
+                        btnClass: 'btn-blue',
+                        action: function () {
+                            window.location.href = "/login/"
+                        }
+                    }
+                }
+            })
         } else {
-            console.log("Error " + oReq.status + " occurred when trying to register your account.")
+            saveBtn.innerHTML = defaultSaveBtnHtml
+            $.alert({
+                title: 'An error occured',
+                content: "Error " + oReq.status + " occurred when trying to register your account. Please try again.",
+                type: 'red',
+                typeAnimated: true,
+                buttons: {
+                    tryAgain: {
+                        text: 'Try again',
+                        btnClass: 'btn-red',
+                        action: function(){
+                        }
+                    },
+                }
+            })
         }
     };
+
+    saveBtn = document.querySelector("#save-btn")
+    defaultSaveBtnHtml = saveBtn.innerHTML
+    saveBtn.innerHTML = 'Loading <i class="fas fa-spinner fa-spin"></i>'
 
     oReq.send(oData)
 }, false)
