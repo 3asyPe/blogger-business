@@ -138,7 +138,6 @@ form.addEventListener('submit', function(ev) {
                 }
             })
         } else {
-            saveBtn.innerHTML = defaultSaveBtnHtml
             $.alert({
                 title: 'An error occured',
                 content: "Error " + oReq.status + " occurred when trying to register your account. Please try again.",

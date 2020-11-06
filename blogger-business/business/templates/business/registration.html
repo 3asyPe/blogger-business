@@ -1,49 +1,68 @@
 {% extends "base.html" %}
 
-{% block content %}
-
 {% load static %}
 
-<div class='container'>
-    <form class="form" action="complete" method="POST" id="registration-form" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="image-input" class="form-label">
-                Photo/Logo
-                <img class="upload-image-icon" id="upload-image-icon" src="{% static 'images/TapToUploadPicture.png' %}"/>
-            </label>
-            <input id="image-input" class="image-input" name="image" type="file" onchange="previewImage(event)"/>
-        </div>
-        <div class="form-group row">
-            <label for="business_name" class="col-4 col-form-label form-label">Company name</label>
-            <input type="text" required name="business_name" id="business_name" class="form-control col-8">
-        </div>
-        <div class="form-group row">
-            <label for="business_owner_name" class="col-4 col-form-label form-label"> Name of the representative</label>
-            <input type="text" required name="business_owner_name" id="business_owner_name" class="form-control col-8">
-        </div>
-        <div class="form-group">
-            <input type="text" required name="email" class='form-control' placeholder="Email">
-            <input type="text" required name="phone" class='form-control' placeholder="Phone">
-        </div> 
-        <div class="form-group">
-            <label for="country">Country:</label>
-            <input type="text" required name='country' id='country' class='form-control'>
-            <label for="city">City:</label>
-            <input type="text" required name='city' id='city' class='form-control'>
-        </div> 
-        <div class="form-group">
-            <input type="text" required name="site" class='form-control' placeholder="Site">
-            <input type="text" required name="instagram" class='form-control' placeholder="Instagram(link or name)">
-            <input type="text" required name="facebook" class='form-control' placeholder="Facebook(link)">
-        </div> 
-        
+{% block base_head %}
+<link rel="stylesheet" href="{% static 'css/registration.css' %}">
+{% endblock %}
 
-        <button type='submit' class='btn btn-success'>Submit</button>
-    </form>
+{% block content %}
+
+
+<div class="registration">
+    <div class="registration-title">Fill out the form</div>
+    <div class='container registration-inner'>
+        <form class="form" action="complete" method="POST" id="registration-form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="image-input" class="form-label form-label-image">
+                    <div class="col-4 form-label-image-title">Your Photo/Logo:</div>
+                    <img class="upload-image-icon col-3" id="upload-image-icon" src="{% static 'images/TapToUploadPicture.png' %}"/>
+                </label>
+                <input id="image-input" class="image-input" name="image" type="file" onchange="previewImage(event)"/>
+            </div>
+            <div class="form-group">
+                <label for="business_name" class="col-3 col-form-label form-label">Company name:</label>
+                <input type="text" required name="business_name" id="business_name" class="form-control col-7" placeholder="Enter company name">
+            </div>
+            <div class="form-group">
+                <label for="business_owner_name" class="col-3 col-form-label form-label"> Name of the representative</label>
+                <input type="text" required name="business_owner_name" id="business_owner_name" class="form-control col-7" placeholder="Enter name of the representative">
+            </div>
+            <div class="form-group">
+                <label for="email" class="col-3 col-form-label form-label">Your email:</label>
+                <input type="text" required name="email" class='form-control col-7' placeholder="Enter email">
+            </div> 
+            <div class="form-group">
+                <label for="phone" class="col-3 col-form-label form-label">Your phone:</label>
+                <input type="text" required name="phone" class='form-control col-7' placeholder="Enter phone">
+            </div>
+            <div class="form-group">
+                <label for="country" class="col-3 col-form-label form-label">Main country of the company:</label>
+                <input type="text" required name='country' id='country' class='form-control col-7' placeholder="Enter country">
+            </div>
+            <div class="form-group">
+                <label for="city" class="col-3 col-form-label form-label">Main city of the company:</label>
+                <input type="text" required name='city' id='city' class='form-control col-7' placeholder="Enter city">
+            </div> 
+            <div class="form-group">
+                <label for="site" class="col-3 col-form-label form-label">You web-site:</label>
+                <input type="text" required name="site" id="site" class='form-control col-7' placeholder="Enter link to your web-site">
+            </div>
+            <div class="form-group">
+                <label for="instagram" class="col-3 col-form-label form-label">You instagram:</label>
+                <input type="text" required name="instagram" id="instagram" class='form-control col-7' placeholder="Enter link or username of your instagram">
+            </div>
+            <div class="form-group">
+                <label for="site" class="col-3 col-form-label form-label">You facebook:</label>
+                <input type="text" required name="facebook" id="facebook" class='form-control col-7' placeholder="Enter link to your facebook account">
+            </div>             
+    
+            <button type='submit' class='btn btn-lg save-account' id="save-btn">Save account</button>
+        </form>
+    </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="{% static 'js/business-registration.js' %}">
 
 </script>
