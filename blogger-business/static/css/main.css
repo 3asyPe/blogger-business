@@ -6,10 +6,6 @@
     background-color: rgb(107, 152, 194);
 }
 
-.navbar-collapse{
-    
-}
-
 .navbar-nav{
     width: 100%;
     display: flex;
@@ -18,4 +14,14 @@
 
 .nav-block{
     display: flex;
+}
+
+.profile-link{
+    padding: 0 !important;
+}
+
+.profile-image{
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
 }

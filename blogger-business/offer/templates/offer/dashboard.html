@@ -1,8 +1,13 @@
 {% extends "base.html" %}
 
+{% load static %}
+
+{% block base_head %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
 {% block content %}
 
-{% load static %}
 
 <h1>Dashboard</h1>
 
@@ -27,10 +32,45 @@
     </div>
 </div>
 
-<div class="offers-container" id="offers-container">
+<div class="container offers-container" id="offers-container">
     <div class="alert alert-info no-offers-alert">
         We are sorry, but you don't have any offers now.
     </div>
+    <!-- <div class="offer-card col-lg-9 col-12">
+        <div class="additional-price">$Price</div>
+        <div class="offer-card-inner">    
+            <div class="media-part col-4">
+                <div class="media-top-part">
+                    <div class="image-div">
+                        <img src="{% static 'images/image-placeholder-500x500.jpg' %}" class="image img-fluid">
+                    </div>
+                </div>
+                <div class="media-bottom-part">
+                    <a class="name col-6" href="#">
+                        <div class="name-text">Company name</div>
+                    </a>
+                    <div class="logo-div col-6">
+                        <img src="{% static 'images/image-placeholder-500x500.jpg' %}" class="image img-fluid">
+                    </div>
+                </div>
+            </div>
+            <div class="text-part col-8">
+                <div class="title-div">
+                    <div class="title-inner">
+                        Title
+                    </div>
+                </div>
+                <div class="main-details-div">
+                    <div class="description-div col-6">Description</div>
+                    <div class="conditions-div col-6">Conditions</div>
+                </div>
+                <div class="secondary-details-div">
+                    <div class="receiving-method col-6">Delivery. Svyazistov 11-144</div>
+                    <div class="validity col-6">13.04.2004</div>
+                </div>
+            </div>
+        </div>
+    </div> -->
 </div>
 
 <script>

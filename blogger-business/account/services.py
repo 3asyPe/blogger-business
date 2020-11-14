@@ -1,11 +1,11 @@
 from django.conf import settings
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, get_user_model
 from django.utils.http import is_safe_url
 
 from typing import Optional
 
 
-User = settings.AUTH_USER_MODEL
+User = get_user_model()
 
 
 def create_user(username: str, password: str) -> Optional[User]:

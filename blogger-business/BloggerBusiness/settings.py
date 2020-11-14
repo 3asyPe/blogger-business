@@ -58,15 +58,15 @@ BLOG_LANGUAGES = languages.iso_639_choices
 
 # TODO location
 COUNTRIES = [
-    ("BLR", "BELARUS"),
-    ("RUS", "RUSSIA"),
-    ("USA", "UNITES STATES OF AMERICA"),
+    ("BLR", "Belarus"),
+    ("RUS", "Russia"),
+    ("USA", "United States of America"),
 ]
 
 CITIES = [
-    ("MINSK", "MINSK"),
-    ("MOSKOW", "MOSKOW"),
-    ("WASHINGTON", "WASHINGTON"),
+    ("MINSK", "Minsk"),
+    ("MOSKOW", "Moskow"),
+    ("WASHINGTON", "Washington"),
 ]
 
 BLOG_SPECIALIZATIONS = [

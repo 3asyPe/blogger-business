@@ -1,0 +1,94 @@
+.offer-card{
+    display: block;
+    margin: 20px auto;
+    border-top: 2px solid rgb(241, 217, 0);
+    border-radius: 10px;
+    padding: 0;
+    overflow: hidden;
+}
+
+.offer-card-inner{
+    
+}
+
+.additional-price{
+    background-color: rgb(248 230 71);
+}
+
+.offer-card-inner{
+    display: flex;
+    border: 2px solid #000;
+    border-radius: 0 0 10px 10px;
+}
+
+.media-part{
+    border-right: 1px solid #000;
+    padding: 0;
+}
+
+.media-top-part{
+    border-bottom: 1px solid #000;
+}
+
+
+.media-bottom-part{
+    display: flex;
+}
+
+.logo-div{
+    padding: 0;
+}
+
+.name{
+    text-align: center;
+    display: flex;
+    vertical-align: middle;
+    padding: 0;
+}
+
+.name-text{
+    display: block;
+    margin: auto 0;
+    text-decoration: none;
+    color: #000;
+    font-size: 20px;
+    text-transform: uppercase;
+}
+
+.text-part{
+    padding: 0;
+}
+
+.title-div{
+    text-align: center;
+    display: flex;
+    height: 20%;
+    font-size: 40px;
+    border-bottom: 1px solid #000;
+}
+
+.title-inner{
+    display: block;
+    margin: auto auto;
+}
+
+.main-details-div{
+    display: flex;
+    height: 65%;
+    border-bottom: 1px solid #000;
+    font-size: 18px;
+    
+}
+
+.description-div{
+    border-right: 1px solid #000;
+}
+
+.secondary-details-div{
+    display: flex;
+    height: 15%;
+}
+
+.receiving-method{
+    border-right: 1px solid #000;
+}

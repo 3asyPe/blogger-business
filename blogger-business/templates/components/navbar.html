@@ -1,6 +1,7 @@
+{% url "account:profile" as profile_url %}
+{% url "application:applications" as applications_url %}
 {% url "offer:dashboard" as dashboard_url %}
 {% url "offer:offers" as offers_url %}
-{% url "application:applications" as applications_url %}
 
 {% load static %}
 
@@ -31,9 +32,13 @@
                 </div>
                     
                 <div class="nav-block">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/logout/">Logout</a>
-                    </li>
+                    <a class="profile-link" href="{{ profile_url }}">
+                        {% if request.user.is_blogger %}
+                            <img src="/media/{{ request.user.blogger.image }}" width="30" height="30" class="d-inline-block align-top profile-image" alt="">
+                        {% elif request.user.is_business %}
+                            <img src="/media/{{ request.user.business.image }}" width="30" height="30" class="d-inline-block align-top profile-image" alt="">
+                        {% endif %}
+                    </a>
                 </div>
 
             </ul>
