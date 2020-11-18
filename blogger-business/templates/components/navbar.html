@@ -34,9 +34,9 @@
                 <div class="nav-block">
                     <a class="profile-link" href="{{ profile_url }}">
                         {% if request.user.is_blogger %}
-                            <img src="/media/{{ request.user.blogger.image }}" width="30" height="30" class="d-inline-block align-top profile-image" alt="">
+                            <img src="/media/{{ request.user.blogger.image }}" id="profile-image-navbar" width="30" height="30" class="d-inline-block align-top profile-image" alt="">
                         {% elif request.user.is_business %}
-                            <img src="/media/{{ request.user.business.image }}" width="30" height="30" class="d-inline-block align-top profile-image" alt="">
+                            <img src="/media/{{ request.user.business.image }}" id="profile-image-navbar" width="30" height="30" class="d-inline-block align-top profile-image" alt="">
                         {% endif %}
                     </a>
                 </div>

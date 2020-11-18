@@ -33,4 +33,27 @@ class BloggerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Blogger
-        fields = ['image', 'blog_name', 'email', 'instagram', 'youtube', 'phone', 'location', 'sex', 'birthday', 'specializations', 'languages', 'location']
+        fields = ['id', 'image', 'blog_name', 'email', 'instagram', 'youtube', 'phone', 'location', 'sex', 'birthday', 'specializations', 'languages', 'location']
+
+
+class ImageInfoBloggerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Blogger
+        fields = ['image']
+
+
+class PersonalInfoBloggerSerializer(serializers.ModelSerializer):
+    location = LocationSerializer()
+
+    class Meta:
+        model = Blogger
+        fields = ['blog_name', 'location', 'birthday']
+
+
+class BlogInfoBloggerSerializer(serializers.ModelSerializer):
+    languages = BlogLanguageSerializer(many=True)
+    specializations = BlogSpecializationSerializer(many=True)
+
+    class Meta:
+        model = Blogger
+        fields = ['languages', 'specializations', 'phone', 'email']

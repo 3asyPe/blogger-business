@@ -13,7 +13,46 @@ from account.utils import generate_password, create_birthday_object
 User = get_user_model()
 
 
-def register_blogger(data: dict, image):
+def edit_blogger_profile_image(blogger: Blogger, image) -> Blogger:
+    blogger.image = image
+    blogger.save()
+    return blogger
+
+
+def edit_blogger_profile_personal_info(blogger: Blogger, data: dict) -> Blogger:
+    try:
+        blogger.blog_name = data["blog_name"]
+    except KeyError:
+        raise KeyError("Data object doesn't have blog_name")
+    
+    location = _change_location(blogger=blogger, data=data)
+    
+    birthday = _create_birthday_object(data=data)
+    blogger.birthday = birthday
+    
+    blogger.save()
+    return blogger
+
+
+def edit_blogger_profile_blog_info(blogger: Blogger, data: dict) -> Blogger:
+    _change_list_of_languages(data=data, blogger=blogger)
+    _change_list_of_specializations(data=data, blogger=blogger)
+    
+    try:
+        blogger.phone = data["phone"]
+    except KeyError:
+        raise KeyError("Data object doesn't have phone field")
+
+    try:
+        blogger.email = data["email"]
+    except KeyError:
+        raise KeyError("Data object doesn't have email field")
+
+    blogger.save()
+    return blogger
+
+
+def register_blogger(data: dict, image) -> Blogger:
     user = _create_user_blogger(data=data)
     blogger = _create_blogger(data=data, image=image, user=user)
     return blogger
@@ -43,6 +82,22 @@ def _create_blogger(data: dict, image, user: User) -> Blogger:
     _create_list_of_specializations(data=data, blogger=blogger)
     
     return blogger
+
+
+def _change_location(blogger: Blogger, data: dict) -> Location:
+    location = blogger.location
+    try:
+        location.country = data["country"]
+    except KeyError:
+        raise KeyError("Data object doesn't have country field")
+
+    try:
+        location.city = data["city"]
+    except KeyError:
+        raise KeyError("Data object doesn't have city field")
+
+    location.save()
+    return location
 
 
 def _create_location(data: dict) -> Location:
@@ -78,6 +133,50 @@ def _create_user_blogger(data: dict) -> User:
         raise KeyError("Data object doesn't have field username")
     print(f"user-{user}")
     return user
+
+
+def _change_list_of_languages(data: dict, blogger: Blogger):
+    try:
+        new_languages = data["languages"]
+    except KeyError:
+        raise KeyError("Data object doesn't have languages field")
+
+    cur_languages = BlogLanguage.objects.filter(blogger=blogger)
+
+    for cur_language in cur_languages:
+        try:
+            index_in_new = new_languages.index(cur_language.language)
+            new_languages.pop(index_in_new)
+        except ValueError:
+            cur_language.delete()
+
+    for new_language in new_languages:
+        BlogLanguage.objects.create(
+            language=new_language, 
+            blogger=blogger
+        )
+
+
+def _change_list_of_specializations(data: dict, blogger: Blogger):
+    try:
+        new_specializations = data["specializations"]
+    except KeyError:
+        raise KeyError("Data object doesn't have specializations field")
+
+    cur_specializations = BlogSpecialization.objects.filter(blogger=blogger)
+
+    for cur_specialization in cur_specializations:
+        try:
+            index_in_new = new_specializations.index(cur_specialization.specialization)
+            new_specializations.pop(index_in_new)
+        except ValueError:
+            cur_specialization.delete()
+
+    for new_specialization in new_specializations:
+        BlogSpecialization.objects.create(
+            specialization=new_specialization, 
+            blogger=blogger
+        )
 
 
 def _create_list_of_languages(data: dict, blogger: Blogger):

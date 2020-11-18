@@ -130,3 +130,11 @@
 .statistics{
     border-bottom: none;
 }
+
+#location{
+    display: flex;
+}
+
+.birthday-div{
+    display: flex;
+}

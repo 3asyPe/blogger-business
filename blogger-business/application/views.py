@@ -3,7 +3,6 @@ import json
 from django.core import serializers
 from django.shortcuts import render
 from django.http import Http404
-from django.forms.models import model_to_dict
 
 from .models import Application
 from .services import get_applications_for_business

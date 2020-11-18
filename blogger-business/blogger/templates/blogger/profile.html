@@ -11,13 +11,9 @@
 <svg style="display: none">
     <symbol id="edit" viewBox="0 0 383.947 383.947">
         <g>
-            <g>
-                <g>
-                    <polygon points="0,303.947 0,383.947 80,383.947 316.053,147.893 236.053,67.893 			"/>
-                    <path d="M377.707,56.053L327.893,6.24c-8.32-8.32-21.867-8.32-30.187,0l-39.04,39.04l80,80l39.04-39.04
-                        C386.027,77.92,386.027,64.373,377.707,56.053z"/>
-                </g>
-            </g>
+            <polygon points="0,303.947 0,383.947 80,383.947 316.053,147.893 236.053,67.893 			"/>
+            <path d="M377.707,56.053L327.893,6.24c-8.32-8.32-21.867-8.32-30.187,0l-39.04,39.04l80,80l39.04-39.04
+                C386.027,77.92,386.027,64.373,377.707,56.053z"/>
         </g>
     </symbol>
 </svg>
@@ -26,7 +22,7 @@
     <div class="profile-container-inner">
         <div class="left-part col-5">
             <div class="page-title">Account</div>
-            <form method="POST" id="registration-form" enctype="multipart/form-data">
+            <form method="POST" id="image-form" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="image-div">
                     <img src="{% static 'images/white-placeholder.png' %}" id="upload-image-icon" class="image img-fluid">
@@ -46,12 +42,16 @@
                     <div class="block-item" id="blog_name"></div>
                 </div><div class="blog-block-item">
                     <div class="block-item-title col-4">Location:</div>
-                    <div class="block-item" id="location"></div>
+                    <div class="block-item" id="location">
+                        <div class="location-item" id="country"></div>
+                        <span>,&nbsp</span>
+                        <div class="location-item" id="city"></div>
+                    </div>
                 </div><div class="blog-block-item">
                     <div class="block-item-title col-4">Birthday:</div>
                     <div class="block-item" id="birthday"></div>
                 </div>
-                <button type='button' class="info-edit-item" href="#" onclick="editPersonalInfo()">
+                <button type='button' class="info-edit-item" onclick="editPersonalInfo()">
                     <svg class="info-edit-icon">
                         <use xlink:href="#edit"></use>
                     </svg>
@@ -79,7 +79,7 @@
                     <div class="block-item-title col-4">Email:</div>
                     <div class="email" id="email"></div>
                 </div>
-                <button type='button' class="info-edit-item" href="#">
+                <button type='button' class="info-edit-item" onclick="editBlogInfo()">
                     <svg class="info-edit-icon">
                         <use xlink:href="#edit"></use>
                     </svg>
@@ -136,6 +136,10 @@
         </div>
     </div>
 </div>
+
+<script>
+    var csrftoken = "{{ csrf_token }}"
+</script>
 
 <script src="{% static 'js/blogger-profile.js' %}"></script>
 
