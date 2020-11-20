@@ -1,13 +1,112 @@
-{% extends "base.html" %}
+{% extends "base.html"%}
+
+{% load static %}
 
 {% block base_head %}
-
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+<link rel="stylesheet" href="{% static 'css/business-profile.css' %}">
 {% endblock %}
+
+{% block base_title %}My profile{% endblock %}
 
 {% block content %}
 
+<svg style="display: none">
+    <symbol id="edit" viewBox="0 0 383.947 383.947">
+        <g>
+            <polygon points="0,303.947 0,383.947 80,383.947 316.053,147.893 236.053,67.893 			"/>
+            <path d="M377.707,56.053L327.893,6.24c-8.32-8.32-21.867-8.32-30.187,0l-39.04,39.04l80,80l39.04-39.04
+                C386.027,77.92,386.027,64.373,377.707,56.053z"/>
+        </g>
+    </symbol>
+</svg>
+
 <div class="container">
-    <h1>Business profile</h1>
+    <div class="profile-container-inner">
+        <div class="left-part col-5">
+            <div class="page-title">Business Account</div>
+            <form method="POST" id="image-form" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="image-div">
+                    <img src="{% static 'images/white-placeholder.png' %}" id="upload-image-icon" class="image img-fluid">
+                </div>
+                <button type='button' class='btn btn-change-image'>
+                    <label for="image-input" class="button-label">Change image</label>
+                </button>
+                <button class="btn btn-save-change-image d-none" type='submit'>Save</button>
+                <input id="image-input" class="image-input" name="image" type="file" onchange="previewImage(event)"/>
+            </form>
+        </div>
+        <div class="right-part col-7">
+            <div class="info-block">
+                <div class="block-title">Business information</div>
+                <div class="blog-block-item">
+                    <div class="block-item-title col-4">Business name:</div>
+                    <div class="block-item" id="business_name"></div>
+                </div>
+                <div class="blog-block-item">
+                    <div class="block-item-title col-4">Owner name:</div>
+                    <div class="block-item" id="business_owner_name"></div>
+                </div>
+                <div class="blog-block-item">
+                    <div class="block-item-title col-4">Location:</div>
+                    <div class="block-item" id="location">
+                        <div class="location-item" id="country"></div>
+                        <span>,&nbsp</span>
+                        <div class="location-item" id="city"></div>
+                    </div>
+                </div>
+                <button type='button' class="info-edit-item" onclick="editBusinessInfo()">
+                    <svg class="info-edit-icon">
+                        <use xlink:href="#edit"></use>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="info-block">
+                <div class="block-title">Business contacts</div>
+                <div class="blog-block-item">
+                    <div class="block-item-title col-4">Web-site:</div>
+                    <div class="block-item" id="site"></div>
+                </div>
+                <div class="blog-block-item">
+                    <div class="block-item-title col-4">Facebook:</div>
+                    <div class="block-item" id="facebook"></div>
+                </div>
+                <div class="blog-block-item">
+                    <div class="block-item-title col-4">Instagram:</div>
+                    <div class="block-item" id="instagram"></div>
+                </div>
+                <div class="blog-block-item">
+                    <div class="block-item-title col-4">Email:</div>
+                    <div class="block-item" id="email"></div>
+                </div>
+                <div class="blog-block-item">
+                    <div class="block-item-title col-4">Phone:</div>
+                    <div class="block-item" id="phone"></div>
+                </div>
+                <button type='button' class="info-edit-item" onclick="editBusinessContact()">
+                    <svg class="info-edit-icon">
+                        <use xlink:href="#edit"></use>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="private-actions">
+                <a href="#" class="btn btn-private-action">Change password</a>
+                <a href="/logout/" class="btn btn-private-action">Logout</a>
+            </div>
+            
+        </div>
+    </div>
 </div>
+
+<script>
+    var csrftoken = "{{ csrf_token }}"
+</script>
+
+<script src="{% static 'js/link-checkers.js' %}"></script>
+<script src="{% static 'js/profile.js' %}"></script>
+<script src="{% static 'js/business-profile.js' %}"></script>
 
 {% endblock %}

@@ -37,6 +37,7 @@ urlpatterns = [
     path('', include('account.urls')),
     path('', include('application.urls')),
     path('', include('blogger.urls')),
+    path('', include('business.urls')),
     path('', include('offer.urls')),
 ]
 

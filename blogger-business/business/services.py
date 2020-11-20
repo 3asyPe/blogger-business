@@ -10,10 +10,79 @@ from account.utils import generate_password
 User = get_user_model()
 
 
+def edit_business_profile_contact(business: Business, data: dict) -> Business:
+    try:
+        business.site = data["site"]
+    except KeyError:
+        raise KeyError("Data object doesn't have site field")
+
+    try:
+        business.facebook = data["facebook"]
+    except KeyError:
+        raise KeyError("Data object doesn't have facebook field")
+
+    try:
+        business.instagram = data["instagram"]
+    except KeyError:
+        raise KeyError("Data object doesn't have instagram field")
+
+    try:
+        business.email = data["email"]
+    except KeyError:
+        raise KeyError("Data object doesn't have email field")
+
+    try:
+        business.phone = data["phone"]
+    except KeyError:
+        raise KeyError("Data object doesn't have phone field")
+
+    business.save()
+    return business
+
+
+def edit_business_profile_info(business: Business, data: dict) -> Business:
+    try:
+        business.business_name = data["business_name"]
+    except KeyError:
+        raise KeyError("Data object doesn't have business_name field")
+
+    try:
+        business.business_owner_name = data["business_owner_name"]
+    except KeyError:
+        raise KeyError("Data object doesn't have business_owner_name field")
+
+    location = _change_location(business=business, data=data)
+
+    business.save()
+    return business
+
+
+def edit_business_profile_image(business: Business, image) -> Business:
+    business.image = image
+    business.save()
+    return business
+
+
 def register_business(data: dict, image):
     user = _create_user_business(data=data)
     business = _create_business(data=data, image=image, user=user)
     return business
+
+
+def _change_location(business: Business, data: dict) -> Location:
+    location = business.location
+    try:
+        location.country = data["country"]
+    except KeyError:
+        raise KeyError("Data object doesn't have country field")
+
+    try:
+        location.city = data["city"]
+    except KeyError:
+        raise KeyError("Data object doesn't have city field")
+
+    location.save()
+    return location
 
     
 def _create_business(data: dict, image, user: User) -> Business:

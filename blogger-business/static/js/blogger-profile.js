@@ -1,57 +1,35 @@
-let defaultProfileData;
+function pullFullDataIntoHtml(){
+    var image = document.querySelector('#upload-image-icon')
+    image.src = defaultProfileData.image
 
-function fetchFullData(){
-    fetch("/api/blogger-profile-data/")
-    .then(response => {
-        return response.json()
-    })
-    .then(data => {
-        defaultProfileData = JSON.parse(data)
-        console.log(defaultProfileData)
-        var image = document.querySelector('#upload-image-icon');
-        image.src = defaultProfileData.image
+    pullPersonalDataIntoHtml()
 
-        var blog_name = document.querySelector("#blog_name")
-        blog_name.innerHTML = defaultProfileData.blog_name
-
-        var country = document.querySelector("#country")
-        var city = document.querySelector("#city")
-        country.innerHTML = defaultProfileData.location.country
-        city.innerHTML = defaultProfileData.location.city
-
-        var birthday = document.querySelector("#birthday")
-        birthday.innerHTML = defaultProfileData.birthday
-
-        putLanguagesDivsIntoHtml("languages")
-
-        putSpecializationsDivsIntoHtml("specializations")
-
-        var phone = document.querySelector("#phone")
-        phone.innerHTML = defaultProfileData.phone
-
-        var email = document.querySelector("#email")
-        email.innerHTML = defaultProfileData.email
-    })
+    pullBlogDataIntoHtml()
 }
 
-fetchFullData()
+function pullPersonalDataIntoHtml(){
+    var blog_name = document.querySelector("#blog_name")
+    blog_name.innerHTML = defaultProfileData.blog_name
 
-function fetchImageData(){
-    fetch("/api/blogger-profile-data/image")
-    .then(response => {
-        return response.json()
-    })
-    .then(data => {
-        data = JSON.parse(data)
-        console.log(data)
-        defaultProfileData.image = data.image
+    var country = document.querySelector("#country")
+    var city = document.querySelector("#city")
+    country.innerHTML = defaultProfileData.location.country
+    city.innerHTML = defaultProfileData.location.city
 
-        var image = document.querySelector('#upload-image-icon');
-        image.src = defaultProfileData.image
+    var birthday = document.querySelector("#birthday")
+    birthday.innerHTML = defaultProfileData.birthday
+}
 
-        var imageNavbar = document.querySelector("#profile-image-navbar")
-        imageNavbar.src = defaultProfileData.image
-    })
+function pullBlogDataIntoHtml(){
+    putLanguagesDivsIntoHtml("languages")
+
+    putSpecializationsDivsIntoHtml("specializations")
+
+    var phone = document.querySelector("#phone")
+    phone.innerHTML = defaultProfileData.phone
+
+    var email = document.querySelector("#email")
+    email.innerHTML = defaultProfileData.email
 }
 
 function fetchPersonalData(){
@@ -62,21 +40,13 @@ function fetchPersonalData(){
     .then(data => {
         data = JSON.parse(data)
         console.log(data)
-        
-        defaultProfileData.blog_name = data.blog_name
-        var blog_name = document.querySelector("#blog_name")
-        blog_name.innerHTML = defaultProfileData.blog_name
 
+        defaultProfileData.blog_name = data.blog_name
         defaultProfileData.location.country = data.location.country
         defaultProfileData.location.city = data.location.city
-        var country = document.querySelector("#country")
-        var city = document.querySelector("#city")
-        country.innerHTML = defaultProfileData.location.country
-        city.innerHTML = defaultProfileData.location.city
-
         defaultProfileData.birthday = data.birthday
-        var birthday = document.querySelector("#birthday")
-        birthday.innerHTML = defaultProfileData.birthday
+
+        pullPersonalDataIntoHtml()
     })
 }
 
@@ -90,72 +60,13 @@ function fetchBlogData(){
         console.log(data)
         
         defaultProfileData.languages = data.languages
-        putLanguagesDivsIntoHtml("languages")
-
         defaultProfileData.specializations = data.specializations
-        putSpecializationsDivsIntoHtml("specializations")
-
         defaultProfileData.phone = data.phone
-        var phone = document.querySelector("#phone")
-        phone.innerHTML = defaultProfileData.phone
-
         defaultProfileData.email = data.email
-        var email = document.querySelector("#email")
-        email.innerHTML = defaultProfileData.email
+
+        pullBlogDataIntoHtml()
     })
 }
-
-function previewImage(event){
-    var reader = new FileReader();
-    reader.onload = function() {
-        var output = document.querySelector('#upload-image-icon');
-        output.src = reader.result;
-    }
-    reader.readAsDataURL(event.target.files[0]);
-    var saveBtn = document.querySelector(".btn-save-change-image")
-    saveBtn.classList.remove("d-none")
-}
-
-var imageForm = document.querySelector("#image-form")
-
-imageForm.addEventListener('submit', function(ev) {
-    ev.preventDefault()
-
-    var oData = new FormData(imageForm)
-
-    var oReq = new XMLHttpRequest()
-    oReq.open("POST", "/api/blogger-profile-data/image/edit/", true)
-
-    var saveBtn = document.querySelector(".btn-save-change-image")
-    
-    oReq.onload = function(oEvent) {
-        fetchImageData()
-        saveBtn.innerHTML = defaultSaveBtnHtml
-        saveBtn.classList.add("d-none")
-        if (oReq.status == 200) {
-        } else {
-            $.alert({
-                title: 'An error occured',
-                content: "Error " + oReq.status + " occurred when trying to edit your profile image. Please try again.",
-                type: 'red',
-                typeAnimated: true,
-                buttons: {
-                    tryAgain: {
-                        text: 'Try again',
-                        btnClass: 'btn-red',
-                        action: function(){
-                        }
-                    },
-                }
-            })
-        }
-    };
-
-    defaultSaveBtnHtml = saveBtn.innerHTML
-    saveBtn.innerHTML = 'Loading <i class="fas fa-spinner fa-spin"></i>'
-
-    oReq.send(oData)
-}, false)
 
 function editPersonalInfo(){
     var blog_name = defaultProfileData.blog_name
@@ -267,8 +178,6 @@ function editPersonalInfo(){
 }
 
 function editBlogInfo(){
-    var languages = defaultProfileData.languages
-    var specializations = defaultProfileData.specializations
     var phone = defaultProfileData.phone
     var email = defaultProfileData.email
     

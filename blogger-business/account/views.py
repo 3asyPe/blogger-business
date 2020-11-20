@@ -13,10 +13,24 @@ from .services import (
 from .forms import LoginForm
 from account.decorators import unauthenticated_user, allowed_users
 from blogger.models import Blogger
-from blogger.services import register_blogger
+from blogger.serializers import (
+    BloggerSerializer,
+    ImageInfoBloggerSerializer,
+)
+from blogger.services import (
+    register_blogger,
+    edit_blogger_profile_image,
+)
 from BloggerBusiness.utils import querydict_to_dict
 
-from business.services import register_business
+from business.serializers import (
+    BusinessSerializer,
+    ImageInfoBusinessSerializer,
+)
+from business.services import (
+    register_business,
+    edit_business_profile_image,
+)
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -90,3 +104,49 @@ def profile_view(request):
         return render(request, "business/profile.html", {})
     raise Http404
 
+
+@api_view(["GET"])
+@allowed_users(["BLOGGER", "BUSINESS"])
+def fetch_profile_data(request):
+    user = request.user
+    if user.is_blogger:
+        serializer = BloggerSerializer(user.blogger)
+    elif user.is_business:
+        serializer = BusinessSerializer(user.business)
+    else:
+        return Response({"message": "Account neither blogger or business"}, status=500)
+
+    return Response(json.dumps(serializer.data), status=200)
+
+
+@api_view(["GET"])
+@allowed_users(["BLOGGER", "BUSINESS"])
+def fetch_profile_image_data(request):
+    user = request.user
+    if user.is_blogger:
+        serializer = ImageInfoBloggerSerializer(user.blogger)
+    elif user.is_business:
+        serializer = ImageInfoBusinessSerializer(user.business)
+    else:
+        return Response({"message": "Account neither blogger or business"}, status=500)
+    
+    return Response(json.dumps(serializer.data), status=200)
+
+
+@api_view(["POST"])
+@allowed_users(["BLOGGER", "BUSINESS"])
+def edit_profile_image_data(request):
+    try:
+        image = request.FILES.get("image")
+    except KeyError:
+        raise KeyError("Image field isn't in the request")
+
+    user = request.user
+    if user.is_blogger:
+        edit_blogger_profile_image(blogger=user.blogger, image=image)
+    elif user.is_business:
+        edit_business_profile_image(business=user.business, image=image)
+    else:
+        return Response({"message": "Account neither blogger or business"}, status=500)
+    
+    return Response({"message": "Profile image was edited successfuly"}, status=200)

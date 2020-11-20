@@ -3,6 +3,7 @@
 {% load static %}
 
 {% block base_head %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
 <link rel="stylesheet" href="{% static 'css/blogger-profile.css' %}">
 {% endblock %}
 
@@ -21,7 +22,7 @@
 <div class="container">
     <div class="profile-container-inner">
         <div class="left-part col-5">
-            <div class="page-title">Account</div>
+            <div class="page-title">Blogger Account</div>
             <form method="POST" id="image-form" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="image-div">
@@ -40,14 +41,16 @@
                 <div class="blog-block-item">
                     <div class="block-item-title col-4">Blog name:</div>
                     <div class="block-item" id="blog_name"></div>
-                </div><div class="blog-block-item">
+                </div>
+                <div class="blog-block-item">
                     <div class="block-item-title col-4">Location:</div>
                     <div class="block-item" id="location">
                         <div class="location-item" id="country"></div>
                         <span>,&nbsp</span>
                         <div class="location-item" id="city"></div>
                     </div>
-                </div><div class="blog-block-item">
+                </div>
+                <div class="blog-block-item">
                     <div class="block-item-title col-4">Birthday:</div>
                     <div class="block-item" id="birthday"></div>
                 </div>
@@ -86,7 +89,8 @@
                 </button>
             </div>
             <div class="private-actions">
-                <a href="#" class="btn btn-change-password">Change password</a>
+                <a href="#" class="btn btn-private-action">Change password</a>
+                <a href="/logout/" class="btn btn-private-action">Logout</a>
             </div>
             <div class="info-block statistics">
                 <div class="block-title">My statistics</div>
@@ -141,6 +145,7 @@
     var csrftoken = "{{ csrf_token }}"
 </script>
 
+<script src="{% static 'js/profile.js' %}"></script>
 <script src="{% static 'js/blogger-profile.js' %}"></script>
 
 {% endblock %}
