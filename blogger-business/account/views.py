@@ -67,13 +67,12 @@ def login_account(request):
 
 def registration_view(request):
     account_type = request.GET.get("type") or request.POST.get("type")
-    context = {}
     if account_type == "bl":
-        return render(request, "blogger/registration.html", context)
+        return render(request, "blogger/registration.html", {})
     elif account_type == "bu":
-        return render(request, "business/registration.html", context)
+        return render(request, "business/registration.html", {})
     else:
-        raise ValueError("Specify type of account you want to register")
+        return render(request, "account/registration-choice.html", {})
 
 
 @api_view(["POST"])

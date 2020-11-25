@@ -1,37 +1,33 @@
 {% extends "base.html" %}
 
+{% load static %}
+
+{% block base_head %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+
 {% block content %}
 
-<form action="api/login/complete" method=POST id="login-form">
-    {% csrf_token %}
-    <div class="form-group">
-        Username:
-        <input type="text" required class="form-control" name="username">
-        Password:
-        <input type="password" required class="form-control" name="password">
+<div class="container">
+    <div class="form-title">Login</div>
+    <div class="alert">
+        <div class="alert-inner"></div>
     </div>
-    <button type="submit" class="btn btn-success">Login</button>
-</form>
+    <form class="login-form col-lg-6" action="api/login/complete" method=POST id="login-form">
+        {% csrf_token %}
+        <div class="form-group">
+            <input type="text" required class="form-control" placeholder="Your username" name="username">
+            <input type="password" required class="form-control" placeholder="Your password" name="password">
+        </div>
+        <div class="help-links">
+            <a href="" class="help-link">Change password</a>
+            <a href="/registration/" class="registration">Sign up</a>
+            <a href="" class="help-link">Common issues</a>
+        </div>
+        <button type="submit" class="btn btn-login">Login</button>
+    </form>
+</div>
 
-<script>
-    const form = document.querySelector("#login-form")
-    const next = new URL(window.location.href).searchParams.get("next")
-
-    form.addEventListener("submit", function(event){
-        event.preventDefault()
-        var oData = new FormData(form)
-        var oReq = new XMLHttpRequest()
-        oReq.open("POST", "/api/login/complete", true)
-        oReq.onload = function(oEvent) {
-            if (oReq.status == 200) {
-                console.log(JSON.parse(oReq.response))
-                window.location.href = next !== null ? next : JSON.parse(oReq.response).next_url
-            } else {
-                console.log("Error " + oReq.status + " occurred when trying to login your account.")
-            }
-        };
-        oReq.send(oData)
-    })
-</script>
+<script src="{% static 'js/login.js' %}"></script>
 
 {% endblock %}

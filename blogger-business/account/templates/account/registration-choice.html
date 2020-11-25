@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<script>
+    $.confirm({
+        title: 'Choose a type registration',
+        content: 'Which type of account you want to register?',
+        theme: 'material',
+        buttons: {
+            Blogger: function () {
+                window.location.href = "/registration?type=bl"
+            },
+            Business: function() {
+                window.location.href = "/registration?type=bu"
+            }
+        },
+        animation: 'zoom',
+        closeAnimation: 'scale'
+    });
+</script>
+{% endblock %}
