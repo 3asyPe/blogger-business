@@ -141,6 +141,9 @@ def _change_list_of_languages(data: dict, blogger: Blogger):
     except KeyError:
         raise KeyError("Data object doesn't have languages field")
 
+    if type(new_languages) == str:
+        new_languages = [new_languages]
+
     cur_languages = BlogLanguage.objects.filter(blogger=blogger)
 
     for cur_language in cur_languages:
@@ -159,9 +162,12 @@ def _change_list_of_languages(data: dict, blogger: Blogger):
 
 def _change_list_of_specializations(data: dict, blogger: Blogger):
     try:
-        new_specializations = data["specializations"]
+        new_specializations = (data["specializations"])
     except KeyError:
         raise KeyError("Data object doesn't have specializations field")
+
+    if type(new_specializations) == str:
+        new_specializations = [new_specializations]
 
     cur_specializations = BlogSpecialization.objects.filter(blogger=blogger)
 
@@ -184,6 +190,10 @@ def _create_list_of_languages(data: dict, blogger: Blogger):
         languages = data.get("languages")
     except KeyError:
         raise KeyError("Data object doesn't have languages field")
+
+    if type(languages) == str:
+        languages = [languages]
+
     for language in languages:
         BlogLanguage.objects.create(
             language=language, 
@@ -196,6 +206,10 @@ def _create_list_of_specializations(data: dict, blogger: Blogger):
         specializations = data.get("specializations")
     except KeyError:
         raise KeyError("Data object doesn't have specializations field")
+
+    if type(specializations) == str:
+        specializations = [specializations]
+
     for specialization in specializations:
         BlogSpecialization.objects.create(
             specialization=specialization, 
