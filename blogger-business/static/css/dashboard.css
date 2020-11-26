@@ -1,38 +1,52 @@
-.offer-card{
-    display: block;
-    margin: 20px auto;
-    border-top: 2px solid rgb(241, 217, 0);
-    border-radius: 10px;
-    padding: 0;
-    overflow: hidden;
+.dashboard-title{
+    font-size: 40px;
+    text-align: center;
 }
 
-.offer-card-inner{
-    
+.offer-card{
+    position: relative;
+    display: block;
+    margin: 20px auto 50px;
+    border-radius: 10px;
+    overflow: hidden;
+    z-index: 2;
+    padding: 0;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+.offer-card:hover .offer-action-buttons{
+    height: 50px;
 }
 
 .additional-price{
-    background-color: rgb(248 230 71);
+    display: flex;
+    justify-content: center;
+    background-color: #f8f9fa;
+    border-radius: 10px 10px 0 0;
+    font-size: 30px;
+    font-weight: 500;
 }
 
 .offer-card-inner{
     display: flex;
-    border: 2px solid #000;
+    height: 555px;
+    max-height: 555px;
+    z-index: 2;
     border-radius: 0 0 10px 10px;
 }
 
 .media-part{
-    border-right: 1px solid #000;
     padding: 0;
 }
 
-.media-top-part{
-    border-bottom: 1px solid #000;
-}
-
-
 .media-bottom-part{
     display: flex;
+}
+
+.image{
+    object-fit: cover;
+    height: 370px;
+    width: auto;
 }
 
 .logo-div{
@@ -48,7 +62,7 @@
 
 .name-text{
     display: block;
-    margin: auto 0;
+    margin: auto auto;
     text-decoration: none;
     color: #000;
     font-size: 20px;
@@ -62,9 +76,9 @@
 .title-div{
     text-align: center;
     display: flex;
-    height: 20%;
+    height: 15%;
     font-size: 40px;
-    border-bottom: 1px solid #000;
+    border-bottom: 1px solid #f8f9fa;
 }
 
 .title-inner{
@@ -74,21 +88,125 @@
 
 .main-details-div{
     display: flex;
-    height: 65%;
-    border-bottom: 1px solid #000;
+    height: 73%;
+    max-height: 73%;
+    overflow: hidden;
     font-size: 18px;
-    
 }
 
 .description-div{
-    border-right: 1px solid #000;
+    padding: 0;
+    overflow: hidden;
+    border-right: 1px solid #f8f9fa;
+}
+
+.conditions-div{
+    padding: 0;
+    overflow: auto;
 }
 
 .secondary-details-div{
     display: flex;
-    height: 15%;
+    height: 12%;
 }
 
 .receiving-method{
-    border-right: 1px solid #000;
+    padding: 7px 15px;
+    border-right: 1px solid #f8f9fa;
+}
+
+.delivery-div{
+    display: flex;
+}
+
+.centered-delivery{
+    justify-content: center;
+    height: 100%;
+    align-items: center;
+}
+
+.centered-delivery-icon::before{
+    top: 50% !important;
+    transform: translateY(-50%);
+}
+
+.delivery-label{
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.address-label{
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.column-title{
+    font-size: 24px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.column-content{
+    text-align: justify;
+    padding: 0 15px;
+    overflow: auto;
+    max-height: 255.34px;
+}
+
+.delivery{
+    margin: 0 3px;
+    position: relative;
+    font-size: 18px;
+}
+
+.delivery::before{
+    position: absolute;
+    top: 3px;
+}
+
+.address-div{
+    display: flex;
+}
+
+.validity-inner{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.validity-label{
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.offer-action-buttons{
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #f8f9fa;
+    border-radius: 0 0  10px 10px;
+    width: 100%;
+    height: 0;
+    overflow: hidden;
+    transition: height 0.2s ease-out;
+}
+
+.action-btn{
+    border: none;
+    background: none;
+}
+
+.action-btn:focus{
+    outline: none;
+}
+
+.action-icon{
+    font-size: 50px;
+}
+
+.offer-action-title{
+    font-size: 18px;
+    color: rgba(0,0,0,.5);
 }

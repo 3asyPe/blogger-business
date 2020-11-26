@@ -42,6 +42,7 @@ class Offer(models.Model):
         - Conditions
         - Price (or barter)
         - Barter (or price)
+        + Receiving model
         - Timestamp *
         - Validity (calengar)
         + Blogger's model (sorting)

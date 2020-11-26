@@ -113,6 +113,10 @@ def _create_list_of_subscribers_number_groups(data: dict, blogger_model: Blogger
         subscribers_number_groups = data.get("subscribers_number_groups")
     except KeyError:
         raise KeyError("Data object doesn't have subscribers_number_groups field")
+
+    if type(subscribers_number_groups) == str:
+        subscribers_number_groups = [subscribers_number_groups]
+
     for group in subscribers_number_groups:
         SubscribersNumberGroup.objects.create(
             group=group,
@@ -125,6 +129,10 @@ def _create_list_of_languages(data: dict, blogger_model: BloggerModel):
         languages = data.get("languages")
     except KeyError:
         raise KeyError("Data object doesn't have languages field")
+
+    if type(languages) == str:
+        languages = [languages]
+
     for language in languages:
         BloggerModelLanguage.objects.create(
             language=language, 
@@ -138,6 +146,10 @@ def _create_list_of_specializations(data: dict, blogger_model: BloggerModel):
         specializations = data.get("specializations")
     except KeyError:
         raise KeyError("Data object doesn't have specializations field")
+    
+    if type(specializations) == str:
+        specializations = [specializations]
+
     for specialization in specializations:
         BloggerModelSpecialization.objects.create(
             specialization=specialization, 
