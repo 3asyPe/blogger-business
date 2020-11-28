@@ -10,3 +10,8 @@ class ApplicationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Application
         fields = ['id', 'blogger', 'offer', 'timestamp']
+
+
+class ApplicationSerializerForCount(serializers.ModelSerializer):
+    class Meta:
+        fields = ['id']

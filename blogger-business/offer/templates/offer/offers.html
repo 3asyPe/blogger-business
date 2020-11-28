@@ -1,63 +1,35 @@
 {% extends "base.html" %}
 
-{% block content %}
-
 {% load static %}
 
-<script
-  src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-  integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-  crossorigin="anonymous"
-></script>
+{% block base_head %}
+<link rel="stylesheet" href="{% static 'css/offers.css' %}">
+{% endblock %}
 
-Offers actions
+{% block content %}
 
-<!-- Modal Help -->
-<div class="modal fade" id="myModalHelp" role="dialog">
-    <div class="modal-dialog">
+<div class="container">
+    <div class="offers-header">
+        <div class="offers-title">My offers</div>
+    </div>
     
-      <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">×</button>
-                <h4 class="modal-title">Modal Header</h4>
-            </div>
-            <div class="modal-body">
-                <p>Some text in the modal.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <div class="offers-container" id="offers-container">
+        <div class="offer-card-shell col-6">
+            <div class="offer-card create-card">
+                <div class="create-card-inner">
+                    <div class="plus-icon-div col-4">
+                        <i class="fa fa-plus create-btn-icon" aria-hidden="true"></i>
+                    </div>
+                    <div class="create-btn-text">
+                        <div class="create-btn-text-lvl create-btn-text-lvl-1">create</div>
+                        <div class="create-btn-text-lvl create-btn-text-lvl-2">new</div>
+                        <div class="create-btn-text-lvl create-btn-text-lvl-3">offer</div>
+                    </div>
+                </div>
             </div>
         </div>
-      
+        
     </div>
-</div>
-
-<!-- Modal Created -->
-<div class="modal fade" id="myModalCreated" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">×</button>
-                <h4 class="modal-title">Thanks for creating new offer</h4>
-            </div>
-            <div class="modal-body">
-                <p>We will let you know when someone will create new application</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-      
-    </div>
-</div>
-
-<a class="btn btn-info" href="create">Create new offer</a>
-
-<div class="offers-container" id="offers-container">
-
 </div>
 
 <script src="{% static 'js/offers.js' %}"></script>

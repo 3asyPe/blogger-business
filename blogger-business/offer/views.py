@@ -7,7 +7,7 @@ from django.http import Http404
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .serializers import OfferSerializer
+from .serializers import OfferSerializer, OfferBusinessViewSerializer
 from .services import (
     create_new_offer, 
     get_offers_for_blogger,
@@ -67,8 +67,8 @@ def fetch_dashboard_offers(request):
 def fetch_business_offers(request):
     business = request.user.business
     offers = get_offers_for_business(business=business)
-    offers_json = serializers.serialize("json", offers)
-    return Response(offers_json, status=200)
+    offers_serializer = OfferBusinessViewSerializer(offers, many=True)
+    return Response(json.dumps(offers_serializer.data), status=200)
 
 
 @api_view(["POST"])

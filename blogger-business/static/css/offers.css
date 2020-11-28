@@ -1,0 +1,168 @@
+.offers-header{
+    position: relative;
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+}
+
+.offers-title{
+    font-size: 70px;
+}
+
+.create-btn-div{
+    position: absolute;
+    right: 0;
+    display: flex;
+    align-items: center;
+}
+
+.create-btn-icon{
+    color: black;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    font-size: 150px;
+}
+
+.offers-container{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.offer-card-shell{
+    padding: 1rem;
+    margin: auto;
+
+    text-decoration: none;
+    color: black;
+    z-index: 0;
+    background: none;
+    border: none;
+}
+
+.create-card{
+    height: 202.33px;
+}
+
+.create-card-inner{
+    display: flex;
+    height: 100%;
+    align-items: center;
+}
+
+.create-btn-text{
+    width: 100%;
+    font-size: 60px;
+    line-height: 1.1;
+    font-weight: 500;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.create-btn-text-lvl{
+    display: flex;
+}
+
+.create-btn-text-lvl-1{
+    justify-content: start;
+}
+
+.create-btn-text-lvl-2{
+    justify-content: center;
+}
+
+.create-btn-text-lvl-3{
+    justify-content: flex-end;
+    padding-right: 10px;
+}
+
+.offer-card-shell:hover{
+    text-decoration: none;
+    color: black;
+}
+
+.offer-card{
+    display: block;
+    border-radius: 7px;
+    overflow: hidden;
+    z-index: 2;
+    padding: 0;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    cursor: pointer;
+}
+
+.offers-header{
+    display: flex;
+}
+
+.top-part{
+    display: flex;
+    padding: 0;
+}
+
+.top-right-part{
+    padding: 0;
+    border-bottom: 1px solid #f8f9fa;
+}
+
+.bottom-part{
+    display: flex;
+}
+
+.applications-count-div{
+    background-color: #f8f9fa;
+    padding: 2px 0;
+    font-weight: 500;
+    text-transform: uppercase;
+    text-align: center;
+    transition: background-color .1s linear;
+    cursor: pointer;
+}
+
+.applications-count-div:hover{
+    background-color: #b7b7b7;
+}
+
+.title-div{
+    text-align: center;
+    display: flex;
+    font-size: 30px;
+    line-height: 1.4;
+    border-bottom: 1px solid #f8f9fa;
+}
+
+.title-inner{
+    display: block;
+    margin: auto auto;
+}
+
+.image-div{
+    padding: 0;
+}
+
+.validity-div{
+    padding: 2px 0; 
+    display: flex;
+    justify-content: center;
+}
+
+.validity-label{
+    font-weight: 500;
+}
+
+.description{
+    padding: 5px 10px;
+    text-overflow: ellipsis;
+    text-align: justify;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    max-height: 132px;
+}
+
+.image{
+    object-fit: cover;
+    height: 174.33px;
+    width: auto;
+}
