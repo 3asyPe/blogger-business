@@ -72,7 +72,7 @@ function enterDay(){
         
     var d = new Date();
     var n = d.getFullYear();
-    for (var i = n; i >= 1950; i--) {
+    for (var i = n; i >= 1950; i++) {
         var opt = new Option();
         opt.value = opt.text = i;
         kcyear.add(opt);

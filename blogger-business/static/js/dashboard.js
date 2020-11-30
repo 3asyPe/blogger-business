@@ -47,9 +47,9 @@ function createOfferDiv(data){
     }
     
     if(data.receiving_model.delivery){
-        deliveryIcon = '<i class="fas fa-check delivery ' + deliveryIconAdditionalClass + ' "></i>'
+        deliveryIcon = '<i class="fas fa-check receiving-method-icon ' + deliveryIconAdditionalClass + ' "></i>'
     } else {
-        deliveryIcon = '<i class="fas fa-times delivery ' + deliveryIconAdditionalClass + ' "></i>'
+        deliveryIcon = '<i class="fas fa-times receiving-method-icon ' + deliveryIconAdditionalClass + ' "></i>'
     }
     
     priceDiv = ""

@@ -58,6 +58,7 @@
     display: block;
     margin: 40px auto;
 
+    font-size: 18px;
     border-radius: 20px;
     border: 2px #000 solid;
     transition: background-color .1s linear;

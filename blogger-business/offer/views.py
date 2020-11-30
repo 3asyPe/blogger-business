@@ -12,6 +12,7 @@ from .services import (
     create_new_offer, 
     get_offers_for_blogger,
     get_offers_for_business,
+    get_offer_by_id,
 )
 from account.decorators import allowed_users
 from application.models import Application
@@ -32,7 +33,15 @@ def offers_view(request):
 
 @allowed_users(["BUSINESS"])
 def offers_create_view(request):
-    return render(request, "offer/create.html", {})
+    return render(request, "offer/create-edit-offers.html", {})
+
+
+@allowed_users(["BUSINESS"])
+def offers_edit_view(request, offer_id):
+    qs = Offer.objects.filter(id=offer_id)
+    if not qs.exists():
+        raise Http404
+    return render(request, "offer/create-edit-offers.html")
 
 
 @allowed_users(["BLOGGER", "BUSINESS"])
@@ -81,6 +90,18 @@ def create_offer(request):
     business = request.user.business
     create_new_offer(data=data, image=image, business=business)
     return Response({"message": "You have created new offer"}, 201)
+
+
+@api_view(["GET"])
+@allowed_users(["BUSINESS"])
+def get_offer(request, offer_id):
+    try:
+        offer = get_offer_by_id(offer_id=offer_id)
+    except Offer.DoesNotExist:
+        return Response({"message": f"Offer with id-{offer_id} does not exist"}, status=404)
+    
+    offer_serializer = OfferSerializer(offer)
+    return Response(json.dumps(offer_serializer.data), status=200)
 
 
 @api_view(["POST"])

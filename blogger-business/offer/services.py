@@ -49,6 +49,11 @@ def create_new_offer(data:dict, image, business:Business) -> Offer:
     return offer
     
 
+def get_offer_by_id(offer_id) -> Offer:
+    offer = Offer.objects.get(id=offer_id)
+    return offer
+
+
 def _create_new_offer(data: dict, image, business: Business,
                       receiving_model: ReceivingModel, blogger_model: BloggerModel) -> Offer:
     try:

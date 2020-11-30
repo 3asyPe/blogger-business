@@ -6,3 +6,6 @@ version 2
     - Server
     - Google and facebook API
     - Email authorization
+
+-multilanguage
+-add way for blogger to check business web-site/social media

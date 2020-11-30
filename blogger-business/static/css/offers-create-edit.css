@@ -1,0 +1,150 @@
+.offers-title{
+    font-size: 70px;
+    margin: 20px;
+    text-align: center;
+}
+
+.offer-card{
+    margin: 0;
+}
+
+.image-placeholder{
+    font-size: 50px;
+    text-align: center;
+    height: 370px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    border-right: 1px solid #f8f9fa;
+    border-bottom: 1px solid #f8f9fa;
+}
+
+.title{
+    text-align: center;
+}
+
+.hidden-input{
+    border: none;
+    width: 100%;
+    height: 100%;
+    color: #212529;
+}
+
+.hidden-input:focus{
+    outline: none;
+}
+
+.price{
+    width: 110px;
+    height: 45px;
+    padding: 0;
+}
+
+.price-label{
+    margin: 0;
+}
+
+.price-optional{
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: black;   
+}
+
+.column-content{
+    height: 100%;
+    padding: 0;
+    overflow: hidden;
+}
+
+.column-content-inner{
+    border: none !important;
+    height: 100%;
+    width: 100%;
+    resize: none;
+    outline: none;
+    overflow: auto;
+    padding: 0 15px;
+    text-align: justify;
+}
+
+.hover-highlighted{
+    transition: background-color .1s linear;
+}
+
+.hover-highlighted:hover{
+    background-color:  #f8f9fa;
+}
+
+.additional-price{
+    display: flex;
+    justify-content: center;
+    background-color: #ffffff;
+    border-bottom: 1px solid #f8f9fa;
+}
+
+.receiving-method-icon{
+    cursor: pointer;
+    margin: 0 5px;
+}
+
+.address{
+    margin-left: 15px;
+    display: none;
+}
+
+.validity{
+    width: 80%;
+    display: flex;
+}
+
+.image-input{
+    display: none;
+}
+
+.label-image{
+    width: 100%;
+    margin: 0;
+    cursor: pointer;
+}
+
+.validity-select{
+    cursor: pointer;
+}
+
+.blogger-model-title{
+    font-size: 45px;
+    text-align: center;
+    margin: 30px;
+}
+
+.form-group{
+    margin: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.form-label{
+    font-size: 16px;
+    font-weight: 500;
+    text-align: right;
+}
+
+.form-sub-label{
+    margin: auto 3px auto 5px;
+}
+
+.save-offer{
+    display: block;
+    margin: 40px auto;
+
+    font-size: 18px;
+    border-radius: 20px;
+    border: 2px #000 solid;
+    transition: background-color .1s linear;
+}
+
+.save-offer:hover{
+    background-color: rgb(107, 152, 194);
+}

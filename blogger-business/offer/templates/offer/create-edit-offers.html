@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block base_head %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/offers-create-edit.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+<div class="container">
+    <div class="offers-title"></div>
+        
+    <div class="example-card">
+        <div class="offer-card col-lg-12 col-12">
+            <div class="additional-price">
+                <div class="price-optional">(optional)</div>
+                <label for="price" class='price-label'>$</label>
+                <input id="price" type="number" onchange="changeBackground()" class="price hidden-input hover-highlighted" placeholder="Price"></input>
+            </div>
+            <div class="offer-card-inner">
+                <div class="media-part col-4">
+                    <div class="media-top-part">
+                        <div class="image-div">
+                            <label for="image-input" class="label-image">
+                                <img src="" class="image img-fluid d-none">
+                                <div class="image-placeholder hover-highlighted">Offer image</div>
+                            </label>
+                            <input id="image-input" class="image-input" name="image" type="file" onchange="previewImage(event)"/>
+                            
+                            
+                        </div>
+                    </div>
+                    <div class="media-bottom-part">
+                        <a class="col-6 name" href="#">
+                            <div class="name-text">Business name</div>
+                        </a>
+                        <div class="logo-div col-6">
+                            <img src="" class="logo img-fluid">
+                        </div>
+                    </div>
+                </div>
+                <div class="text-part col-8">
+                    <div class="title-div">
+                        <input class="title-inner hidden-input title hover-highlighted" type="text" placeholder="Offer Title">
+                    </div>
+                    <div class="main-details-div">
+                        <div class="description-div col-6">
+                            <div class="column-title">
+                                Description
+                            </div>
+                            <div class="column-content hover-highlighted">
+                                <textarea class="column-content-inner hover-highlighted description"></textarea>
+                            </div>
+                        </div>
+                        <div class="conditions-div col-6">
+                            <div class="column-title">
+                                Condtitions
+                            </div>
+                            <div class="column-content">
+                                <textarea class="column-content-inner hover-highlighted conditions"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="secondary-details-div">
+                        <div class="receiving-method col-6">
+                            <div class="delivery-div">
+                                <div class="delivery-label">Delivery</div>
+                                <i class="fas fa-check receiving-method-icon" id="delivery-icon"></i>
+                            </div>
+                            <div class="address-div">
+                                <div class="address-label">Pickup</div>
+                                <i class="fas fa-times receiving-method-icon" id="pickup-icon"></i>
+                                <input class="hidden-input hover-highlighted address" placeholder="Address"></input>
+                            </div>
+                        </div>
+                        <div class="validity-div col-6">
+                            <div class="validity-inner">
+                                <div class="validity-label">Expires&nbsp</div>
+                                <div class="validity">
+                                    <select name="month" onchange="enterDay()" class="custom-select col-4 hover-highlighted validity-select">
+                                        <option value="1" selected>Jan</option>
+                                        <option value="2">Feb</option>
+                                        <option value="3">Mar</option>
+                                        <option value="4">Apr</option>
+                                        <option value="5">May</option>
+                                        <option value="6">Jun</option>
+                                        <option value="7">Jul</option>
+                                        <option value="8">Aug</option>
+                                        <option value="9">Sep</option>
+                                        <option value="10">Oct</option>
+                                        <option value="11">Nov</option>
+                                        <option value="12">Dec</option>
+                                    </select>
+                                    
+                                    <select name="day" required class="custom-select col-4 hover-highlighted validity-select">
+                                    </select>
+                                    
+                                    <select name="year" required onchange="enterDay()" class="custom-select col-4 hover-highlighted validity-select">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <form class="form" method="POST" id="offer-creation-form" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="blogger-model-title">Bloggers you wanna work with</div>
+
+        <div class="form-group">
+            <label for="languages" class="form-label col-3">Languages of blog:</label>
+            <select id="languages" required name="languages" multiple class="custom-select">
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="age_group" class="form-label col-3">Age group:</label>
+            <select id="age_group" required name="age_group" class="custom-select">
+                <option value="kids">Kids</option>
+                <option value="teens">Teens</option>
+                <option value="adults">Adults</option>
+                <option value="old">Old</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="subscribers_number_groups" class="form-label col-3">Number of subscribers:</label>
+            <select id="subscribers_number_groups" required multiple name="subscribers_number_groups" class="custom-select">
+                <option value="1">Less than 10k</option>
+                <option value="2">10k to 50k</option>
+                <option value="3">50k to 200k</option>
+                <option value="4">200k to 1m</option>
+                <option value="5">1m to 5m</option>
+                <option value="6">More than 5m</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="specializations" class="form-label col-3">Specializations of blog (max 5):</label>
+            <select id="specializations" required name="specializations" multiple class="multiselect custom-select">
+            </select>
+        </div> 
+        <div class="form-group">
+            <div class="form-label col-3">Sex:</div>
+            <label for="sexM" class="form-sub-label">Man</label>
+            <input type="radio" name="sex" required id="sexM" value="M">
+            <label for="sexW" class="form-sub-label">Woman</label>
+            <input type="radio" name="sex" required id="sexW" value="W">
+            <label for="sexW" class="form-sub-label">Any</label>
+            <input type="radio" name="sex" required id="sexAny" value="ANY">
+        </div>
+        
+        <button type='submit' class='btn save-offer'>Save offer</button>
+    </form>
+</div>
+
+<script src="{% static 'js/offers-create-edit.js' %}"></script>
+
+{% endblock %}

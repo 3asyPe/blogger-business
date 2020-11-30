@@ -157,13 +157,13 @@
     max-height: 90%;
 }
 
-.delivery{
+.receiving-method-icon{
     margin: 0 3px;
     position: relative;
     font-size: 18px;
 }
 
-.delivery::before{
+.receiving-method-icon::before{
     position: absolute;
     top: 3px;
 }
