@@ -11,6 +11,7 @@ from .models import (
     Offer,
 )
 from account.models import Location
+from account.utils import create_date_object
 from blogger.models import Blogger, BlogLanguage, BlogSpecialization
 from business.models import Business
 
@@ -36,6 +37,11 @@ def get_offers_for_business(business: Business) -> QuerySet[Offer]:
     return offers
 
 
+def edit_offer_by_id(data: dict, offer_id: int) -> Offer:
+    offer = Offer.objects.get(id=offer_id)
+    return offer
+
+
 def create_new_offer(data:dict, image, business:Business) -> Offer:
     blogger_model = _create_blogger_model(data=data)
     receiving_model = _create_receiving_model(data=data)
@@ -57,7 +63,7 @@ def get_offer_by_id(offer_id) -> Offer:
 def _create_new_offer(data: dict, image, business: Business,
                       receiving_model: ReceivingModel, blogger_model: BloggerModel) -> Offer:
     try:
-        validity = datetime.datetime.strptime(data.get("validity"), "%Y-%m-%d")
+        validity = _create_validity_object(data=data)
         barter = data.get("barter", False) == "on"
         price = int(data.get("price")) if data.get("price") else None
         offer = Offer.objects.create(
@@ -145,7 +151,6 @@ def _create_list_of_languages(data: dict, blogger_model: BloggerModel):
         )
 
 
-
 def _create_list_of_specializations(data: dict, blogger_model: BloggerModel):
     try:
         specializations = data.get("specializations")
@@ -160,3 +165,24 @@ def _create_list_of_specializations(data: dict, blogger_model: BloggerModel):
             specialization=specialization, 
             blogger_model=blogger_model
         )
+
+
+def _create_validity_object(data:dict):
+    try:
+        day = data["day"]
+    except KeyError:
+        raise KeyError("Data object doesn't have day field")
+
+    try:
+        month = data["month"]
+    except KeyError:
+        raise KeyError("Data object doesn't have month field")
+
+    try:
+        year = data["year"]
+    except KeyError:
+        raise KeyError("Data object doesn't have year field")
+
+    validity = create_date_object(day=day, month=month, year=year)
+
+    return validity

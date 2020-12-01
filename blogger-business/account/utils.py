@@ -29,7 +29,7 @@ def generate_password(length=8):
     return '123456' # fix
 
 
-def create_birthday_object(day:str, month:str, year:str):
-    birthday_str = f"{year}-{month}-{day}"
-    birthday = datetime.datetime.strptime(birthday_str, "%Y-%m-%d")
-    return birthday
+def create_date_object(day:str, month:str, year:str):
+    date_str = f"{year}-{month}-{day}"
+    date = datetime.datetime.strptime(date_str, "%Y-%m-%d")
+    return date

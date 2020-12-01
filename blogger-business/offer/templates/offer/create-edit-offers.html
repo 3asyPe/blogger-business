@@ -9,8 +9,6 @@
 
 {% block content %}
 
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-
 <div class="container">
     <div class="offers-title"></div>
         
@@ -26,12 +24,9 @@
                     <div class="media-top-part">
                         <div class="image-div">
                             <label for="image-input" class="label-image">
-                                <img src="" class="image img-fluid d-none">
+                                <img src="" class="image img-fluid">
                                 <div class="image-placeholder hover-highlighted">Offer image</div>
                             </label>
-                            <input id="image-input" class="image-input" name="image" type="file" onchange="previewImage(event)"/>
-                            
-                            
                         </div>
                     </div>
                     <div class="media-bottom-part">
@@ -45,7 +40,7 @@
                 </div>
                 <div class="text-part col-8">
                     <div class="title-div">
-                        <input class="title-inner hidden-input title hover-highlighted" type="text" placeholder="Offer Title">
+                        <input class="title-inner hidden-input title hover-highlighted" type="text" placeholder="Offer Title" id="title">
                     </div>
                     <div class="main-details-div">
                         <div class="description-div col-6">
@@ -53,7 +48,7 @@
                                 Description
                             </div>
                             <div class="column-content hover-highlighted">
-                                <textarea class="column-content-inner hover-highlighted description"></textarea>
+                                <textarea class="column-content-inner hover-highlighted description" id="description"></textarea>
                             </div>
                         </div>
                         <div class="conditions-div col-6">
@@ -61,7 +56,7 @@
                                 Condtitions
                             </div>
                             <div class="column-content">
-                                <textarea class="column-content-inner hover-highlighted conditions"></textarea>
+                                <textarea class="column-content-inner hover-highlighted conditions" id="conditions"></textarea>
                             </div>
                         </div>
                     </div>
@@ -74,14 +69,14 @@
                             <div class="address-div">
                                 <div class="address-label">Pickup</div>
                                 <i class="fas fa-times receiving-method-icon" id="pickup-icon"></i>
-                                <input class="hidden-input hover-highlighted address" placeholder="Address"></input>
+                                <input class="hidden-input hover-highlighted address" placeholder="Address" id="address"></input>
                             </div>
                         </div>
                         <div class="validity-div col-6">
                             <div class="validity-inner">
                                 <div class="validity-label">Expires&nbsp</div>
                                 <div class="validity">
-                                    <select name="month" onchange="enterDay()" class="custom-select col-4 hover-highlighted validity-select">
+                                    <select name="month" onchange="enterDay()" class="custom-select col-4 hover-highlighted validity-select" id="month">
                                         <option value="1" selected>Jan</option>
                                         <option value="2">Feb</option>
                                         <option value="3">Mar</option>
@@ -96,10 +91,10 @@
                                         <option value="12">Dec</option>
                                     </select>
                                     
-                                    <select name="day" required class="custom-select col-4 hover-highlighted validity-select">
+                                    <select name="day" required class="custom-select col-4 hover-highlighted validity-select" id="day">
                                     </select>
                                     
-                                    <select name="year" required onchange="enterDay()" class="custom-select col-4 hover-highlighted validity-select">
+                                    <select name="year" required onchange="enterDay()" class="custom-select col-4 hover-highlighted validity-select" id="year">
                                     </select>
                                 </div>
                             </div>
@@ -110,11 +105,11 @@
         </div>
     </div>
     
-    <form class="form" method="POST" id="offer-creation-form" enctype="multipart/form-data">
+    <form class="form" method="POST" id="offer-form" enctype="multipart/form-data">
         {% csrf_token %}
 
-        <div class="blogger-model-title">Bloggers you wanna work with</div>
-
+        <div class="blogger-model-title">Bloggers you want to work with</div>
+        <input id="image-input" class="image-input" name="image" type="file" onchange="previewImage(event)"/>
         <div class="form-group">
             <label for="languages" class="form-label col-3">Languages of blog:</label>
             <select id="languages" required name="languages" multiple class="custom-select">

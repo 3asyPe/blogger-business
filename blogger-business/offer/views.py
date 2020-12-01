@@ -7,12 +7,17 @@ from django.http import Http404
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .serializers import OfferSerializer, OfferBusinessViewSerializer
+from .serializers import (
+    OfferSerializer, 
+    OfferBusinessViewSerializer,
+    OfferEditViewSerializer,
+)
 from .services import (
     create_new_offer, 
     get_offers_for_blogger,
     get_offers_for_business,
     get_offer_by_id,
+    edit_offer_by_id,
 )
 from account.decorators import allowed_users
 from application.models import Application
@@ -92,15 +97,29 @@ def create_offer(request):
     return Response({"message": "You have created new offer"}, 201)
 
 
+@api_view(["POST"])
+@allowed_users(["BUSINESS"])
+def edit_offer(request, offer_id: int):
+    data = querydict_to_dict(request.POST)
+    image = request.FILES.get("image")
+    print(data)
+    print(image)
+    try:
+        offer = edit_offer_by_id()
+    except Offer.DoesNotExist:
+        return Response({"message": f"Offer with id-{offer_id} does not exist"}, status=404)
+    return Response({"message": "You have edited your offer"}, status=200)
+
+
 @api_view(["GET"])
 @allowed_users(["BUSINESS"])
-def get_offer(request, offer_id):
+def get_offer_for_edit(request, offer_id: int):
     try:
         offer = get_offer_by_id(offer_id=offer_id)
     except Offer.DoesNotExist:
         return Response({"message": f"Offer with id-{offer_id} does not exist"}, status=404)
     
-    offer_serializer = OfferSerializer(offer)
+    offer_serializer = OfferEditViewSerializer(offer)
     return Response(json.dumps(offer_serializer.data), status=200)
 
 

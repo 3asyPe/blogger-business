@@ -7,7 +7,7 @@ from .models import (
 )
 
 from account.models import Location
-from account.utils import generate_password, create_birthday_object
+from account.utils import generate_password, create_date_object
 
 
 User = get_user_model()
@@ -113,7 +113,7 @@ def _create_location(data: dict) -> Location:
 
 def _create_birthday_object(data: dict):
     try:
-        birthday = create_birthday_object(
+        birthday = create_date_object(
             day=data['day'],
             month=data['month'],
             year=data['year']

@@ -65,7 +65,7 @@ class Offer(models.Model):
 
 class BloggerModelLanguage(models.Model):
     language = models.CharField(max_length=2, choices=BLOG_LANGUAGES)
-    blogger_model = models.ForeignKey(BloggerModel, on_delete=models.CASCADE)
+    blogger_model = models.ForeignKey(BloggerModel, on_delete=models.CASCADE, related_name="languages")
 
     def __str__(self):
         return self.language
@@ -73,7 +73,7 @@ class BloggerModelLanguage(models.Model):
 
 class BloggerModelSpecialization(models.Model):
     specialization = models.CharField(max_length=100, choices=BLOG_SPECIALIZATIONS)
-    blogger_model = models.ForeignKey(BloggerModel, on_delete=models.CASCADE)
+    blogger_model = models.ForeignKey(BloggerModel, on_delete=models.CASCADE, related_name="specializations")
 
     def __str__(self):
         return self.specialization
@@ -81,4 +81,4 @@ class BloggerModelSpecialization(models.Model):
 
 class SubscribersNumberGroup(models.Model):
     group = models.IntegerField()
-    blogger_model = models.ForeignKey(BloggerModel, on_delete=models.CASCADE)
+    blogger_model = models.ForeignKey(BloggerModel, on_delete=models.CASCADE, related_name="subscriber_groups")
