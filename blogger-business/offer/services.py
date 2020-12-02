@@ -37,8 +37,62 @@ def get_offers_for_business(business: Business) -> QuerySet[Offer]:
     return offers
 
 
-def edit_offer_by_id(data: dict, offer_id: int) -> Offer:
+def edit_offer_by_id(data: dict, image, offer_id: int) -> Offer:
     offer = Offer.objects.get(id=offer_id)
+    try:
+        offer.title = data["title"]
+    except KeyError:
+        raise KeyError("Data object doesn't have title field")
+
+    try:
+        offer.description = data["description"]
+    except KeyError:
+        raise KeyError("Data object doesn't have description field")
+    
+    try:
+        offer.conditions = data["conditions"]
+    except KeyError:
+        raise KeyError("Data object doesn't have conditions field")
+
+    offer.price = data.get("price")
+
+    if image:
+        data.image = image
+
+    validity = _create_validity_object(data=data)
+    offer.validity = validity
+
+    blogger_model = offer.blogger_model
+    try:
+        blogger_model.age_group = data["age_group"]
+    except KeyError:
+        raise KeyError("Data object doesn't have age group field")
+
+    try:
+        blogger_model.sex = data["sex"]
+    except KeyError:
+        raise KeyError("Data object doesn't have sex field")
+
+    _change_list_of_languages(data=data, blogger_model=blogger_model)
+    _change_list_of_subscribers_number_groups(data=data, blogger_model=blogger_model)
+    _change_list_of_specializations(data=data, blogger_model=blogger_model)
+
+    blogger_model.save()
+
+    receiving_model = offer.receiving_model
+    try:
+        if data["delivery"] == "true":
+            receiving_model.delivery = True
+        else:
+            receiving_model.delivery = False
+    except KeyError:
+        raise KeyError("Data object doesn't have delivery field")
+
+    receiving_model.address = data.get("address")
+
+    receiving_model.save()
+
+    offer.save()
     return offer
 
 
@@ -117,6 +171,81 @@ def _create_blogger_model(data: dict) -> BloggerModel:
     _create_list_of_subscribers_number_groups(data=data, blogger_model=blogger_model)
 
     return blogger_model
+
+
+def _change_list_of_languages(data: dict, blogger_model: BloggerModel):
+    try:
+        new_languages = data["languages"]
+    except KeyError:
+        raise KeyError("Data object doesn't have languages field")
+
+    if type(new_languages) == str:
+        new_languages = [new_languages]
+
+    cur_languages = BloggerModelLanguage.objects.filter(blogger_model=blogger_model)
+
+    for cur_language in cur_languages:
+        try:
+            index_in_new = new_languages.index(cur_language.language)
+            new_languages.pop(index_in_new)
+        except ValueError:
+            cur_language.delete()
+
+    for new_language in new_languages:
+        BloggerModelLanguage.objects.create(
+            language=new_language, 
+            blogger_model=blogger_model
+        )
+
+
+def _change_list_of_subscribers_number_groups(data: dict, blogger_model: BloggerModel):
+    try:
+        new_groups = (data["subscribers_number_groups"])
+    except KeyError:
+        raise KeyError("Data object doesn't have subscribers number groups field")
+
+    if type(new_groups) == str:
+        new_groups = [new_groups]
+
+    cur_groups = SubscribersNumberGroup.objects.filter(blogger_model=blogger_model)
+
+    for cur_group in cur_groups:
+        try:
+            index_in_new = new_groups.index(cur_group.group)
+            cur_groups.pop(index_in_new)
+        except ValueError:
+            cur_group.delete()
+
+    for new_group in new_groups:
+        SubscribersNumberGroup.objects.create(
+            group=new_group, 
+            blogger_model=blogger_model
+        )
+
+
+def _change_list_of_specializations(data: dict, blogger_model: BloggerModel):
+    try:
+        new_specializations = (data["specializations"])
+    except KeyError:
+        raise KeyError("Data object doesn't have specializations field")
+
+    if type(new_specializations) == str:
+        new_specializations = [new_specializations]
+
+    cur_specializations = BloggerModelSpecialization.objects.filter(blogger_model=blogger_model)
+
+    for cur_specialization in cur_specializations:
+        try:
+            index_in_new = new_specializations.index(cur_specialization.specialization)
+            new_specializations.pop(index_in_new)
+        except ValueError:
+            cur_specialization.delete()
+
+    for new_specialization in new_specializations:
+        BlogSpecialization.objects.create(
+            specialization=new_specialization, 
+            blogger_model=blogger_model
+        )
 
 
 def _create_list_of_subscribers_number_groups(data: dict, blogger_model: BloggerModel):

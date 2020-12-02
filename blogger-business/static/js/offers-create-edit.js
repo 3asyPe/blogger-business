@@ -10,6 +10,7 @@ if (!editMode){
 var defaultProperties;
 
 function fetchOfferData(offer_id){
+    console.log(offer_id)
     fetch("/api/offers/" + offer_id + "/")
     .then(response => {
         return response.json()
@@ -24,6 +25,7 @@ function fetchOfferData(offer_id){
             fetchLanguages()
             fetchSpecializations()
             selectGroupOfSubscribers()
+            selectSex()
             let ageGroupSelect = document.querySelector("#age_group")
             ageGroupSelect.value = data.blogger_model.age_group
 
@@ -145,11 +147,19 @@ form.addEventListener('submit', function(ev) {
 
     var oReq = new XMLHttpRequest()
 
-    oReq.open("POST", "/api/offers/create/", true)
+    if (editMode){
+        url = "/api/offers/edit/" + defaultProperties.id + "/"
+    } else {
+        url = "/api/offers/create/"
+    }
+    oReq.open("POST", url, true)
     oReq.onload = function(oEvent) {
         if (oReq.status == 201) {
             console.log(oReq.response)
             window.location.href = "/offers/?action=created"
+        } else if(oReq.status == 200){
+            console.log(oReq.response)
+            window.location.href = "/offers/?action=edited"
         } else {
             console.log("Error " + oReq.status + " occurred when trying to create new offer.")
         }
@@ -167,9 +177,9 @@ function getDataFromExampleCard(data){
         data.append("price", priceInput.value)
     }
 
-    let imageInput = document.querySelector("#image-input")
+    let image = document.querySelector("#image")
     let imagePlaceholder = document.querySelector(".image-placeholder")
-    if (imageInput.value != ""){
+    if (image.src != ""){
         removeWarning(imagePlaceholder)
     } else {
         addWarning(imagePlaceholder)
@@ -242,7 +252,7 @@ function getDataFromExampleCard(data){
 
     if (validity > new Date()){
         data.append("day", day)
-        data.append("month", month)
+        data.append("month", month + 1)
         data.append("year", year)
         removeWarning(validityDiv)
     } else {
@@ -400,6 +410,17 @@ function selectGroupOfSubscribers(){
     }
 }
 
+function selectSex(){
+    sex = defaultProperties.blogger_model.sex
+    if (sex == "M"){
+        sexInput = document.querySelector("#sexM")
+    } else if (sex == "W") {
+        sexInput = document.querySelector("#sexW")
+    } else {
+        sexInput = document.querySelector("#sexAny")
+    }
+    sexInput.checked = true
+}
 
 // Set limit of choosing specializations to max 5
 

@@ -105,7 +105,7 @@ def edit_offer(request, offer_id: int):
     print(data)
     print(image)
     try:
-        offer = edit_offer_by_id()
+        offer = edit_offer_by_id(data=data, image=image, offer_id=offer_id)
     except Offer.DoesNotExist:
         return Response({"message": f"Offer with id-{offer_id} does not exist"}, status=404)
     return Response({"message": "You have edited your offer"}, status=200)

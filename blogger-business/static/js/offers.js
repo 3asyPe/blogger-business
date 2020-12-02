@@ -46,7 +46,7 @@ function fetchData(){
                 })
 
                 let applicationsCountDiv = document.querySelector("#applications-count-div-" + offer.id)
-                console.log(applicationsCountDiv)
+                
                 applicationsCountDiv.addEventListener("click", function(){
                     window.location.href = "/applications?sc=" + offer.id
                 })
@@ -55,7 +55,7 @@ function fetchData(){
             let createCard = document.querySelector(".create-card")
             console.log(createCard)
             createCard.addEventListener("click", function(){
-                window.location.href = "/offers/create"
+                window.location.href = "/offers/create/"
             })
         }
     })
