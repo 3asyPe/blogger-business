@@ -11,8 +11,24 @@ if (!saw_help){
 
 if (action === "created"){
     $.alert({
-        title: 'Thanks!',
-        content: "You have created new offer. We will let you know when someone will create a request for you.",
+        title: 'You have created new offer!',
+        content: "We will let you know when someone will create a request for you.",
+        buttons: {
+            ok: function(){}
+        }
+    })
+} else if (action === "edited"){
+    $.alert({
+        title: 'You have edited your offer!',
+        content: "We will let you know when someone will create a request for you.",
+        buttons: {
+            ok: function(){}
+        }
+    })
+} else if (action === "deleted"){
+    $.alert({
+        title: 'You have deleted your offer!',
+        content: "Now it's time to create some more!",
         buttons: {
             ok: function(){}
         }
@@ -53,7 +69,7 @@ function fetchData(){
             }
 
             let createCard = document.querySelector(".create-card")
-            console.log(createCard)
+            
             createCard.addEventListener("click", function(){
                 window.location.href = "/offers/create/"
             })

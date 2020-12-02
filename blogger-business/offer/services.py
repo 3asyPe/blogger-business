@@ -44,6 +44,33 @@ def delete_offer_by_id(offer_id: int):
 
 def edit_offer_by_id(data: dict, image, offer_id: int) -> Offer:
     offer = Offer.objects.get(id=offer_id)
+    
+    blogger_model =_change_blogger_model(data=data, offer=offer)
+    receiving_model = _change_receiving_model(data=data, offer=offer)
+    offer = _change_offer_data(data=data, image=image, offer=offer)
+
+    return offer
+
+
+def create_new_offer(data: dict, image, business: Business) -> Offer:
+    blogger_model = _create_blogger_model(data=data)
+    receiving_model = _create_receiving_model(data=data)
+    offer = _create_new_offer(
+        data=data, 
+        image=image, 
+        business=business, 
+        receiving_model=receiving_model,
+        blogger_model=blogger_model,    
+    )
+    return offer
+    
+
+def get_offer_by_id(offer_id) -> Offer:
+    offer = Offer.objects.get(id=offer_id)
+    return offer
+
+
+def _change_offer_data(data: dict, image, offer: Offer) -> Offer:
     try:
         offer.title = data["title"]
     except KeyError:
@@ -62,11 +89,16 @@ def edit_offer_by_id(data: dict, image, offer_id: int) -> Offer:
     offer.price = data.get("price")
 
     if image:
-        data.image = image
+        offer.image = image
 
     validity = _create_validity_object(data=data)
     offer.validity = validity
 
+    offer.save()
+    return offer
+
+
+def _change_blogger_model(data: dict, offer: Offer) -> BloggerModel:
     blogger_model = offer.blogger_model
     try:
         blogger_model.age_group = data["age_group"]
@@ -83,7 +115,10 @@ def edit_offer_by_id(data: dict, image, offer_id: int) -> Offer:
     _change_list_of_specializations(data=data, blogger_model=blogger_model)
 
     blogger_model.save()
+    return blogger_model
 
+
+def _change_receiving_model(data: dict, offer: Offer) -> ReceivingModel:
     receiving_model = offer.receiving_model
     try:
         if data["delivery"] == "true":
@@ -96,27 +131,7 @@ def edit_offer_by_id(data: dict, image, offer_id: int) -> Offer:
     receiving_model.address = data.get("address")
 
     receiving_model.save()
-
-    offer.save()
-    return offer
-
-
-def create_new_offer(data:dict, image, business:Business) -> Offer:
-    blogger_model = _create_blogger_model(data=data)
-    receiving_model = _create_receiving_model(data=data)
-    offer = _create_new_offer(
-        data=data, 
-        image=image, 
-        business=business, 
-        receiving_model=receiving_model,
-        blogger_model=blogger_model,    
-    )
-    return offer
-    
-
-def get_offer_by_id(offer_id) -> Offer:
-    offer = Offer.objects.get(id=offer_id)
-    return offer
+    return receiving_model
 
 
 def _create_new_offer(data: dict, image, business: Business,
@@ -247,7 +262,7 @@ def _change_list_of_specializations(data: dict, blogger_model: BloggerModel):
             cur_specialization.delete()
 
     for new_specialization in new_specializations:
-        BlogSpecialization.objects.create(
+        BloggerModelSpecialization.objects.create(
             specialization=new_specialization, 
             blogger_model=blogger_model
         )
