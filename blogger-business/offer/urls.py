@@ -15,6 +15,7 @@ urlpatterns = [
     path("api/offers/<int:offer_id>/", views.get_offer_for_edit, name="get-offer"),
     path("api/offers/create/", views.create_offer, name="create-complete"),
     path("api/offers/edit/<int:offer_id>/", views.edit_offer, name="edit-complete"),
+    path("api/offers/delete/<int:offer_id>/", views.delete_offer, name="delete"),
     path("api/dashboard/fetch/", views.fetch_dashboard_offers, name="fetch-offers-blogger"),
     path("api/offers/fetch/", views.fetch_business_offers, name="fetch-offers-business"),
     path("api/offers/rate/", views.rate_offer, name="rate-offer"),

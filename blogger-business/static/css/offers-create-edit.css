@@ -1,3 +1,26 @@
+.offers-header{
+    position: relative;
+}
+
+.btn-delete-offer{
+    position: absolute;
+    right:0;
+    top: 50%;
+    transform: translateY(-50%);
+
+    font-size: 20px;
+    background-color: #ff0000a3;
+    border-radius: 20px;
+    border: 2px solid #ff0000a3;
+    color: #000;
+    transition: background-color, color .1s linear;
+}
+
+.btn-delete-offer:hover{
+    color: #fff;
+    background-color: red;
+}
+
 .offers-title{
     font-size: 70px;
     margin: 20px;

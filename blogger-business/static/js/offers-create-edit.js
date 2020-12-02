@@ -463,3 +463,34 @@ function enterDay(){
 }
 
 enterDay()
+
+if (editMode){
+    var deleteBtn = document.querySelector(".btn-delete-offer")
+    deleteBtn.addEventListener("click", function(){
+        $.alert({
+            title: "You want to delete an offer",
+            content: "Are you sure?",
+            buttons: {
+                No: {},
+                Yes: function(){
+                    request = new XMLHttpRequest()
+                    request.open("DELETE", "/api/offers/delete/" + defaultProperties.id + "/", true)
+                    request.setRequestHeader('X-CSRFToken', csrftoken);
+                    request.onload = function(oEvent) {
+                        if (request.status == 200) {
+                            console.log(request.response)
+                            window.location.href = "/offers/?action=deleted"
+                        } else {
+                            console.log("Error " + request.status + " occurred when trying to delete your offer.")
+                        }
+                    };
+                    request.send()
+                }
+            }
+        })
+    })
+} else {
+    var deleteBtn = $(".btn-delete-offer")
+    deleteBtn.hide()
+}
+    

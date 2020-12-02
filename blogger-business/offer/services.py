@@ -37,6 +37,11 @@ def get_offers_for_business(business: Business) -> QuerySet[Offer]:
     return offers
 
 
+def delete_offer_by_id(offer_id: int):
+    offer = Offer.objects.get(id=offer_id)
+    offer.delete()
+
+
 def edit_offer_by_id(data: dict, image, offer_id: int) -> Offer:
     offer = Offer.objects.get(id=offer_id)
     try:

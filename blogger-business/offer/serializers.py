@@ -57,7 +57,8 @@ class OfferSerializer(serializers.ModelSerializer):
 
 class OfferEditViewSerializer(serializers.ModelSerializer):
     blogger_model = BloggerModelSerializer()
-    
+    receiving_model = ReceivingModelSerializer()
+
     class Meta:
         model = Offer
         fields = ['id', 'blogger_model', 'image', 'title', 'description', 'conditions', 'price', 'receiving_model', 'validity']

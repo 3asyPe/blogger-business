@@ -18,6 +18,7 @@ from .services import (
     get_offers_for_business,
     get_offer_by_id,
     edit_offer_by_id,
+    delete_offer_by_id,
 )
 from account.decorators import allowed_users
 from application.models import Application
@@ -109,6 +110,16 @@ def edit_offer(request, offer_id: int):
     except Offer.DoesNotExist:
         return Response({"message": f"Offer with id-{offer_id} does not exist"}, status=404)
     return Response({"message": "You have edited your offer"}, status=200)
+
+
+@api_view(["POST", "DELETE"])
+@allowed_users(["BUSINESS"])
+def delete_offer(request, offer_id:int):
+    try:
+        delete_offer_by_id(offer_id)
+    except Offer.DoesNotExist:
+        return Response({"message": f"Offer with id-{offer_id} does not exist"}, status=404)
+    return Response({"message": "You have deleted your offer"}, status=200)
 
 
 @api_view(["GET"])
