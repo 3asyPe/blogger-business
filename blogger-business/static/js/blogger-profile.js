@@ -5,6 +5,9 @@ function pullFullDataIntoHtml(){
     pullPersonalDataIntoHtml()
 
     pullBlogDataIntoHtml()
+
+    fetchLanguages()
+    fetchSpecializations()
 }
 
 function pullPersonalDataIntoHtml(){
@@ -18,6 +21,7 @@ function pullPersonalDataIntoHtml(){
 
     var birthday = document.querySelector("#birthday")
     birthday.innerHTML = defaultProfileData.birthday
+
 }
 
 function pullBlogDataIntoHtml(){
@@ -64,14 +68,50 @@ function fetchBlogData(){
         defaultProfileData.phone = data.phone
         defaultProfileData.email = data.email
 
+        fetchLanguages()
+        fetchSpecializations()
+
         pullBlogDataIntoHtml()
     })
 }
+
+var languagesHtml;
+var specializationsHtml;
 
 function editPersonalInfo(){
     var blog_name = defaultProfileData.blog_name
     var country = defaultProfileData.location.country
     var city = defaultProfileData.location.city
+    var birthday = defaultProfileData.birthday.split("-")
+    var year = birthday[0]
+    var month = birthday[1]
+    var day = birthday[2]
+
+    firstSelected = ""
+    secondSelected = ""
+    thirdSelected = ""
+    fourthSelected = ""
+    fifthSelected = ""
+    sixthSelected = ""
+    seventhSelected = ""
+    eighthSelected = ""
+    ninthSelected = ""
+    tenthSelected = ""
+    eleventhSelected = ""
+    twelfthSelected = ""
+
+    if (month == "01") {firstSelected = "selected"}
+    else if (month == "02") {secondSelected = "selected"}
+    else if (month == "03") {thirdSelected = "selected"}
+    else if (month == "04") {fourthSelected = "selected"}
+    else if (month == "05") {fifthSelected = "selected"}
+    else if (month == "06") {sixthSelected = "selected"}
+    else if (month == "07") {seventhSelected = "selected"}
+    else if (month == "08") {eighthSelected = "selected"}
+    else if (month == "09") {ninthSelected = "selected"}
+    else if (month == "10") {tenthSelected = "selected"}
+    else if (month == "11") {eleventhSelected = "selected"}
+    else if (month == "12") {twelfthSelected = "selected"}
     
     $.confirm({
         title: 'Edit personal info',
@@ -93,24 +133,24 @@ function editPersonalInfo(){
             '<div class="form-group birthday-div">' +
                 '<div class="col-3 col-form-label form-label">Birthday:</div>' +
                 '<select name="month" onchange="enterDay()" required class="month custom-select col-2 birthday-" id="month-selector">' +
-                    '<option value="1" selected>Jan</option>' +
-                    '<option value="2">Feb</option>' +
-                    '<option value="3">Mar</option>' +
-                    '<option value="4">Apr</option>' +
-                    '<option value="5">May</option>' +
-                    '<option value="6">Jun</option>' +
-                    '<option value="7">Jul</option>' +
-                    '<option value="8">Aug</option>' +
-                    '<option value="9">Sep</option>' +
-                    '<option value="10">Oct</option>' +
-                    '<option value="11">Nov</option>' +
-                    '<option value="12">Dec</option>' +
+                    '<option value="1" ' + firstSelected+ '>Jan</option>' +
+                    '<option value="2" ' + secondSelected+ '>Feb</option>' +
+                    '<option value="3" ' + thirdSelected+ '>Mar</option>' +
+                    '<option value="4" ' + fourthSelected+ '>Apr</option>' +
+                    '<option value="5" ' + fifthSelected+ '>May</option>' +
+                    '<option value="6" ' + sixthSelected+ '>Jun</option>' +
+                    '<option value="7" ' + seventhSelected+ '>Jul</option>' +
+                    '<option value="8" ' + eighthSelected+ '>Aug</option>' +
+                    '<option value="9" ' + ninthSelected+ '>Sep</option>' +
+                    '<option value="10" ' + tenthSelected+ '>Oct</option>' +
+                    '<option value="11" ' + eleventhSelected+ '>Nov</option>' +
+                    '<option value="12" ' + twelfthSelected+ '>Dec</option>' +
                 '</select>' +
                 '<select name="day" required class="day custom-select col-2" id="day-selector">' +
-                    '<option value="1" selected>1</option>' +
+                    '<option value="' + day + '" selected>' + day + '</option>' +
                 '</select>' +
                 '<select name="year" required onchange="enterDay()" class="year custom-select col-2" id="year-selector">' +
-                '<option value="2020" selected>2020</option>' +
+                '<option value="' + year + '" selected>' + year + '</option>' +
                 '</select>' +
             '</div>' +
         '</form>',
@@ -151,16 +191,16 @@ function editPersonalInfo(){
                         }
                     };
                     oReq.send(oData)
+                    firstEntering = true
                 }
             },
             cancel: function () {
-                //close
+                firstEntering = true
             },
         },
         onContentReady: function () {
             // bind to events
             enterDay()
-            selectCurrentDate()
             var jc = this;
 
             form = this.$content.find('form')
@@ -189,11 +229,13 @@ function editBlogInfo(){
             '<div class="form-group">' +
                 '<label for="edit-languages">Languages of blog:</label>' +
                 '<select id="edit-languages" required name="languages" multiple class="custom-select col-4">' +
+                    languagesHtml+
                 '</select>' +
             '</div>' +
             '<div class="form-group">' +
                 '<label for="edit-specializations">Specializations of blog (max 3):</label>' +
                 '<select id="edit-specializations" required name="specializations" multiple class="specializations custom-select col-4">' +
+                    specializationsHtml +
                 '</select>' +
             '</div>' +
             '<div class="form-group">' +
@@ -250,8 +292,6 @@ function editBlogInfo(){
         },
         onContentReady: function () {
             // bind to events
-            fetchLanguages()
-            fetchSpecializations()
             var jc = this;
 
             $(".specializations").on('change', function(e) {
@@ -270,20 +310,33 @@ function editBlogInfo(){
     })
 }
 
+firstEntering = true
 
 function enterDay(){
-    var kcyear = document.getElementsByName("year")[0],
+    kcyear = document.getElementsByName("year")[0],
     kcmonth = document.getElementsByName("month")[0],
     kcday = document.getElementsByName("day")[0];
         
+    var birthday = defaultProfileData.birthday.split("-")
+    var year = birthday[0]
+    var month = birthday[1]
+    var day = birthday[2]
+
     var d = new Date();
-    var n = d.getFullYear() - 1;
+    var n = d.getFullYear();
+    if (firstEntering){
+        kcyear.innerHTML = ""
+    }
     for (var i = n; i >= 1950; i--) {
         var opt = new Option();
         opt.value = opt.text = i;
+        if (firstEntering && opt.value == year){
+            opt.selected = true
+        }
         kcyear.add(opt);
     }
     kcyear.addEventListener("change", validate_date);
+
     kcmonth.addEventListener("change", validate_date);
 
     function validate_date() {
@@ -295,11 +348,14 @@ function enterDay(){
         for (var i = 1; i <= mlength; i++) {
             var opt = new Option();
             opt.value = opt.text = i;
-            if (i == d) opt.selected = true;
+            if (firstEntering && i == day){
+                opt.selected = true
+            }
             kcday.add(opt);
         }
     }
     validate_date();
+    firstEntering = false
 }
 
 function selectCurrentDate(){
@@ -355,13 +411,12 @@ function fetchLanguages(currentLanguages){
             return response.json()
         })
         .then(data => {
-            const languages = data.languages
-            let selectEl = document.querySelector("#edit-languages")
-            let selectElHTML = selectEl.innerHTML
+            languages = data.languages
+            selectHtml = ""
             for(let language of languages){
-                selectElHTML += getLanguageOptionHtml(language)
+                selectHtml += getLanguageOptionHtml(language)
             }
-            selectEl.innerHTML = selectElHTML
+            languagesHtml = selectHtml
         })
 }
 
@@ -371,14 +426,23 @@ function fetchSpecializations(){
         return response.json()
     })
     .then(data => {
-        const specializations = data.specializations
-        let selectEl = document.querySelector("#edit-specializations")
-        let selectElHTML = selectEl.innerHTML
+        specializations = data.specializations
+        selectHtml = ""
         for(let specialization of specializations){
-            selectElHTML += getSpecializationOptionHtml(specialization)
+            selectHtml += getSpecializationOptionHtml(specialization)
         }
-        selectEl.innerHTML = selectElHTML
+        specializationsHtml = selectHtml
     })
+}
+
+function putLanguagesDivsIntoEditHtml(){
+    select = document.querySelector("#edit-languages")
+    select.innerHTML = languagesHtml
+}
+
+function putSpecializationsDivsIntoEditHtml(){
+    select = document.querySelector("#edit-specializations")
+    select.innerHTML = languagesHtml
 }
 
 function getLanguageOptionHtml(language){
