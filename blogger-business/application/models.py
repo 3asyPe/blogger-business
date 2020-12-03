@@ -7,7 +7,7 @@ from offer.models import Offer
 
 class Application(models.Model):
     blogger = models.ForeignKey(Blogger, on_delete=models.CASCADE)
-    offer = models.ForeignKey(Offer, on_delete=models.CASCADE)
+    offer = models.ForeignKey(Offer, on_delete=models.CASCADE, related_name="applications")
     upvote = models.BooleanField()
     timestamp = models.DateTimeField(auto_now_add=True)
 

@@ -38,6 +38,11 @@ def delete_application(offer: Offer, blogger: Blogger) -> bool:
     return deleted
 
 
+def get_applications_by_offer(offer: Offer) -> QuerySet[Application]:
+    applications = Application.objects.filter(offer=offer, upvote=True)
+    return applications
+
+
 def get_applications_for_business(business: Business) -> QuerySet[Application]:
     offers = Offer.objects.filter(business=business)
     applications = Application.objects.filter(offer__in=offers, upvote=True)

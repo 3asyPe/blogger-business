@@ -1,3 +1,5 @@
+import json
+
 from .models import (
     Offer, 
     ReceivingModel, 
@@ -6,7 +8,10 @@ from .models import (
     BloggerModelSpecialization,
     SubscribersNumberGroup,
 )
-from application.serializers import ApplicationSerializerForCount
+from application.serializers import (
+    ApplicationSerializerForCount,
+    ApplicationSerializer,
+)
 from business.serializers import BusinessSerializer
 
 from rest_framework import serializers
@@ -72,4 +77,10 @@ class OfferBusinessViewSerializer(serializers.ModelSerializer):
         fields = ['id', 'image', 'title', 'description', 'validity', 'applications_count']
 
     def get_applications_count(self, obj):
-        return obj.application_set.count()
+        return obj.applications.filter(upvote=True).count()
+
+
+class OfferForApplicationViewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Offer
+        fields = ['id', 'title', 'image']

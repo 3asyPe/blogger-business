@@ -33,11 +33,8 @@
     padding: 1rem;
     margin: auto;
 
-    text-decoration: none;
     color: black;
     z-index: 0;
-    background: none;
-    border: none;
 }
 
 .create-card{

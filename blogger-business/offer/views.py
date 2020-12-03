@@ -11,6 +11,7 @@ from .serializers import (
     OfferSerializer, 
     OfferBusinessViewSerializer,
     OfferEditViewSerializer,
+    OfferForApplicationViewSerializer,
 )
 from .services import (
     create_new_offer, 
@@ -83,6 +84,15 @@ def fetch_business_offers(request):
     business = request.user.business
     offers = get_offers_for_business(business=business)
     offers_serializer = OfferBusinessViewSerializer(offers, many=True)
+    return Response(json.dumps(offers_serializer.data), status=200)
+
+
+@api_view(["GET"])
+@allowed_users(["BUSINESS"])
+def fetch_offers_for_applications(request):
+    business = request.user.business
+    offers = get_offers_for_business(business=business)
+    offers_serializer = OfferForApplicationViewSerializer(offers, many=True)
     return Response(json.dumps(offers_serializer.data), status=200)
 
 

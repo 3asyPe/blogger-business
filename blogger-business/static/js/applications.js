@@ -1,109 +1,118 @@
-application =  {
-    "id": 2,
-    "blogger": {
-        "id": 1,
-        "image": "/media/blogger/2642282/2642282.png",
-        "blog_name": "lox",
-        "email": "lox123@gmail.com",
-        "instagram": "@lox",
-        "youtube": "https://www.youtube.com/",
-        "phone": "+375445425221",
-        "location": null,
-        "sex": "M",
-        "birthday": "2004-04-13"
-    },
-    "offer": 6,
-    "timestamp": "2020-11-01T15:42:21.005393Z"
-}
-
-function fetchData(){
-    fetch("/api/applications/fetch/")
+function fetchOffers(){
+    fetch("/api/offers-for-applications/fetch/")
     .then(response => {
         return response.json()
     })
     .then(data => {
         data = JSON.parse(data)
-        applicationsContainer = document.querySelector("#applications-container")
+        offersContainer = document.querySelector(".offers")
         if (data !== {}){
-            applications = ""
             console.log(data)
-            for (let application of data){
-                console.log(application)
-                blogger = application.blogger
-                applicationHtml = createApplicationDiv(
-                    id=application.id,
-                    image=blogger.image,
-                    blog_name=blogger.blog_name,
-                    instagram=blogger.instagram,
-                    youtube=blogger.youtube,
-                )
-                applications += applicationHtml
+            for (let offer of data){
+                console.log(offer)
+                offerHtml = createOfferDiv(offer)
+                offersContainer.innerHTML += offerHtml
+                fetchApplicationsForOffer(offer)
             }
-            applicationsContainer.innerHTML = applications
         }
     })
 }
 
-fetchData()
+fetchOffers()
+
+function fetchApplicationsForOffer(offer){
+    fetch("/api/applications/fetch/" + offer.id + "/")
+    .then(response => {
+        return response.json()
+    })
+    .then(data => {
+        data = JSON.parse(data)
+        applicationsInner = document.querySelector("#applications-inner-" + offer.id)
+        if (data.length != 0){
+            console.log(data)
+            for (let application of data){
+                console.log(application)
+                applicationHtml = createApplicationDiv(application)
+                applicationsInner.innerHTML += applicationHtml
+            }
+        } else {
+            applicationsInner.innerHTML = '<div class="applications-alert">' +
+                                                '<div class="applications-alert-text">You don\'t have any applications for this offer yet.</div>' +
+                                            '</div>'
+        }
+    })
+}
         
-function createApplicationDiv(id, image, blog_name, instagram, youtube){
-    return '<div class="card" id="application-' + id + '" style="width: 18rem;">' +
-                '<a href="/applications/' + id + '">' +
-                    '<img src="' + image + '" class="card-img-top">' +
-                '</a>' +
-                '<div class="card-body">' +
-                    '<h5 class="card-title">' + blog_name + '</h5>' +
-                    '<div class="row">'+
-                        '<a href="' + instagram + '">Instagram</a>' +
-                        '<a href="' + youtube + '">Youtube</a>' +
-                    '</div>' +
-                    '<div class="btn-group row">'+
-                        '<button type="button" class="btn btn-sm btn-danger" onclick="rateApplication(false, ' + id + ')">dislike</button>' +
-                        '<button type="button" class="btn btn-sm btn-success" onclick="rateApplication(true, ' + id + ')">like</button>' +
+function createOfferDiv(data){
+    offer = '<div class="offer" id="offer-' + data.id + '">' +
+                '<div class="offer-header">' +
+                    '<div class="offer-title">' +
+                        data.title +
                     '</div>' +
                 '</div>' +
+                '<div class="applications-inner" id="applications-inner-' + data.id + '">' +
+                '</div>' +
             '</div>'
+    return offer
+}
+
+function createApplicationDiv(data){
+    application = '<div class="application-shell">' +
+                    '<div class="application" id="application-' + data.id + '">' +
+                        '<div class="stretcher"></div>' +
+                        '<div class="application-inner">' +
+                            '<div class="application-header">' +
+                                '<div class="application-image-div">' +
+                                    '<img src="' + data.blogger.image + '" class="application-image img-fluid">' +
+                                '</div> ' +
+                                '<div class="application-header-text">' +
+                                    '<div class="application-name">' + data.blogger.blog_name + '</div>' +
+                                    '<div class="application-links">' +
+                                        '<a class="application-link" href="#">' +
+                                            '<svg class="application-link-icon">' +
+                                                '<use xlink:href="#instagram"></use>' +
+                                            '</svg>' +
+                                        '</a>' +
+                                        '<a class="application-link" href="#">' +
+                                            '<svg class="application-link-icon">' +
+                                                '<use xlink:href="#youtube"></use>' +
+                                            '</svg>' +
+                                        '</a>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="application-statistics">' +
+                                '<div class="application-statistics-title">' +
+                                    '<svg class="application-statistics-title-icon">' +
+                                        '<use xlink:href="#instagram"></use>' +
+                                    '</svg>' +
+                                    '<div class="application-statistics-title-text">Statistics</div>' +
+                                '</div>' +
+                                '<div class="statistics-inner">' +
+                                    '<div class="statistics-block">' +
+                                        '<div class="statistics-title">Followers:</div>' +
+                                        '<div class="statistics-number">100k</div>' +
+                                    '</div>' +
+                                    '<div class="statistics-block">' +
+                                        '<div class="statistics-title">Comments:</div>' +
+                                        '<div class="statistics-number">1.8k</div>' +
+                                    '</div>' +
+                                    '<div class="statistics-block">' +
+                                        '<div class="statistics-title">Likes:</div>' +
+                                        '<div class="statistics-number">257k</div>' +
+                                    '</div>' +
+                                    '<div class="statistics-block">' +
+                                        '<div class="statistics-title">Frequency:</div>' +
+                                        '<div class="statistics-number"></div>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' 
+    return application
 }
 
 function rateOffer(upvote, offerId){
-    // console.log(upvote)
-    // console.log(offerId)
-    // data = {
-    //     "offerId": offerId,
-    //     "upvote": upvote,
-    // }
-    // sendRequest(url="/api/offers/rate/", data=data)
-
-    // deleted_offer = $("#offer-" + offerId)
-    // deleted_offer.hide()
-
-    // $.confirm({
-    //     title: "Some title",
-    //     content: "Some content",
-    //     buttons: {
-    //         Cancel: function(){
-    //             deleted_offer.show()
-    //             sendRequest(url="/api/offers/rate/cancel/", {
-    //                 "offerId": offerId
-    //             })
-    //         },
-    //         Ok: function(){}
-    //     }
-    // })
-
-    // function sendRequest(url, data){
-    //     var request = new XMLHttpRequest()
-    //     request.open("POST", url, true)
-    //     request.onload = function(event) {
-    //         if (request.status == 200) {
-    //             console.log(request.response)
-    //         } else {
-    //             console.log("Error " + request.status + " occurred")
-    //         }
-    //     };
-    //     console.log(data)
-    //     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    //     request.setRequestHeader('X-CSRFToken', csrftoken);
-    //     request.send(JSON.stringify(data))
-    // }
+    
 }
