@@ -9,7 +9,7 @@ class ApplicationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Application
-        fields = ['id', 'blogger', 'timestamp']
+        fields = ['id', 'blogger', 'timestamp', 'offer']
 
 
 class ApplicationSerializerForCount(serializers.ModelSerializer):

@@ -13,7 +13,7 @@ class Application(models.Model):
 
 
 class ApplicationRate(models.Model):
-    application = models.OneToOneField(Application, on_delete=models.CASCADE)
+    application = models.OneToOneField(Application, on_delete=models.CASCADE, related_name="application_rate")
     business = models.ForeignKey(Business, on_delete=models.CASCADE)
     upvote = models.BooleanField()
     timestamp = models.DateTimeField(auto_now_add=True)

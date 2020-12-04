@@ -1,6 +1,9 @@
 from django.db.models.query import QuerySet
 
-from .models import Application
+from .models import (
+    Application,
+    ApplicationRate,
+)
 from blogger.models import Blogger
 from business.models import Business
 from offer.models import Offer
@@ -38,8 +41,17 @@ def delete_application(offer: Offer, blogger: Blogger) -> bool:
     return deleted
 
 
+def rate_application_by_id(application_id: int, business: Business, upvote: bool):
+    application = Application.objects.get(id=application_id)
+    application_rate = ApplicationRate.objects.create(
+        application=application,
+        business=business,
+        upvote=upvote,
+    )
+
+
 def get_applications_by_offer(offer: Offer) -> QuerySet[Application]:
-    applications = Application.objects.filter(offer=offer, upvote=True)
+    applications = Application.objects.filter(offer=offer, upvote=True, application_rate=None)
     return applications
 
 

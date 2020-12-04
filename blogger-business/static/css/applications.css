@@ -152,4 +152,119 @@
     font-size: 18px;
 }
 
+.profile-top-part{
+    display: flex;
+}
 
+.modal-profile-image{
+    width: 40%;
+    padding: 0;
+}
+
+.modal-profile-image{
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+}
+
+.profile-block{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 60%;
+    padding: 0 0 0 40px;
+}
+
+.profile-block-item{
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+    margin: 5px 0;
+}
+
+.block-item{
+    text-align: right;
+}
+
+.block-item-title{
+    font-weight: 500;
+}
+
+#location{
+    display: flex;
+}
+
+.media-block-item{
+    display: flex;
+}
+
+.profile-statistics{
+    padding: 20px;
+}
+
+.profile-statistics-content{
+    display: flex;
+    justify-content: space-around;
+}
+
+.block-title{
+    font-size: 24px;
+    font-weight: 500;
+    text-align: center;
+    margin: 15px;
+}
+
+.media-title-link{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    transition: color .1s linear;
+}
+
+.media-title-link:hover{
+    color: #282828;
+    text-decoration: none;
+}
+
+.media-title-link:hover .instagram{
+    fill: #fb3958;
+}
+
+.media-title-link:hover .youtube{
+    fill: #FF0000;
+}
+
+.block-title-icon{
+    display: block;
+    height: 24px;
+    width: 24px;
+    margin-right: 5px;
+    transition: fill .1s linear;
+}
+
+.block-title-text{
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.media-statistics{
+    width: 40%;
+    font-size: 18px;
+}
+
+.media-block-item{
+    display: flex;
+    justify-content: space-between;
+    margin: 5px;
+}
+
+.media-data{
+    margin-top: 10px;
+}
+
+
+.jconfirm-buttons{
+    display: flex;
+    justify-content: space-around;
+}

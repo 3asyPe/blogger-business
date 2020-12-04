@@ -9,3 +9,5 @@ version 2
 
 -multilanguage
 -add way for blogger to check business web-site/social media
+-pages for blogger and business with information about who there are working with now
+-history of deals

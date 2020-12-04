@@ -348,7 +348,7 @@ function enterDay(){
         for (var i = 1; i <= mlength; i++) {
             var opt = new Option();
             opt.value = opt.text = i;
-            if (firstEntering && i == day){
+            if ((firstEntering && i == day) || i == d){
                 opt.selected = true
             }
             kcday.add(opt);
