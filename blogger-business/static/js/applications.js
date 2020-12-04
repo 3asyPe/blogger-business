@@ -68,7 +68,8 @@ function createApplicationDiv(data){
                         '<div class="application-inner">' +
                             '<div class="application-header">' +
                                 '<div class="application-image-div">' +
-                                    '<img src="' + data.blogger.image + '" class="application-image img-fluid">' +
+                                    '<div class="stretcher"></div>' +
+                                    '<img src="' + data.blogger.image + '" class="image modal-profile-image">' +
                                 '</div> ' +
                                 '<div class="application-header-text">' +
                                     '<div class="application-name">' + data.blogger.blog_name + '</div>' +
@@ -140,7 +141,8 @@ function openBloggerProfileModal(application){
             '<div class="profile-container-inner">' +
                 '<div class="profile-top-part">' +
                     '<div class="modal-profile-image-div">' +
-                        '<img src="' + application.blogger.image + '" id="modal-profile-image" class="modal-profile-image img-fluid">' +
+                        '<div class="stretcher"></div>' +
+                        '<img src="' + application.blogger.image + '" id="modal-profile-image" class="image img-fluid">' +
                     '</div>' +
                     '<div class="profile-block">' +
                         '<div class="profile-block-item">' +

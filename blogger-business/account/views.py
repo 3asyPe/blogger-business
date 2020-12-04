@@ -66,8 +66,10 @@ def login_account(request):
 
 
 def registration_view(request):
+    print("registration view")
     account_type = request.GET.get("type") or request.POST.get("type")
     if account_type == "bl":
+        print("render")
         return render(request, "blogger/registration.html", {})
     elif account_type == "bu":
         return render(request, "business/registration.html", {})

@@ -34,16 +34,6 @@
     margin-left: 30px;
 }
 
-.offer-image-div{
-    display: block;
-    height:100%;
-}
-
-.offer-image{
-    height: 100%;
-    width: auto;
-}
-
 .applications-inner{
     top: 0;
     bottom: 0;
@@ -85,8 +75,20 @@
 }
 
 .application-image-div{
+    position: relative;
     width: 40%;
     border-radius: 50%;
+}
+
+.image{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    height: 100% !important;
+    width: 100% !important;
+    object-fit: cover;
 }
 
 .application-header{
@@ -156,15 +158,12 @@
     display: flex;
 }
 
-.modal-profile-image{
+.modal-profile-image-div{
+    position: relative;
     width: 40%;
     padding: 0;
-}
-
-.modal-profile-image{
-    width: 100%;
-    height: auto;
     border-radius: 50%;
+    overflow: hidden;
 }
 
 .profile-block{

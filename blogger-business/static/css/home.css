@@ -19,11 +19,24 @@
 }
 
 .advantage{
+    display: flex;
+    align-items: center;
     margin: 30px 0;
+}
 
+.advantage-icon-div{
+    margin-right: 10px;
+}
+
+.advantage-icon{
+    height: 35px;
+    width: 35px;
+}
+
+.advantage-text{
     font-size: 40px;
     font-weight: 500;
-    line-height: 1.1;
+    line-height: 1;
     text-transform: uppercase;
 }
 
@@ -61,8 +74,6 @@
 
 .btn-business{
     width: 195px;
-    /* background-color: rgba(14, 104, 206, 0.8);
-    border-color: rgba(14, 104, 206, 0.8); */
 }
 
 .btn-login{
@@ -88,7 +99,7 @@
     font-size:18px;
     font-weight: 500;
     text-transform: uppercase;
-    width: 100px;
+    width: 120px;
 }
 
 

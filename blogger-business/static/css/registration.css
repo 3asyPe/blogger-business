@@ -20,7 +20,7 @@
     border-radius: 20px;
     border-top: 5px solid rgb(107, 152, 194);
     border-bottom: 5px solid rgb(107, 152, 194);
-    background-color:#f8f9fa;
+    background-color:#fff;
 }
 
 .form-group{
@@ -46,8 +46,31 @@
     align-content: center;
 }
 
-.upload-image-icon{
+.label-image{
     cursor: pointer;
+    margin: auto;
+    width: 250px;
+    height: 250px;
+    border-radius: 10px;
+    border: 2px solid #000000;
+    overflow: hidden;
+}
+
+.image{
+    display: none;
+    height: 100%;
+    width: auto;
+    object-fit: cover;
+}
+
+.image-placeholder{
+    height: 100%;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    font-size: 24px;
+    font-weight: 500;
+    padding: 10px;
 }
 
 #image-input{

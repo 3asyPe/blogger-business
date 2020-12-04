@@ -22,10 +22,17 @@ function showForm(){
 function previewImage(event){
     var reader = new FileReader();
     reader.onload = function() {
-        var output = document.querySelector('#upload-image-icon');
-        output.src = reader.result;
+        showImage(reader.result)
     }
     reader.readAsDataURL(event.target.files[0]);
+}
+
+function showImage(source){
+    var output = $('.image')
+    output.attr("src", source)
+    output.show()
+    var imagePlaceholder = $('.image-placeholder')
+    imagePlaceholder.hide()
 }
 
 fetch("/api/blog-languages")
@@ -72,7 +79,7 @@ function enterDay(){
         
     var d = new Date();
     var n = d.getFullYear();
-    for (var i = n; i >= 1950; i++) {
+    for (var i = n; i >= 1950; i--) {
         var opt = new Option();
         opt.value = opt.text = i;
         kcyear.add(opt);
@@ -81,7 +88,7 @@ function enterDay(){
     kcmonth.addEventListener("change", validate_date);
 
     function validate_date() {
-        var y = +kcyear.value, m = kcmonth.value, d = kcday.value;
+        var y = kcyear.value, m = kcmonth.value, d = kcday.value;
         if (m === "2")
             var mlength = 28 + (!(y & 3) && ((y % 100) !== 0 || !(y & 15)));
         else var mlength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][m - 1];
@@ -162,7 +169,7 @@ form.addEventListener('submit', function(ev) {
     oReq.send(oData)
 }, false)
 
-// Set limit of choosing specializations to max 3
+// // Set limit of choosing specializations to max 3
 
 $("#specializations").on('change', function(e) {
     if (Object.keys($(this).val()).length > 3) {
