@@ -35,6 +35,7 @@ function showImage(source){
     imagePlaceholder.hide()
 }
 
+
 fetch("/api/blog-languages")
     .then(response => {
         return response.json()

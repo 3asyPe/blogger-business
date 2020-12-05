@@ -25,13 +25,17 @@
                     <li class="nav-item {% if request.path == offers_url %} active {% endif %}">
                         <a class="nav-link" href="{{ offers_url }}">My offers</a>
                     </li>
-                    <li class="nav-item {% if request.path == applications_url %} active {% endif %}">
-                        <a class="nav-link" href="{{ applications_url }}">My applications</a>
-                    </li>
+                    
                     {% endif %}
                 </div>
                     
                 <div class="nav-block">
+                    {% if request.user.is_business %}
+                        <a class="applications-link" href="{{ applications_url }}">
+                            <div class="nav-applications-count"></div>
+                            <i class="fas fa-envelope-open"></i>
+                        </a>
+                    {% endif %}
                     <a class="profile-link" href="{{ profile_url }}">
                         {% if request.user.is_blogger %}
                             <img src="/media/{{ request.user.blogger.image }}" id="profile-image-navbar" width="30" height="30" class="d-inline-block align-top profile-image" alt="">
@@ -46,3 +50,5 @@
     {% endif %}
     
 </nav>
+
+<script src="{% static 'js/navbar.js' %}"></script>

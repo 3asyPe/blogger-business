@@ -6,6 +6,7 @@ from django.http import Http404
 
 from .models import Application
 from .services import (
+    count_applications,
     get_applications_for_business,
     get_applications_by_offer,
     rate_application_by_id,
@@ -22,6 +23,14 @@ from rest_framework.decorators import api_view
 @allowed_users(["BUSINESS"])
 def applications_view(request):
     return render(request, "application/applications.html", {})
+
+
+@api_view(["GET"])
+@allowed_users(["BUSINESS"])
+def get_applications_count(request):
+    business = request.user.business
+    count = count_applications(business=business)
+    return Response({"applications_count": count}, status=200)
 
 
 @api_view(["GET"])

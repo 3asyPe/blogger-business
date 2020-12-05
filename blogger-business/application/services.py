@@ -9,6 +9,12 @@ from business.models import Business
 from offer.models import Offer
 
 
+def count_applications(business):
+    offers = Offer.objects.filter(business=business)
+    count = Application.objects.filter(offer__in=offers, upvote=True, application_rate=None).count()
+    return count
+
+
 def create_application(offer, upvote, blogger) -> Application:
     qs = Application.objects.filter(
         offer=offer,

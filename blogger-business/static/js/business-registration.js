@@ -89,8 +89,15 @@ form.addEventListener('submit', function(ev) {
 function previewImage(event){
     var reader = new FileReader();
     reader.onload = function() {
-        var output = document.querySelector('#upload-image-icon');
-        output.src = reader.result;
+        showImage(reader.result)
     }
     reader.readAsDataURL(event.target.files[0]);
+}
+
+function showImage(source){
+    var output = $('.image')
+    output.attr("src", source)
+    output.show()
+    var imagePlaceholder = $('.image-placeholder')
+    imagePlaceholder.hide()
 }

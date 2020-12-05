@@ -1,6 +1,5 @@
 version 1
     - Red warning for comming expiration of offer 
-    - Add mask to image on registrations forms
 
 version 2
     - Server
@@ -11,3 +10,5 @@ version 2
 -add way for blogger to check business web-site/social media
 -pages for blogger and business with information about who there are working with now
 -history of deals
+-search for languages
+-delivery error when creating new offer

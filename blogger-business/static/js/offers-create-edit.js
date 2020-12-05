@@ -260,6 +260,7 @@ function getDataFromExampleCard(data){
         valid = false
     }
 
+    console.log(data.delivery)
     if (valid){
         return data
     } else {

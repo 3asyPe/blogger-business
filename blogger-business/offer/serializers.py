@@ -77,7 +77,7 @@ class OfferBusinessViewSerializer(serializers.ModelSerializer):
         fields = ['id', 'image', 'title', 'description', 'validity', 'applications_count']
 
     def get_applications_count(self, obj):
-        return obj.applications.filter(upvote=True).count()
+        return obj.applications.filter(upvote=True, application_rate=None).count()
 
 
 class OfferForApplicationViewSerializer(serializers.ModelSerializer):

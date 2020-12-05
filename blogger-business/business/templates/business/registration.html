@@ -15,14 +15,14 @@
         <form class="form" action="complete" method="POST" id="registration-form" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-group">
-                <label for="image-input" class="form-label form-label-image">
-                    <div class="col-4 form-label-image-title">Your Photo/Logo:</div>
-                    <img class="upload-image-icon col-3" id="upload-image-icon" src="{% static 'images/TapToUploadPicture.png' %}"/>
+                <label for="image-input" class="label-image">
+                    <img class="image img-fluid" id="image">
+                    <div class="image-placeholder">Tap to upload a profile image</div>
                 </label>
                 <input id="image-input" class="image-input" name="image" type="file" onchange="previewImage(event)"/>
             </div>
             <div class="form-group">
-                <label for="business_name" class="col-3 col-form-label form-label">Company name:</label>
+                <label for="business_name" class="col-3 col-form-label form-label">Company name (username):</label>
                 <input type="text" required name="business_name" id="business_name" class="form-control col-7" placeholder="Enter company name">
             </div>
             <div class="form-group">

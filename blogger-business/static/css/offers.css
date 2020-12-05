@@ -16,8 +16,17 @@
     align-items: center;
 }
 
+.plus-icon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 140px;
+    width: 140px;
+}
+
 .create-btn-icon{
-    color: black;
+    color: transparent;
+    border: 3px solid black;
     width: 100%;
     display: flex;
     justify-content: center;

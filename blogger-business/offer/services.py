@@ -162,7 +162,7 @@ def _create_new_offer(data: dict, image, business: Business,
 
 def _create_receiving_model(data: dict) -> ReceivingModel:
     try:
-        delivery = data.get("delivery", False) == "on"
+        delivery = data.get("delivery", False) == "true"
         receiving_model = ReceivingModel.objects.create(
             delivery=delivery,
             address=data.get("address"),
