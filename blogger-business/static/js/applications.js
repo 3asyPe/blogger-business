@@ -285,10 +285,10 @@ function openBloggerProfileModal(application){
                                 '<a class="block-item" id="instagram" href="' + application.blogger.instagram + '">' + application.blogger.instagram + '</a>' +
                             '</div>' +
                             '<div class="profile-block-item">' +
-                                '<div class="block-item-title">youtube:</div>' +
+                                '<div class="block-item-title">Youtube:</div>' +
                                 '<a class="email" id="youtube" href="' + application.blogger.youtube + '">' + application.blogger.youtube + '</a>' +
                             '</div>' +
-                            'If you are working with this blogger and have contact you can hide this application.',
+                            'If you are working with this blogger and have contacts you can hide this application.',
 
                         buttons: {
                             close: function(){},

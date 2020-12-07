@@ -138,7 +138,7 @@ form.addEventListener('submit', function(ev) {
     if (oData == false){
         $.alert({
             title: "Warning!",
-            content: "Please fill out right info"
+            content: "Please fill in the correct information"
         })
         return false
     }

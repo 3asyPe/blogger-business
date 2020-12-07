@@ -10,7 +10,6 @@ from .services import (
     get_next_url_after_login,
     get_next_path,
 )
-from .forms import LoginForm
 from account.decorators import unauthenticated_user, allowed_users
 from blogger.models import Blogger
 from blogger.serializers import (
