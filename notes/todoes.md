@@ -9,3 +9,6 @@ version 2
 - pages for blogger and business with information about who there are working with now
 - history of deals
 - search for languages
+
+Google API
+- blogger registration connect account

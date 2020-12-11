@@ -26,7 +26,8 @@ yarn-error.log*
 node_modules/
 # local project items
 parse.py
-blogger-business/BloggerBusiness/settings/secret.py
+BloggerBusiness/settings/local.py
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
