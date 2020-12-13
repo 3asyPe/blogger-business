@@ -14,8 +14,20 @@ SECRET_KEY = secret.SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost"]
+ALLOWED_HOSTS = []
 
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'bloggerandbusiness@gmail.com' 
+EMAIL_HOST_PASSWORD = 'yourpassword'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = "BLOGGER&BUSINESS <bloggerandbusiness@gmail.com>"
+
+MANAGERS = (
+    ("Alex Kvasha", "bloggerandbusiness@gmail.com"),
+)
+
+ADMINS = MANAGERS
 
 # Application definition
 
