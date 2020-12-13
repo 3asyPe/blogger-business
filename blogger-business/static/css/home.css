@@ -1,7 +1,10 @@
 .content-block{
-    padding-top: 100px;
     height: auto;
-    max-height: 100vh;
+}
+
+.base-container{
+    display: flex;
+    align-items: center;
 }
 
 .about-link{

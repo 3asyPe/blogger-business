@@ -40,7 +40,7 @@
                         {% if request.user.is_blogger %}
                             <img src="{{ request.user.blogger.image.url }}" id="profile-image-navbar" width="30" height="30" class="d-inline-block align-top profile-image" alt="">
                         {% elif request.user.is_business %}
-                            <img src="{{ request.user.blogger.image.url }}" id="profile-image-navbar" width="30" height="30" class="d-inline-block align-top profile-image" alt="">
+                            <img src="{{ request.user.business.image.url }}" id="profile-image-navbar" width="30" height="30" class="d-inline-block align-top profile-image" alt="">
                         {% endif %}
                     </a>
                 </div>

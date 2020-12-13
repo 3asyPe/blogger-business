@@ -22,11 +22,13 @@
 
 <body>
 
-{% include 'components/navbar.html'%}
+<div class="base-container">
+    {% include 'components/navbar.html'%}
+    {% block content %} {% endblock %}
+    {% include 'components/footer.html' %}
+</div>
 
-{% block content %} {% endblock %}
 
-{% include 'components/footer.html' %}
 
 </body>
 
