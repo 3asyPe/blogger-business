@@ -125,6 +125,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+LOGIN_URL = '/login'
 LOGOUT_REDIRECT_URL = '/login'
 
 ROOT_URLCONF = 'BloggerBusiness.urls'

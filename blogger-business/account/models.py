@@ -12,14 +12,17 @@ CITIES = settings.CITIES
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, username, password=None, is_active=True, is_staff=False, is_admin=False):
+    def create_user(self, username, email, password=None, is_active=True, is_staff=False, is_admin=False):
         if not username: 
             raise ValueError("User must have a username")
         if not password:
             raise ValueError("User must have a password")
+        if not email:
+            raise ValueError("User must have an email")
 
         user = self.model(
             username=username,
+            email=email,
         )
         user.set_password(password)
         user.staff = is_staff
@@ -29,7 +32,7 @@ class UserManager(BaseUserManager):
         return user
     
 
-    def create_staffuser(self, username,  password=None):
+    def create_staffuser(self, username, email, password=None):
         user = self.create_user(
             username=username,
             password=password,
@@ -37,7 +40,7 @@ class UserManager(BaseUserManager):
         )
         return user
 
-    def create_superuser(self, username, password=None):
+    def create_superuser(self, username, email, password=None):
         user = self.create_user(
             username=username,
             password=password,
@@ -49,7 +52,8 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser):
     username = models.CharField(max_length=100, unique=True)
-    active = models.BooleanField(default=True)
+    email = models.EmailField(null=True, blank=True, unique=True)
+    is_active = models.BooleanField(default=True)
     staff = models.BooleanField(default=False)
     admin = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -89,11 +93,7 @@ class User(AbstractBaseUser):
     @property
     def is_admin(self):
         return self.admin
-        
-    @property
-    def is_active(self):
-        return self.active
-
+    
 
 class Location(models.Model):
     country = models.CharField(max_length=120)

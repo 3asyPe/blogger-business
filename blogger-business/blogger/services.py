@@ -128,9 +128,9 @@ def _create_birthday_object(data: dict):
 def _create_user_blogger(data: dict) -> User:
     password = generate_password()
     try:
-        user = User.objects.create_user(username=data['blog_name'], password=password)
+        user = User.objects.create_user(username=data['blog_name'], email=data['email'], password=password)
     except KeyError:
-        raise KeyError("Data object doesn't have field username")
+        raise KeyError("Data object doesn't have username or email field")
     print(f"user-{user}")
     return user
 

@@ -123,9 +123,9 @@ def _create_location(data: dict) -> Location:
 def _create_user_business(data: dict) -> User:
     password = generate_password()
     try:
-        user = User.objects.create_user(username=data['business_name'], password=password)
+        user = User.objects.create_user(username=data['business_name'], email=data['email'], password=password)
     except KeyError:
-        raise KeyError("Data object doesn't have field username")
+        raise KeyError("Data object doesn't have field username or email field")
     print(f"user-{user}")
 
     return user
