@@ -49,7 +49,10 @@ def login_account(request):
     print(request.POST)
     username = request.POST.get("username")
     password = request.POST.get("password")
-    user = custom_login(request=request, username=username, password=password) 
+    try:
+        user = custom_login(request=request, username=username, password=password) 
+    except PermissionError:
+        return Response({"message": "Your account isn't activated. Please check an email"}, status=403)
     if user is not None:
         next_url = get_next_url_after_login(user)
         data = {
@@ -84,11 +87,9 @@ def register_account(request):
     print(account_type)
     data = querydict_to_dict(request.POST)
     if account_type == "blogger":
-        # send_password_email(email)
         register_blogger(data=data, image=request.FILES.get("image"))
         return Response({"message": "Blogger account was created successfully"}, status=201)
     elif account_type == "business":
-        # send_password_email(email)
         register_business(data=data, image=request.FILES.get("image"))
         return Response({"message": "Business account was created successfully"}, status=201)
     else:

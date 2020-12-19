@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib.auth import authenticate, login, get_user_model
 from django.utils.http import is_safe_url
 
+from emails.services import send_password_email
 from typing import Optional
 
 
@@ -10,16 +11,15 @@ User = get_user_model()
 
 def create_user(username: str, email: str, password: str) -> Optional[User]:
     user = User.objects.create_user(username=username, email=email, password=password)
+    send_password_email(user=user, email=email, password=password)
     return user
-
-
-def send_password_email(email):
-    pass
 
 
 def custom_login(request, username: str, password: str) -> Optional[User]:
     user = authenticate(request, username=username, password=password)
     if user is not None:
+        if not user.is_active:
+            raise PermissionError("User is not activated")
         login(request=request, user=user)
         return user
     return None

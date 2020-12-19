@@ -24,6 +24,7 @@ urlpatterns = [
     path('', include('blogger.urls')),
     path('', include('business.urls')),
     path('', include('offer.urls')),
+    path('', include('emails.urls')),
 ]
 
 if settings.DEBUG:

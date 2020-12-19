@@ -7,6 +7,7 @@ from .models import (
 )
 
 from account.models import Location
+from account.services import create_user
 from account.utils import generate_password, create_date_object
 
 
@@ -128,7 +129,7 @@ def _create_birthday_object(data: dict):
 def _create_user_blogger(data: dict) -> User:
     password = generate_password()
     try:
-        user = User.objects.create_user(username=data['blog_name'], email=data['email'], password=password)
+        user = create_user(username=data['blog_name'], email=data['email'], password=password)
     except KeyError:
         raise KeyError("Data object doesn't have username or email field")
     print(f"user-{user}")

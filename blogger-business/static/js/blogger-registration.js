@@ -128,7 +128,14 @@ form.addEventListener('submit', function(ev) {
 
     var oReq = new XMLHttpRequest()
     oReq.open("POST", "/api/registration/complete", true)
+
+    saveBtn = document.querySelector("#save-btn")
+    defaultSaveBtnHtml = saveBtn.innerHTML
+    saveBtn.innerHTML = 'Loading <i class="fas fa-spinner fa-spin"></i>'
+
     oReq.onload = function(oEvent) {
+        saveBtn.innerHTML = defaultSaveBtnHtml
+
         if (oReq.status == 201) {
             $.confirm({
                 title: 'You have created your account',
@@ -162,11 +169,6 @@ form.addEventListener('submit', function(ev) {
             })
         }
     };
-
-    saveBtn = document.querySelector("#save-btn")
-    defaultSaveBtnHtml = saveBtn.innerHTML
-    saveBtn.innerHTML = 'Loading <i class="fas fa-spinner fa-spin"></i>'
-
     oReq.send(oData)
 }, false)
 

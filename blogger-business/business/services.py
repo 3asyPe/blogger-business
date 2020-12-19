@@ -4,6 +4,7 @@ from django.http import QueryDict
 from .models import Business
 
 from account.models import Location
+from account.services import create_user
 from account.utils import generate_password
 
 
@@ -123,7 +124,7 @@ def _create_location(data: dict) -> Location:
 def _create_user_business(data: dict) -> User:
     password = generate_password()
     try:
-        user = User.objects.create_user(username=data['business_name'], email=data['email'], password=password)
+        user = create_user(username=data['business_name'], email=data['email'], password=password)
     except KeyError:
         raise KeyError("Data object doesn't have field username or email field")
     print(f"user-{user}")

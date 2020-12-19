@@ -1,0 +1,22 @@
+<p>Hello,</p>
+
+<p>You have created new account on {{ domain }} </p>
+
+{% if password %}
+<p>Your new password:</p>
+
+<h2>{{ password }}</h2>
+
+<p>You can change it any time</p>
+
+{% endif %}
+
+<p>Please activate your account for {{ email }} by clicking the link below:</p> 
+
+<p><a href="{{ path }}">{{ path }}</a></p>
+
+<p>Once you activate, you can login!</p>
+
+<p>Thank you,</p>
+
+<p>BLOGGER&BUSINESS</p>

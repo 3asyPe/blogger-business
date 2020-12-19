@@ -10,8 +10,7 @@
 
 <div class="container">
     <div class="form-title">Login</div>
-    <div class="alert">
-        <div class="alert-inner"></div>
+    <div class="custom-alert col-lg-6 mx-auto">
     </div>
     <form class="login-form col-lg-6" action="api/login/complete" method=POST id="login-form">
         {% csrf_token %}
@@ -20,7 +19,7 @@
             <input type="password" required class="form-control" placeholder="Your password" name="password">
         </div>
         <div class="help-links">
-            <a href="" class="help-link">Change password</a>
+            <a href="/accounts/password_reset/" class="help-link">Reset password</a>
             <a href="/registration/" class="registration">Sign up</a>
             <a href="" class="help-link">Common issues</a>
         </div>

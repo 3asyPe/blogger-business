@@ -1,5 +1,16 @@
+alertDiv = document.querySelector(".custom-alert")
+const url = new URL(window.location.href)
+const activated = url.searchParams.get("activated")
+
+if (activated !== null){
+    newAlertHtml = '<div class="alert alert-success text-center" role="alert">' +
+                        'You have activated your new account. Please login' +
+                    '</div>'
+    alertDiv.innerHTML = newAlertHtml
+}
+
 const form = document.querySelector("#login-form")
-const next = new URL(window.location.href).searchParams.get("next")
+const next = url.searchParams.get("next")
 
 form.addEventListener("submit", function(event){
     event.preventDefault()
@@ -11,7 +22,6 @@ form.addEventListener("submit", function(event){
             console.log(JSON.parse(oReq.response))
             window.location.href = next !== null ? next : JSON.parse(oReq.response).next_url
         } else if(oReq.status == 401) {
-            alertDiv = document.querySelector(".alert-inner")
             newAlertHtml = '<div class="alert alert-danger" role="alert">' +
                                 'Username or password is wrong or your account isn\'t activated (please check your email)' +
                             '</div>'

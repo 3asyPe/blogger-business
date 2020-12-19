@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block base_head %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center my-5">Activation Error. Please try again.</h1>
+    <div class="custom-alert my-5"></div>
+    <form action="/email/reactivate/" method="POST" id="reactivation-form" class="text-center">
+        {% csrf_token %}
+        <div class="form-group col-4 mx-auto">
+            <input type="email" name="email" id="email" class="form-control my-2" placeholder="Email">
+        </div>
+        <button type="submit" class="btn btn-info reactivate-btn">Reactivate Email</button>
+    </form>
+</div>
+
+<script src="{% static 'js/activation-email.js' %}"></script>
+
+{% endblock %}

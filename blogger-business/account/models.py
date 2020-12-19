@@ -12,7 +12,7 @@ CITIES = settings.CITIES
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, username, email, password=None, is_active=True, is_staff=False, is_admin=False):
+    def create_user(self, username, email, password=None, is_active=False, is_staff=False, is_admin=False):
         if not username: 
             raise ValueError("User must have a username")
         if not password:
@@ -27,7 +27,7 @@ class UserManager(BaseUserManager):
         user.set_password(password)
         user.staff = is_staff
         user.admin = is_admin
-        user.active = is_active
+        user.is_active = is_active
         user.save(using=self._db)
         return user
     

@@ -16,12 +16,15 @@ DEBUG = False
 
 ALLOWED_HOSTS = [".bloggerbusiness.org"]
 
+DOMAIN_NAME = "https://www.bloggerbusiness.org"
+
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'bloggerandbusiness@gmail.com' 
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = "BLOGGER&BUSINESS <bloggerandbusiness@gmail.com>"
+DEFAULT_EMAIL_ACTIVATION_EXPIRE_DAYS = 1
 
 MANAGERS = (
     ("Alex Kvasha", "bloggerandbusiness@gmail.com"),
@@ -49,6 +52,7 @@ INSTALLED_APPS = [
     'application',
     'blogger',
     'business',
+    'emails',
     'offer'
 ]
 

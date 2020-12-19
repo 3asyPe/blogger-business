@@ -1,0 +1,25 @@
+Hello,
+
+You have created new account on {{ domain }} 
+
+{% if password %}
+<p>Your new password:</p>
+
+
+<h2>{{ password }}</h2>
+
+
+<p>You can change it any time</p>
+{% endif %}
+
+Please activate your account for {{ email }} by clicking the link below:
+
+
+{{ path }}
+
+
+Once you activate, you can login!
+
+Thank you,
+
+BLOGGER&BUSINESS
