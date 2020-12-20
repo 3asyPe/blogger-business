@@ -218,6 +218,9 @@ MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_cdn", "media_root")
 
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+
 # SSL/TLS
 CORS_REPLACE_HTTPS_REFERER      = False
 HOST_SCHEME                     = "http://"

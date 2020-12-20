@@ -1,0 +1,15 @@
+Hello,
+
+You want to change an email on {{ domain }}
+
+Please confirm your email by clicking the link below::
+
+
+{{ path }}
+
+
+Once you confirm, your email will be changed!
+
+Thank you,
+
+BLOGGER&BUSINESS

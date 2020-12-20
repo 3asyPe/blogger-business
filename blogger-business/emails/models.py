@@ -1,4 +1,7 @@
+import math
+
 from datetime import timedelta
+
 from django.conf import settings
 from django.core.mail import send_mail
 from django.db import models
@@ -49,6 +52,7 @@ class EmailActivation(models.Model):
     forced_expired = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
     update = models.DateTimeField(auto_now=True)
+    email_change = models.BooleanField(default=False)
 
     objects = EmailActivationManager()
 
@@ -78,6 +82,13 @@ class EmailActivation(models.Model):
             return True
         return False
 
+    def hours_to_expire_left(self):
+        now = timezone.now()
+        expire = self.timestamp + timedelta(days=DEFAULT_ACTIVATION_DAYS)
+        time_left = expire - now
+        hours = math.ceil(time_left.seconds / 3600)
+        return hours
+
     def send_activation(self, password=None):
         if not self.activated and not self.forced_expired and self.key:
             domain = getattr(settings, "DOMAIN_NAME", "https://www.bloggerbusiness.org/")
@@ -89,9 +100,16 @@ class EmailActivation(models.Model):
                 "path": path,
                 "password": password,
             }
-            txt_ = get_template("registration/email/verify.txt").render(context)
-            html_ = get_template("registration/email/verify.html").render(context)
-            subject = "Account activation"
+            
+            if not self.email_change:
+                txt_ = get_template("registration/email/verify.txt").render(context)
+                html_ = get_template("registration/email/verify.html").render(context)
+                subject = "Account activation"
+            else:
+                txt_ = get_template("registration/email/change_verify.txt").render(context)
+                html_ = get_template("registration/email/change_verify.html").render(context)
+                subject = "Email confirmation"
+                
             from_email = getattr(settings, "DEFAULT_FROM_EMAIL", "BLOGGER&BUSINESS <bloggerandbusiness@gmail.com>")
             recipient_list = [self.email]
 
@@ -104,6 +122,8 @@ class EmailActivation(models.Model):
                 fail_silently=False
             )
 
+            print("Email has been sent")
+
             return sent_mail
 
         return False
@@ -115,3 +135,14 @@ def pre_save_email_activation_receiver(sender, instance: EmailActivation, *args,
 
 
 pre_save.connect(pre_save_email_activation_receiver, sender=EmailActivation)
+
+
+def post_save_create_email_activation_receiver(sender, instance: EmailActivation, created, *args, **kwargs):
+    if created:
+        qs = EmailActivation.objects.confirmable().filter(user=instance.user).exclude(id=instance.id)
+        for obj in qs:
+            obj.forced_expired = True
+            obj.save()
+
+
+post_save.connect(post_save_create_email_activation_receiver, sender=EmailActivation)

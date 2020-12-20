@@ -14,7 +14,6 @@ def email_activation_view(request, key):
     try:
         redirect_url = activate_email_and_get_redirect_url(key=key)
     except EmailActivation.DoesNotExist:
-        print("error")
         return render(request, "registration/activation_error.html", {})
 
     if redirect_url is None:

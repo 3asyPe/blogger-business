@@ -34,6 +34,13 @@ function pullBlogDataIntoHtml(){
 
     var email = document.querySelector("#email")
     email.innerHTML = defaultProfileData.email
+
+    if (defaultProfileData.email_activation){
+        addEmailActivationMark()
+    } else {
+        emailActivationDiv = document.querySelector(".email-activation")
+        emailActivationDiv.innerHTML = ''
+    }
 }
 
 function fetchPersonalData(){
@@ -67,6 +74,7 @@ function fetchBlogData(){
         defaultProfileData.specializations = data.specializations
         defaultProfileData.phone = data.phone
         defaultProfileData.email = data.email
+        defaultProfileData.email_activation = data.email_activation
 
         fetchLanguages()
         fetchSpecializations()
@@ -119,7 +127,9 @@ function editPersonalInfo(){
         content: '' +
         '<form action="" method="POST" class="formName" id="editPersonalForm">' +
             '<div class="form-group">' +
-                '<label for="edit-blog-name">Your name:</label>' +
+                '<label for="edit-blog-name">' +
+                    '<i class="fas fa-exclamation-circle" data-toggle="tooltip" data-placement="top" title="This is a username field"></i>' +
+                    'Your blog name:</label>' +
                 '<input type="text" id="edit-blog-name" name="blog_name" value="' + blog_name + '" class="blog_name form-control" required />' +
             '</div>' +
             '<div class="form-group">' +
@@ -213,6 +223,8 @@ function editPersonalInfo(){
 
                 jc.$$formSubmit.trigger('click'); // reference the button and click it
             });
+
+            $('[data-toggle="tooltip"]').tooltip()
         }
     })
 }
@@ -243,7 +255,10 @@ function editBlogInfo(){
                 '<input type="text" id="edit-phone" name="phone" value="' + phone + '" class="form-control" required />' +
             '</div>' +
             '<div class="form-group">' +
-                '<label for="edit-email">Your email:</label>' +
+                '<label for="edit-email">' +
+                    '<i class="fas fa-exclamation-circle" data-toggle="tooltip" data-placement="top" title="You will need to confirm the new email address"></i>' +    
+                    'Your email:' +
+                '</label>' +
                 '<input type="text" id="edit-email" name="email" value="' + email + '" class="form-control" required />' +
             '</div>' +
         '</form>',
@@ -306,6 +321,8 @@ function editBlogInfo(){
                 e.preventDefault();
                 jc.$$formSubmit.trigger('click'); // reference the button and click it
             });
+
+            $('[data-toggle="tooltip"]').tooltip()
         }
     })
 }
@@ -462,5 +479,4 @@ function getSpecializationOptionHtml(specialization){
     }
     return "<option class='specialization-option' value='" + specialization.prefix + "'>" + specialization.specialization + "</option>"
 }
-
 

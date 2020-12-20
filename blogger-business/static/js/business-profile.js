@@ -29,6 +29,7 @@ function fetchBusinessContactData(){
         defaultProfileData.facebook = data.facebook
         defaultProfileData.instagram = data.instagram
         defaultProfileData.email = data.email
+        defaultProfileData.email_activation = data.email_activation
         defaultProfileData.phone = data.phone
 
         pullBusinessContactDataIntoHtml()
@@ -73,6 +74,13 @@ function pullBusinessContactDataIntoHtml(){
 
     phone = document.querySelector("#phone")
     phone.innerHTML = defaultProfileData.phone
+
+    if (defaultProfileData.email_activation){
+        addEmailActivationMark()
+    } else {
+        emailActivationDiv = document.querySelector(".email-activation")
+        emailActivationDiv.innerHTML = ''
+    }
 }
 
 function editBusinessInfo(){
@@ -87,7 +95,10 @@ function editBusinessInfo(){
         content: '' +
         '<form action="" method="POST" class="formName" id="editInfoForm">' +
             '<div class="form-group">' +
-                '<label for="edit-business-name">Business name:</label>' +
+                '<label for="edit-business-name">' +
+                    '<i class="fas fa-exclamation-circle" data-toggle="tooltip" data-placement="top" title="This is a username field"></i>' +
+                    'Business name:' +
+                '</label>' +
                 '<input type="text" id="edit-business-name" name="business_name" value="' + business_name + '" class="business_name form-control" required />' +
             '</div>' +
             '<div class="form-group">' +
@@ -145,6 +156,9 @@ function editBusinessInfo(){
             cancel: function () {
                 //close
             },
+        },
+        onContentReady: function () {
+            $('[data-toggle="tooltip"]').tooltip()
         }
     })
 }
@@ -162,24 +176,27 @@ function editBusinessContact(){
         content: '' +
         '<form action="" method="POST" class="formName" id="editContactForm">' +
             '<div class="form-group">' +
-                '<label for="edit-site">Web-site:</label>' +
+                '<label for="edit-site">Your Web-site:</label>' +
                 '<input type="text" id="edit-site" name="site" value="' + site + '" class="stie form-control" required />' +
             '</div>' +
             '<div class="form-group">' +
-                '<label for="edit-facebook">Facebook:</label>' +
+                '<label for="edit-facebook">Your Facebook:</label>' +
                 '<input type="text" id="edit-facebook" name="facebook" value="' + facebook + '" class="facebook form-control" required />' +
             '</div>' +
             '<div class="form-group">' +
-                '<label for="edit-instagram">Instagram:</label>' +
+                '<label for="edit-instagram">Your Instagram:</label>' +
                 '<input type="text" id="edit-instagram" name="instagram" value="' + instagram + '" class="instagram form-control" required />' +
             '</div>' +
             '<div class="form-group">' +
-                '<label for="edit-email">Email:</label>' +
-                '<input type="text" id="edit-email" name="email" value="' + email + '" class="email form-control" required />' +
+                '<label for="edit-phone">Your phone:</label>' +
+                '<input type="text" id="edit-phone" name="phone" value="' + phone + '" class="phone form-control" required />' +
             '</div>' +
             '<div class="form-group">' +
-                '<label for="edit-phone">Phone:</label>' +
-                '<input type="text" id="edit-phone" name="phone" value="' + phone + '" class="phone form-control" required />' +
+                '<label for="edit-email">' +
+                    '<i class="fas fa-exclamation-circle" data-toggle="tooltip" data-placement="top" title="You will need to confirm the new email address"></i>' +    
+                    'Your email:' +
+                '</label>' +
+                '<input type="text" id="edit-email" name="email" value="' + email + '" class="email form-control" required />' +
             '</div>' +
         '</form>',
         buttons: {
@@ -251,6 +268,9 @@ function editBusinessContact(){
             cancel: function () {
                 //close
             },
+        },
+        onContentReady: function () {
+            $('[data-toggle="tooltip"]').tooltip()
         }
     })
 }

@@ -5,6 +5,7 @@
 {% block base_head %}
 <link rel="stylesheet" href="{% static 'css/profile.css' %}">
 <link rel="stylesheet" href="{% static 'css/blogger-profile.css' %}">
+
 {% endblock %}
 
 {% block content %}
@@ -80,7 +81,10 @@
                 </div>
                 <div class="blog-block-item">
                     <div class="block-item-title col-4">Email:</div>
-                    <div class="email" id="email"></div>
+                    <div class="email-content-part">
+                        <div class="email" id="email"></div>
+                        <div class="email-activation"></div>
+                    </div>
                 </div>
                 <button type='button' class="info-edit-item" onclick="editBlogInfo()">
                     <svg class="info-edit-icon">

@@ -2,6 +2,8 @@ from django.conf import settings
 
 from .models import Blogger, BlogSpecialization, BlogLanguage
 from account.serializers import LocationSerializer
+from emails.models import EmailActivation
+from emails.serializers import UserProfileEmailActivationSerializer
 
 from rest_framework import serializers
 
@@ -30,10 +32,21 @@ class BloggerSerializer(serializers.ModelSerializer):
     specializations = BlogSpecializationSerializer(many=True)
     languages = BlogLanguageSerializer(many=True)
     location = LocationSerializer()
+    email_activation = serializers.SerializerMethodField()
 
     class Meta:
         model = Blogger
-        fields = ['id', 'image', 'blog_name', 'email', 'instagram', 'youtube', 'phone', 'location', 'sex', 'birthday', 'specializations', 'languages', 'location']
+        fields = ['id', 'image', 'blog_name', 'email', 'instagram', 'youtube', 'phone', 'location', 'sex', 'birthday', 'specializations', 'languages', 'location', 'email_activation']
+
+    def get_email_activation(self, obj):
+        qs = EmailActivation.objects.confirmable().filter(user=obj.user)
+        if not qs.exists():
+            return None
+        email_activation_obj = qs.last()
+        if obj.user.email == email_activation_obj.email:
+            return None
+        serializer = UserProfileEmailActivationSerializer(email_activation_obj)
+        return serializer.data
 
 
 class ImageInfoBloggerSerializer(serializers.ModelSerializer):
@@ -53,7 +66,16 @@ class PersonalInfoBloggerSerializer(serializers.ModelSerializer):
 class BlogInfoBloggerSerializer(serializers.ModelSerializer):
     languages = BlogLanguageSerializer(many=True)
     specializations = BlogSpecializationSerializer(many=True)
+    email_activation = serializers.SerializerMethodField()
 
     class Meta:
         model = Blogger
-        fields = ['languages', 'specializations', 'phone', 'email']
+        fields = ['languages', 'specializations', 'phone', 'email', 'email_activation']
+
+    def get_email_activation(self, obj):
+        qs = EmailActivation.objects.confirmable().filter(user=obj.user)
+        if not qs.exists():
+            return None
+        email_activation_obj = qs.last()
+        serializer = UserProfileEmailActivationSerializer(email_activation_obj)
+        return serializer.data

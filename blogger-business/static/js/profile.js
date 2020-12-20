@@ -1,3 +1,13 @@
+const url = new URL(window.location.href)
+const confirmed = url.searchParams.get("confirmed")
+
+if (confirmed !== null){
+    $.alert({
+        title: "Email is confirmed!",
+        content: "You have changed your email successfully"
+    })
+}
+
 let defaultProfileData;
 
 function fetchFullData(){
@@ -83,3 +93,12 @@ imageForm.addEventListener('submit', function(ev) {
 
     oReq.send(oData)
 }, false)
+
+function addEmailActivationMark(){
+    emailActivationDiv = document.querySelector(".email-activation")
+    newEmail = defaultProfileData.email_activation.email
+    expireTimeLeft = defaultProfileData.email_activation.time_left
+    emailActivationHtml = '<i class="fas fa-exclamation-circle" data-toggle="tooltip" data-placement="top" title="This is a username field"></i>' +
+                            'Less than ' + expireTimeLeft + ' hours to confirm ' + newEmail
+    emailActivationDiv.innerHTML = emailActivationHtml
+}

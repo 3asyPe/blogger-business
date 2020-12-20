@@ -16,7 +16,7 @@
 
 .image{
     object-fit: cover;
-    border-radius: 50%;
+    border-radius: 15px;
     height: 355px;
     width: 355px;
 }
@@ -117,4 +117,29 @@
 
 #location{
     display: flex;
+}
+
+.fa-exclamation-circle{
+    color: red;
+    margin-right: 3px;
+}
+
+.tooltip {
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+.tooltip-inner{
+    background-color: #f91313;
+}
+
+.jconfirm{
+    z-index: 1000;
+}
+
+.email-activation{
+    color: red;
+    font-size: 14px;
 }

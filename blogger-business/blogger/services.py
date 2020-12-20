@@ -9,6 +9,7 @@ from .models import (
 from account.models import Location
 from account.services import create_user
 from account.utils import generate_password, create_date_object
+from emails.services import send_verification_for_new_email
 
 
 User = get_user_model()
@@ -45,9 +46,12 @@ def edit_blogger_profile_blog_info(blogger: Blogger, data: dict) -> Blogger:
         raise KeyError("Data object doesn't have phone field")
 
     try:
-        blogger.email = data["email"]
+        email = data["email"]
     except KeyError:
         raise KeyError("Data object doesn't have email field")
+    user = blogger.user
+    if user.email != email:
+        send_verification_for_new_email(user=user, email=email)
 
     blogger.save()
     return blogger
