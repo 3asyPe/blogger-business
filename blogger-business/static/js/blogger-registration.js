@@ -19,23 +19,6 @@ function showForm(){
     div_form.classList.remove("d-none")    
 }
 
-function previewImage(event){
-    var reader = new FileReader();
-    reader.onload = function() {
-        showImage(reader.result)
-    }
-    reader.readAsDataURL(event.target.files[0]);
-}
-
-function showImage(source){
-    var output = $('.image')
-    output.attr("src", source)
-    output.show()
-    var imagePlaceholder = $('.image-placeholder')
-    imagePlaceholder.hide()
-}
-
-
 fetch("/api/blog-languages")
     .then(response => {
         return response.json()
@@ -110,9 +93,13 @@ enterDay()
 
 var form = document.querySelector("#registration-form")
 
-form.addEventListener('submit', function(ev) {
+form.addEventListener('submit', async function(ev) {
     ev.preventDefault()
 
+    saveBtn = document.querySelector("#save-btn")
+    defaultSaveBtnHtml = saveBtn.innerHTML
+    saveBtn.innerHTML = 'Loading <i class="fas fa-spinner fa-spin"></i>'
+    
     var oData = new FormData(form)
     
     if(oData.get('image').size === 0){
@@ -121,17 +108,20 @@ form.addEventListener('submit', function(ev) {
             content: "Please fill the image field",
             theme: 'material',
         })
+        saveBtn.innerHTML = defaultSaveBtnHtml
         return
+    }
+
+    exists = await check_exists()
+    if (exists){
+        saveBtn.innerHTML = defaultSaveBtnHtml
+        return false
     }
 
     oData.append("accountType", "blogger");
 
     var oReq = new XMLHttpRequest()
     oReq.open("POST", "/api/registration/complete", true)
-
-    saveBtn = document.querySelector("#save-btn")
-    defaultSaveBtnHtml = saveBtn.innerHTML
-    saveBtn.innerHTML = 'Loading <i class="fas fa-spinner fa-spin"></i>'
 
     oReq.onload = function(oEvent) {
         saveBtn.innerHTML = defaultSaveBtnHtml
@@ -171,6 +161,18 @@ form.addEventListener('submit', function(ev) {
     };
     oReq.send(oData)
 }, false)
+
+function getUsernameField(){
+    return document.querySelector("#blog_name")
+}
+
+document.querySelector("#blog_name").onfocus = function(e){
+    $('[data-toggle="username-popover"]').popover("hide")
+    if (e.target.classList.contains("invalid-field")){
+        e.target.classList.remove("invalid-field")
+    }
+}
+
 
 // // Set limit of choosing specializations to max 3
 

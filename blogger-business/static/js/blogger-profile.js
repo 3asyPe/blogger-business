@@ -130,7 +130,7 @@ function editPersonalInfo(){
                 '<label for="edit-blog-name">' +
                     '<i class="fas fa-exclamation-circle" data-toggle="tooltip" data-placement="top" title="This is a username field"></i>' +
                     'Your blog name:</label>' +
-                '<input type="text" id="edit-blog-name" name="blog_name" value="' + blog_name + '" class="blog_name form-control" required />' +
+                '<input type="text" id="edit-blog-name" name="blog_name" value="' + blog_name + '" class="blog_name form-control" required data-toggle="username-popover" data-trigger="focus" data-placement="top"  data-content="Username is already taken" />' +
             '</div>' +
             '<div class="form-group">' +
                 '<label for="edit-country">Your country:</label>' +
@@ -165,47 +165,60 @@ function editPersonalInfo(){
             '</div>' +
         '</form>',
         buttons: {
-            formSubmit: {
+            submit: {
                 text: 'Submit',
                 btnClass: 'btn-blue',
                 action: function () {
-                    var editPersonalForm = document.querySelector("#editPersonalForm")
-                    console.log(editPersonalForm)
+                    send(this)
+                    async function send(that){
 
-                    var oData = new FormData(editPersonalForm)
-                    
-                    console.log(oData)
-                    
-                    var oReq = new XMLHttpRequest()
-                    oReq.open("POST", "/api/blogger-profile-data/personal/edit/", true)
-                    oReq.setRequestHeader('X-CSRFToken', csrftoken)
-                    
-                    oReq.onload = function(oEvent) {
-                        fetchPersonalData()
-                        if (oReq.status == 200) {
-                        } else {
-                            $.alert({
-                                title: 'An error occured',
-                                content: "Error " + oReq.status + " occurred when trying to edit your personal info. Please try again.",
-                                type: 'red',
-                                typeAnimated: true,
-                                buttons: {
-                                    tryAgain: {
-                                        text: 'Try again',
-                                        btnClass: 'btn-red',
-                                        action: function(){
-                                        }
-                                    },
-                                }
-                            })
+                        var editPersonalForm = document.querySelector("#editPersonalForm")
+                        var oReq = new XMLHttpRequest()
+                        
+                        var oData = new FormData(editPersonalForm)
+                        
+                        oReq.open("POST", "/api/blogger-profile-data/personal/edit/", true)
+                        oReq.setRequestHeader('X-CSRFToken', csrftoken)
+                        
+                        username = editPersonalForm.elements.namedItem("blog_name").value
+                        if (defaultProfileData.blog_name != username){
+                            usernameExists = await username_check(username)
+                            if (usernameExists){
+                                $('[data-toggle="username-popover"]').popover("show")
+                                return false
+                            }
                         }
-                    };
-                    oReq.send(oData)
-                    firstEntering = true
+                        
+                        oReq.onload = function(oEvent) {
+                            fetchPersonalData()
+                            if (oReq.status == 200) {
+                            } else {
+                                $.alert({
+                                    title: 'An error occured',
+                                    content: "Error " + oReq.status + " occurred when trying to edit your personal info. Please try again.",
+                                    type: 'red',
+                                    typeAnimated: true,
+                                    buttons: {
+                                        tryAgain: {
+                                            text: 'Try again',
+                                            btnClass: 'btn-red',
+                                            action: function(){
+                                            }
+                                        },
+                                    }
+                                })
+                            }
+                        };
+                        oReq.send(oData)
+                        that.close()
+                        firstEntering = true
+                    }
+                    return false
                 }
             },
             cancel: function () {
                 firstEntering = true
+                $('[data-toggle="username-popover"]').popover("hide")
             },
         },
         onContentReady: function () {
@@ -214,8 +227,6 @@ function editPersonalInfo(){
             var jc = this;
 
             form = this.$content.find('form')
-            console.log(form)
-            console.log(form.serializeArray())
 
             this.$content.find('form').on('submit', function (e) {
                 // if the user submits the form by pressing enter in the field.
@@ -225,6 +236,10 @@ function editPersonalInfo(){
             });
 
             $('[data-toggle="tooltip"]').tooltip()
+
+            document.querySelector("#edit-blog-name").onfocus = function(e){
+                $('[data-toggle="username-popover"]').popover("hide")
+            }
         }
     })
 }
@@ -259,7 +274,7 @@ function editBlogInfo(){
                     '<i class="fas fa-exclamation-circle" data-toggle="tooltip" data-placement="top" title="You will need to confirm the new email address"></i>' +    
                     'Your email:' +
                 '</label>' +
-                '<input type="text" id="edit-email" name="email" value="' + email + '" class="form-control" required />' +
+                '<input type="text" id="edit-email" name="email" value="' + email + '" class="form-control" required data-toggle="email-popover" data-trigger="focus" data-placement="top"  data-content="Email is already taken" />' +
             '</div>' +
         '</form>',
         buttons: {
@@ -267,42 +282,53 @@ function editBlogInfo(){
                 text: 'Submit',
                 btnClass: 'btn-blue',
                 action: function () {
-                    var editBlogForm = document.querySelector("#editBlogForm")
-                    console.log(editBlogForm)
+                    send(this)
+                    async function send(that){
 
-                    var oData = new FormData(editBlogForm)
+                        var editBlogForm = document.querySelector("#editBlogForm")
+                        
+                        var oData = new FormData(editBlogForm)
                     
-                    console.log(oData)
-                    
-                    var oReq = new XMLHttpRequest()
-                    oReq.open("POST", "/api/blogger-profile-data/blog/edit/", true)
-                    oReq.setRequestHeader('X-CSRFToken', csrftoken)
-                    
-                    oReq.onload = function(oEvent) {
-                        fetchBlogData()
-                        if (oReq.status == 200) {
-                        } else {
-                            $.alert({
-                                title: 'An error occured',
-                                content: "Error " + oReq.status + " occurred when trying to edit your blog info. Please try again.",
-                                type: 'red',
-                                typeAnimated: true,
-                                buttons: {
-                                    tryAgain: {
+                        var oReq = new XMLHttpRequest()
+                        oReq.open("POST", "/api/blogger-profile-data/blog/edit/", true)
+                        oReq.setRequestHeader('X-CSRFToken', csrftoken)
+                        
+                        email = editBlogForm.elements.namedItem("email").value
+                        if (defaultProfileData.email != email){
+                            emailExists = await email_check(email)
+                            if (emailExists){
+                                $('[data-toggle="email-popover"]').popover("show")
+                                return false
+                            }
+                        }
+
+                        oReq.onload = function(oEvent) {
+                            fetchBlogData()
+                            if (oReq.status == 200) {
+                            } else {
+                                $.alert({
+                                    title: 'An error occured',
+                                    content: "Error " + oReq.status + " occurred when trying to edit your blog info. Please try again.",
+                                    type: 'red',
+                                    typeAnimated: true,
+                                    buttons: {
+                                        tryAgain: {
                                         text: 'Try again',
                                         btnClass: 'btn-red',
-                                        action: function(){
-                                        }
-                                    },
-                                }
-                            })
-                        }
-                    };
-                    oReq.send(oData)
+                                        action: function(){}
+                                        },
+                                    }
+                                })
+                            }
+                        };
+                        oReq.send(oData)
+                        that.close()
+                    }
+                    return false
                 }
             },
             cancel: function () {
-                //close
+                $('[data-toggle="email-popover"]').popover("hide")
             },
         },
         onContentReady: function () {
@@ -323,6 +349,10 @@ function editBlogInfo(){
             });
 
             $('[data-toggle="tooltip"]').tooltip()
+
+            document.querySelector("#edit-email").onfocus = function(e){
+                $('[data-toggle="email-popover"]').popover("hide")
+            }
         }
     })
 }

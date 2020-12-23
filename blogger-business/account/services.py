@@ -42,3 +42,19 @@ def get_next_path(request, base_url='/') -> str:
         return redirect_path
     else:
         return base_url
+
+
+def username_exists(username: str) -> bool:
+    username = username.lower()
+    qs = User.objects.filter(username=username)
+    if qs.exists():
+        return True
+    return False
+
+
+def email_exists(email: str) -> bool:
+    email = email.lower()
+    qs = User.objects.filter(email=email)
+    if qs.exists():
+        return True
+    return False

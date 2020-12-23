@@ -22,4 +22,7 @@ urlpatterns = [
     path("api/profile-data/", views.fetch_profile_data, name="fetch-full-profile-data"),
     path("api/profile-data/image/", views.fetch_profile_image_data, name="fetch-profile-image-data"),
     path("api/profile-data/image/edit/", views.edit_profile_image_data, name="edit-profile-image-data"),
+
+    path("api/username/check/", views.username_check, name="username-check"),
+    path("api/email/check/", views.email_check, name="email-check"),
 ]

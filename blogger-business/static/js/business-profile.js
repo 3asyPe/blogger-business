@@ -99,7 +99,7 @@ function editBusinessInfo(){
                     '<i class="fas fa-exclamation-circle" data-toggle="tooltip" data-placement="top" title="This is a username field"></i>' +
                     'Business name:' +
                 '</label>' +
-                '<input type="text" id="edit-business-name" name="business_name" value="' + business_name + '" class="business_name form-control" required />' +
+                '<input type="text" id="edit-business-name" name="business_name" value="' + business_name + '" class="business_name form-control" required data-toggle="username-popover" data-trigger="focus" data-placement="top"  data-content="Username is already taken" />' +
             '</div>' +
             '<div class="form-group">' +
                 '<label for="edit-business-owner-name">Owner name:</label>' +
@@ -119,46 +119,62 @@ function editBusinessInfo(){
                 text: 'Submit',
                 btnClass: 'btn-blue',
                 action: function () {
-                    var editInfoForm = document.querySelector("#editInfoForm")
-                    console.log(editInfoForm)
+                    send(this)
+                    async function send(that){
+                        var editInfoForm = document.querySelector("#editInfoForm")
 
-                    var oData = new FormData(editInfoForm)
-                    
-                    console.log(oData)
-                    
-                    var oReq = new XMLHttpRequest()
-                    oReq.open("POST", "/api/business-profile-data/info/edit/", true)
-                    oReq.setRequestHeader('X-CSRFToken', csrftoken)
-                    
-                    oReq.onload = function(oEvent) {
-                        fetchBusinessInfoData()
-                        if (oReq.status == 200) {
-                        } else {
-                            $.alert({
-                                title: 'An error occured',
-                                content: "Error " + oReq.status + " occurred when trying to edit your business info. Please try again.",
-                                type: 'red',
-                                typeAnimated: true,
-                                buttons: {
-                                    tryAgain: {
-                                        text: 'Try again',
-                                        btnClass: 'btn-red',
-                                        action: function(){
-                                        }
-                                    },
-                                }
-                            })
+                        var oData = new FormData(editInfoForm)
+                        
+                        var oReq = new XMLHttpRequest()
+                        oReq.open("POST", "/api/business-profile-data/info/edit/", true)
+                        oReq.setRequestHeader('X-CSRFToken', csrftoken)
+                        
+                        username = editInfoForm.elements.namedItem("business_name").value
+                        if (defaultProfileData.business_name != username){
+                            usernameExists = await username_check(username)
+                            if (usernameExists){
+                                $('[data-toggle="username-popover"]').popover("show")
+                                return false
+                            }
                         }
-                    };
-                    oReq.send(oData)
+
+                        oReq.onload = function(oEvent) {
+                            fetchBusinessInfoData()
+                            if (oReq.status == 200) {
+                            } else {
+                                $.alert({
+                                    title: 'An error occured',
+                                    content: "Error " + oReq.status + " occurred when trying to edit your business info. Please try again.",
+                                    type: 'red',
+                                    typeAnimated: true,
+                                    buttons: {
+                                        tryAgain: {
+                                            text: 'Try again',
+                                            btnClass: 'btn-red',
+                                            action: function(){
+                                            }
+                                        },
+                                    }
+                                })
+                            }
+                        };
+                        oReq.send(oData)
+                        that.close()
+                    }
+                    return false
                 }
             },
             cancel: function () {
                 //close
+                $('[data-toggle="username-popover"]').popover("hide")
             },
         },
         onContentReady: function () {
             $('[data-toggle="tooltip"]').tooltip()
+
+            document.querySelector("#edit-business-name").onfocus = function(e){
+                $('[data-toggle="username-popover"]').popover("hide")
+            }
         }
     })
 }
@@ -196,7 +212,7 @@ function editBusinessContact(){
                     '<i class="fas fa-exclamation-circle" data-toggle="tooltip" data-placement="top" title="You will need to confirm the new email address"></i>' +    
                     'Your email:' +
                 '</label>' +
-                '<input type="text" id="edit-email" name="email" value="' + email + '" class="email form-control" required />' +
+                '<input type="text" id="edit-email" name="email" value="' + email + '" class="email form-control" required data-toggle="email-popover" data-trigger="focus" data-placement="top" data-content="Email is already taken" />' +
             '</div>' +
         '</form>',
         buttons: {
@@ -204,73 +220,97 @@ function editBusinessContact(){
                 text: 'Submit',
                 btnClass: 'btn-blue',
                 action: function () {
-                    var editContactForm = document.querySelector("#editContactForm")
-                    console.log(editContactForm)
+                    send(this)
+                    async function send(that){
+                        var editContactForm = document.querySelector("#editContactForm")
 
-                    var oData = new FormData(editContactForm)
+                        var oData = new FormData(editContactForm)
 
-                    console.log(oData)
-
-                    if(!isValidHttpUrl(oData.get('site'))){
-                        $.alert({
-                            title: 'Web-site field is also required',
-                            content: "Please fill the working url to your web-site",
-                            theme: 'material',
-                        })
-                        return false
-                    }
-                
-                    if(!isValidInstagramLinkOrUsername(oData.get('instagram'))){
-                        $.alert({
-                            title: 'Instagram field is also required',
-                            content: "Please fill the working url or username of your instagram account",
-                            theme: 'material',
-                        })
-                        return false
-                    }
-                
-                    if(!isValidHttpUrl(oData.get('facebook'))){
-                        $.alert({
-                            title: 'Facebook field is also required',
-                            content: "Please fill the working url to your facebook account",
-                            theme: 'material',
-                        })
-                        return false
-                    }
-                    
-                    var oReq = new XMLHttpRequest()
-                    oReq.open("POST", "/api/business-profile-data/contact/edit/", true)
-                    oReq.setRequestHeader('X-CSRFToken', csrftoken)
-                    
-                    oReq.onload = function(oEvent) {
-                        fetchBusinessContactData()
-                        if (oReq.status == 200) {
-                        } else {
-                            $.alert({
-                                title: 'An error occured',
-                                content: "Error " + oReq.status + " occurred when trying to edit your business contact. Please try again.",
-                                type: 'red',
-                                typeAnimated: true,
-                                buttons: {
-                                    tryAgain: {
-                                        text: 'Try again',
-                                        btnClass: 'btn-red',
-                                        action: function(){
-                                        }
-                                    },
-                                }
-                            })
+                        site = oData.get('site')
+                        if (defaultProfileData.site != site){
+                            if(!isValidHttpUrl(site)){
+                                $.alert({
+                                    title: 'Web-site field is also required',
+                                    content: "Please fill the working url to your web-site",
+                                    theme: 'material',
+                                })
+                                return false
+                            }
                         }
-                    };
-                    oReq.send(oData)
+                    
+                        instagram = oData.get('instagram')
+                        if (defaultProfileData.instagram != instagram){
+                            if(!isValidInstagramLinkOrUsername()){
+                                $.alert({
+                                    title: 'Instagram field is also required',
+                                    content: "Please fill the working url or username of your instagram account",
+                                    theme: 'material',
+                                })
+                                return false
+                            }
+                        }
+                        
+                        facebook = oData.get('facebook')
+                        if (defaultProfileData.facebook != facebook){
+                            if(!isValidHttpUrl()){
+                                $.alert({
+                                    title: 'Facebook field is also required',
+                                    content: "Please fill the working url to your facebook account",
+                                    theme: 'material',
+                                })
+                                return false
+                            }
+                        }
+
+                        email = editContactForm.elements.namedItem("email").value
+                        if (defaultProfileData.email != email){
+                            emailExists = await email_check(email)
+                            if (emailExists){
+                                $('[data-toggle="email-popover"]').popover("show")
+                                return false
+                            }
+                        }
+                        
+                        var oReq = new XMLHttpRequest()
+                        oReq.open("POST", "/api/business-profile-data/contact/edit/", true)
+                        oReq.setRequestHeader('X-CSRFToken', csrftoken)
+                        
+                        oReq.onload = function(oEvent) {
+                            fetchBusinessContactData()
+                            if (oReq.status == 200) {
+                            } else {
+                                $.alert({
+                                    title: 'An error occured',
+                                    content: "Error " + oReq.status + " occurred when trying to edit your business contact. Please try again.",
+                                    type: 'red',
+                                    typeAnimated: true,
+                                    buttons: {
+                                        tryAgain: {
+                                            text: 'Try again',
+                                            btnClass: 'btn-red',
+                                            action: function(){
+                                            }
+                                        },
+                                    }
+                                })
+                            }
+                        };
+                        oReq.send(oData)
+                        that.close()
+                    }
+                    return false
                 }
             },
             cancel: function () {
-                //close
+                $('[data-toggle="email-popover"]').popover("hide")
             },
         },
         onContentReady: function () {
             $('[data-toggle="tooltip"]').tooltip()
+
+            document.querySelector("#edit-email").onfocus = function(e){
+                $('[data-toggle="email-popover"]').popover("hide")
+            }
         }
     })
 }

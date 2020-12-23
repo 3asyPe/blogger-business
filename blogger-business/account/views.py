@@ -9,6 +9,8 @@ from .services import (
     custom_login,
     get_next_url_after_login,
     get_next_path,
+    username_exists,
+    email_exists,
 )
 from account.decorators import unauthenticated_user, allowed_users
 from blogger.models import Blogger
@@ -151,3 +153,27 @@ def edit_profile_image_data(request):
         return Response({"message": "Account neither blogger or business"}, status=500)
     
     return Response({"message": "Profile image was edited successfuly"}, status=200)
+
+
+@api_view(["POST"])
+def username_check(request):
+    try:
+        username = request.data["username"]
+    except KeyError:
+        return Response({"message": "Data object doesn't have a username field"}, status=400)
+
+    exists = username_exists(username)
+
+    return Response({"exists": exists}, status=200)
+
+
+@api_view(["POST"])
+def email_check(request):
+    try:
+        email = request.data["email"]
+    except KeyError:
+        return Response({"message": "Data object doesn't have a email field"}, status=400)
+
+    exists = email_exists(email)
+
+    return Response({"exists": exists}, status=200)

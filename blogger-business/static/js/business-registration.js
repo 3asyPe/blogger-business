@@ -1,9 +1,12 @@
 var form = document.querySelector("#registration-form");
 
-form.addEventListener('submit', function(ev) {
+form.addEventListener('submit', async function(ev) {
     ev.preventDefault()
+    saveBtn = document.querySelector("#save-btn")
+    defaultSaveBtnHtml = saveBtn.innerHTML
+    saveBtn.innerHTML = 'Loading <i class="fas fa-spinner fa-spin"></i>'
+
     var oData = new FormData(form)
-    oData.append("accountType", "business");
 
     if(oData.get('image').size === 0){
         $.alert({
@@ -11,6 +14,7 @@ form.addEventListener('submit', function(ev) {
             content: "Please fill the image field",
             theme: 'material',
         })
+        saveBtn.innerHTML = defaultSaveBtnHtml
         return
     }
 
@@ -20,6 +24,7 @@ form.addEventListener('submit', function(ev) {
             content: "Please fill the working url to your web-site",
             theme: 'material',
         })
+        saveBtn.innerHTML = defaultSaveBtnHtml
         return
     }
 
@@ -29,6 +34,7 @@ form.addEventListener('submit', function(ev) {
             content: "Please fill the working url or username of your instagram account",
             theme: 'material',
         })
+        saveBtn.innerHTML = defaultSaveBtnHtml
         return
     }
 
@@ -38,8 +44,17 @@ form.addEventListener('submit', function(ev) {
             content: "Please fill the working url to your facebook account",
             theme: 'material',
         })
+        saveBtn.innerHTML = defaultSaveBtnHtml
         return
     }
+
+    exists = await check_exists()
+    if (exists){
+        saveBtn.innerHTML = defaultSaveBtnHtml
+        return false
+    }
+
+    oData.append("accountType", "business");
 
     var oReq = new XMLHttpRequest()
     oReq.open("POST", "/api/registration/complete", true)
@@ -79,25 +94,16 @@ form.addEventListener('submit', function(ev) {
         }
     };
 
-    saveBtn = document.querySelector("#save-btn")
-    defaultSaveBtnHtml = saveBtn.innerHTML
-    saveBtn.innerHTML = 'Loading <i class="fas fa-spinner fa-spin"></i>'
-
     oReq.send(oData)
 }, false)
 
-function previewImage(event){
-    var reader = new FileReader();
-    reader.onload = function() {
-        showImage(reader.result)
-    }
-    reader.readAsDataURL(event.target.files[0]);
+function getUsernameField(){
+    return document.querySelector("#business_name")
 }
 
-function showImage(source){
-    var output = $('.image')
-    output.attr("src", source)
-    output.show()
-    var imagePlaceholder = $('.image-placeholder')
-    imagePlaceholder.hide()
+document.querySelector("#business_name").onfocus = function(e){
+    $('[data-toggle="username-popover"]').popover("hide")
+    if (e.target.classList.contains("invalid-field")){
+        e.target.classList.remove("invalid-field")
+    }
 }

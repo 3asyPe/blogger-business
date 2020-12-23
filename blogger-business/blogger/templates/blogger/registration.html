@@ -22,8 +22,13 @@
                 <input id="image-input" class="image-input" name="image" type="file" onchange="previewImage(event)"/>
             </div>
             <div class="form-group">
-                <label for="blog_name" class="col-3 col-form-label form-label">Your blog name (username):</label>
-                <input type="text" required name="blog_name" id="blog_name" class="form-control col-7" placeholder="Enter blog name">
+                <label for="blog_name" class="col-3 col-form-label form-label">
+                    <i class="fas fa-exclamation-circle" data-toggle="tooltip" data-placement="top" title="This is a username field"></i>
+                    Your blog name:
+                </label>
+                <input type="text" required name="blog_name" id="blog_name" class="form-control col-7"
+                        placeholder="Enter blog name" data-toggle="username-popover" 
+                        data-trigger="none" data-content="Username is already taken">
             </div>
             <div class="form-group">
                 <div class="form-label col-3">Account in social networks:</div>
@@ -34,7 +39,7 @@
             </div>
             <div class="form-group">
                 <label for="email" class="col-3 col-form-label form-label">Your email:</label>
-                <input type="text" required name="email" class='form-control col-7' placeholder="Enter email">
+                <input type="text" required name="email" id="email" class='form-control col-7' placeholder="Enter email" data-toggle="email-popover" data-trigger="none" data-content="Email is already taken">
             </div> 
             <div class="form-group">
                 <label for="phone" class="col-3 col-form-label form-label">Your phone:</label>
@@ -109,6 +114,10 @@
     </div>
 </div>
     
+<script>
+    var csrf_token = "{{ csrf_token }}"
+</script>
+<script src="{% static 'js/registration.js' %}"></script>
 <script src="{% static 'js/blogger-registration.js' %}"></script>
 
 {% endblock %}

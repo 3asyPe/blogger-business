@@ -9,7 +9,10 @@ from .models import (
 from account.models import Location
 from account.services import create_user
 from account.utils import generate_password, create_date_object
-from emails.services import send_verification_for_new_email
+from emails.services import (
+    send_verification_for_new_email,
+    verification_email_is_sent,
+)
 
 
 User = get_user_model()
@@ -50,7 +53,7 @@ def edit_blogger_profile_blog_info(blogger: Blogger, data: dict) -> Blogger:
     except KeyError:
         raise KeyError("Data object doesn't have email field")
     user = blogger.user
-    if user.email != email:
+    if user.email != email and not verification_email_is_sent(user=user, email=email):
         send_verification_for_new_email(user=user, email=email)
 
     blogger.save()

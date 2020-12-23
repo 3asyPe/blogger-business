@@ -124,6 +124,18 @@
     margin-right: 3px;
 }
 
+.popover {
+    border-radius: 4px;
+    font-size: 13px;
+    background-color: #f91313;
+}
+
+.popover-body{
+    opacity: 0.9;
+    padding: 5px 10px;
+    color: white;
+}
+
 .tooltip {
     color: white;
     padding: 5px 10px;

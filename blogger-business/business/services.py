@@ -6,7 +6,10 @@ from .models import Business
 from account.models import Location
 from account.services import create_user
 from account.utils import generate_password
-from emails.services import send_verification_for_new_email
+from emails.services import (
+    send_verification_for_new_email,
+    verification_email_is_sent,
+)
 
 
 User = get_user_model()
@@ -38,7 +41,7 @@ def edit_business_profile_contact(business: Business, data: dict) -> Business:
     except KeyError:
         raise KeyError("Data object doesn't have email field")
     user = business.user
-    if user.email != email:
+    if user.email != email and not verification_email_is_sent(user=user, email=email):
         send_verification_for_new_email(user=user, email=email)
 
     business.save()

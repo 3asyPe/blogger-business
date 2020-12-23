@@ -1,14 +1,34 @@
+import threading
+
 from .models import EmailActivation
+
+
+class EmailActivationThread(threading.Thread):
+    def __init__(self, email_activation_obj: EmailActivation, password=None):
+        self.email_activation_obj = email_activation_obj
+        self.password = password
+        threading.Thread.__init__(self)
+
+    def run (self):
+        print("sending email")
+        self.email_activation_obj.send_activation(password=self.password)
+
+
+def verification_email_is_sent(user, email):
+    qs = EmailActivation.objects.confirmable().filter(user=user, email=email)
+    if qs.exists():
+        return True
+    return False
 
 
 def send_verification_for_new_email(user, email):
     email_activation_obj = EmailActivation.objects.create(user=user, email=email, email_change=True)
-    return email_activation_obj.send_activation()
+    EmailActivationThread(email_activation_obj=email_activation_obj).start()
 
 
 def send_password_email(user, email, password):
     email_activation_obj = EmailActivation.objects.create(user=user, email=email)
-    return email_activation_obj.send_activation(password=password)
+    EmailActivationThread(email_activation_obj=email_activation_obj, password=password).start()
 
 
 def activate_email_and_get_redirect_url(key):

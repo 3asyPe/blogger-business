@@ -33,8 +33,9 @@
 }
 
 .form-label{
+    display: flex;
     align-items: center;
-    text-align: right;
+    justify-content: flex-end;
 }
 
 .form-label-image{
@@ -89,4 +90,41 @@
 
 .save-account:hover{
     background-color: rgb(107, 152, 194);
+}
+
+.form-control{
+    transition: border-color, box-shadow .1s linear;
+}
+
+.invalid-field{
+    border-color: #ff000017;
+    box-shadow: 0 0 7px #ff0000;
+}
+
+.popover {
+    border-radius: 4px;
+    font-size: 13px;
+    background-color: #f91313;
+}
+
+.popover-body{
+    opacity: 0.9;
+    padding: 5px 10px;
+    color: white;
+}
+
+.tooltip {
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+.tooltip-inner{
+    background-color: #f91313;
+}
+
+.fa-exclamation-circle{
+    color: red;
+    margin-right: 3px;
 }

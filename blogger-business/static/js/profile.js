@@ -102,3 +102,39 @@ function addEmailActivationMark(){
                             'Less than ' + expireTimeLeft + ' hours to confirm ' + newEmail
     emailActivationDiv.innerHTML = emailActivationHtml
 }
+
+async function username_check(username){
+    let response = await fetch('/api/username/check/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8',
+            'X-CSRFToken': csrftoken,
+        },
+        body: JSON.stringify({
+            "username": username
+        })
+    });
+        
+    let result = await response.json().then(response => {
+        return response.exists
+    });
+    return await result
+}
+
+async function email_check(email){
+    let response = await fetch('/api/email/check/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8',
+            'X-CSRFToken': csrftoken,
+        },
+        body: JSON.stringify({
+            "email": email
+        })
+    });
+      
+    let result = await response.json().then(response => {
+        return response.exists
+    });
+    return await result
+}
