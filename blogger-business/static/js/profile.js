@@ -98,7 +98,7 @@ function addEmailActivationMark(){
     emailActivationDiv = document.querySelector(".email-activation")
     newEmail = defaultProfileData.email_activation.email
     expireTimeLeft = defaultProfileData.email_activation.time_left
-    emailActivationHtml = '<i class="fas fa-exclamation-circle" data-toggle="tooltip" data-placement="top" title="This is a username field"></i>' +
+    emailActivationHtml = '<i class="fas fa-exclamation-circle"></i>' +
                             'Less than ' + expireTimeLeft + ' hours to confirm ' + newEmail
     emailActivationDiv.innerHTML = emailActivationHtml
 }
