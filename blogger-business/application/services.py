@@ -63,5 +63,6 @@ def get_applications_by_offer(offer: Offer) -> QuerySet[Application]:
 
 def get_applications_for_business(business: Business) -> QuerySet[Application]:
     offers = Offer.objects.filter(business=business)
+    print(offers)
     applications = Application.objects.filter(offer__in=offers, upvote=True)
     return applications

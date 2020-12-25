@@ -51,17 +51,17 @@ function fetchData(){
                 offers_container.innerHTML += offer_html
             }
             for (let offer of data){
-                let topPart = document.querySelector("#top-part-" + offer.id)
+                let topPart = document.querySelector("#top-part-" + offer.offer_id)
                 topPart.addEventListener("click", function(){
-                    window.location.href = "/offers/edit/" + offer.id
+                    window.location.href = "/offers/edit/" + offer.offer_id
                 })
 
-                let validityDiv = document.querySelector("#validity-div-" + offer.id)
+                let validityDiv = document.querySelector("#validity-div-" + offer.offer_id)
                 validityDiv.addEventListener("click", function(){
-                    window.location.href = "/offers/edit/" + offer.id
+                    window.location.href = "/offers/edit/" + offer.offer_id
                 })
 
-                let applicationsCountDiv = document.querySelector("#applications-count-div-" + offer.id)
+                let applicationsCountDiv = document.querySelector("#applications-count-div-" + offer.offer_id)
                 
                 applicationsCountDiv.addEventListener("click", function(){
                     window.location.href = "/applications?sc=" + offer.id
@@ -94,9 +94,9 @@ function createOfferDiv(data){
     new_validity = `${da}-${mo}-${ye}`
 
     return '<div class="offer-card-shell col-6">' +
-                '<div class="offer-card offer-' + data.id + '">' +
+                '<div class="offer-card offer-' + data.offer_id + '">' +
                     '<div class="offer-card-inner">' +
-                        '<div class="top-part" id="top-part-' + data.id + '">' +
+                        '<div class="top-part" id="top-part-' + data.offer_id + '">' +
                             '<div class="image-div col-4">' +
                                 '<img src="' + data.image + '" class="image img-fluid">' +
                             '</div>' +
@@ -112,12 +112,12 @@ function createOfferDiv(data){
                             '</div>' +
                         '</div>' +
                         '<div class="bottom-part">' +
-                            '<div class="applications-count-div col-4" id="applications-count-div-' + data.id + '">' +
+                            '<div class="applications-count-div col-4" id="applications-count-div-' + data.offer_id + '">' +
                                 '<div class="applications-count">' +
                                     applicationsCountHtml +
                                 '</div>' +
                             '</div>' +
-                            '<div class="validity-div col-8" id="validity-div-' + data.id + '">' +
+                            '<div class="validity-div col-8" id="validity-div-' + data.offer_id + '">' +
                                 '<div class="validity-label">Expires&nbsp</div>' +
                                 '<div class="validity">' + new_validity + '</div>' +
                             '</div>' +

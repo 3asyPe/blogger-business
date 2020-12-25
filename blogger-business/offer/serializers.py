@@ -57,7 +57,7 @@ class OfferSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Offer
-        fields = ['id', 'business', 'image', 'title', 'description', 'conditions', 'price', 'receiving_model', 'validity']
+        fields = ['id', 'offer_id', 'business', 'image', 'title', 'description', 'conditions', 'price', 'receiving_model', 'validity']
 
 
 class OfferEditViewSerializer(serializers.ModelSerializer):
@@ -66,7 +66,7 @@ class OfferEditViewSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Offer
-        fields = ['id', 'blogger_model', 'image', 'title', 'description', 'conditions', 'price', 'receiving_model', 'validity']
+        fields = ['id', 'offer_id', 'blogger_model', 'image', 'title', 'description', 'conditions', 'price', 'receiving_model', 'validity']
 
 
 class OfferBusinessViewSerializer(serializers.ModelSerializer):
@@ -74,7 +74,7 @@ class OfferBusinessViewSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Offer
-        fields = ['id', 'image', 'title', 'description', 'validity', 'applications_count']
+        fields = ['id', 'offer_id', 'image', 'title', 'description', 'validity', 'applications_count']
 
     def get_applications_count(self, obj):
         return obj.applications.filter(upvote=True, application_rate=None).count()
@@ -83,4 +83,4 @@ class OfferBusinessViewSerializer(serializers.ModelSerializer):
 class OfferForApplicationViewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Offer
-        fields = ['id', 'title', 'image']
+        fields = ['id', 'offer_id', 'title', 'image']

@@ -1,10 +1,6 @@
 import datetime
-import string
-import random
 
-
-LETTERS = string.ascii_letters
-NUMBERS = string.digits
+from BloggerBusiness.utils import generate_random_key
 
 
 def generate_password(length=8) -> str:
@@ -16,23 +12,6 @@ def generate_password(length=8) -> str:
     '''
     random_password = generate_random_key(length)
     return random_password
-
-
-def generate_random_key(length=None) -> str:
-    if length is None:
-        length = random.randint(30, 45)
-    
-    letters_and_numbers = f'{LETTERS}{NUMBERS}'
-
-    # convert printable from string to list and shuffle
-    letters_and_numbers = list(letters_and_numbers)
-    random.shuffle(letters_and_numbers)
-
-    # generate random key and convert to string
-    random_key = random.choices(letters_and_numbers, k=length)
-    random_key = ''.join(random_key)
-
-    return random_key
 
 
 def create_date_object(day:str, month:str, year:str):

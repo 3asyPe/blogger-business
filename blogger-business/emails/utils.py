@@ -1,4 +1,4 @@
-from account.utils import generate_random_key
+from BloggerBusiness.utils import generate_random_key
 
 
 def create_activation_key(instance, Klass):

@@ -21,13 +21,13 @@ function fetchOffers(){
 fetchOffers()
 
 function fetchApplicationsForOffer(offer){
-    fetch("/api/applications/fetch/" + offer.id + "/")
+    fetch("/api/applications/fetch/" + offer.offer_id + "/")
     .then(response => {
         return response.json()
     })
     .then(data => {
         data = JSON.parse(data)
-        applicationsInner = document.querySelector("#applications-inner-" + offer.id)
+        applicationsInner = document.querySelector("#applications-inner-" + offer.offer_id)
         if (data.length != 0){
             console.log(data)
             for (let application of data){
@@ -49,13 +49,13 @@ function fetchApplicationsForOffer(offer){
 }
         
 function createOfferDiv(data){
-    offer = '<div class="offer" id="offer-' + data.id + '">' +
+    offer = '<div class="offer" id="offer-' + data.offer_id + '">' +
                 '<div class="offer-header">' +
                     '<div class="offer-title">' +
                         data.title +
                     '</div>' +
                 '</div>' +
-                '<div class="applications-inner" id="applications-inner-' + data.id + '">' +
+                '<div class="applications-inner" id="applications-inner-' + data.offer_id + '">' +
                 '</div>' +
             '</div>'
     return offer

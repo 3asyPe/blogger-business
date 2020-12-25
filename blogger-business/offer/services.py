@@ -18,11 +18,8 @@ from business.models import Business
 
 def get_offers_for_blogger(blogger: Blogger):
     languages = BlogLanguage.objects.filter(blogger=blogger).values("language")
-    print(f"languages-{languages}")
     blogger_model_languages_coincedences = BloggerModelLanguage.objects.filter(language__in=languages).values("blogger_model")
-    print(f"blogger_model_languages_coincedences-{blogger_model_languages_coincedences}")
     specializations = BlogSpecialization.objects.filter(blogger=blogger).values("specialization")
-    print(f"specializations-{specializations}")
     blogger_models = BloggerModelSpecialization.objects.filter(
         blogger_model__in=blogger_model_languages_coincedences,
         specialization__in=specializations,
@@ -37,13 +34,22 @@ def get_offers_for_business(business: Business) -> QuerySet[Offer]:
     return offers
 
 
-def delete_offer_by_id(offer_id: int):
-    offer = Offer.objects.get(id=offer_id)
+def get_offer_by_id_secured(business: Business, offer_id: str) -> Offer:
+    offer = Offer.objects.get(offer_id=offer_id)
+    if offer.business != business:
+        raise PermissionError
+    return offer
+
+
+def delete_offer_by_id_secured(business: Business, offer_id: str):
+    offer = Offer.objects.get(offer_id=offer_id)
+    if offer.business != business:
+        raise PermissionError
     offer.delete()
 
 
-def edit_offer_by_id(data: dict, image, offer_id: int) -> Offer:
-    offer = Offer.objects.get(id=offer_id)
+def edit_offer_by_id_secured(data: dict, image, offer_id: str, business: Business) -> Offer:
+    offer = get_offer_by_id_secured(business=business, offer_id=offer_id)
     
     blogger_model =_change_blogger_model(data=data, offer=offer)
     receiving_model = _change_receiving_model(data=data, offer=offer)
@@ -65,8 +71,8 @@ def create_new_offer(data: dict, image, business: Business) -> Offer:
     return offer
     
 
-def get_offer_by_id(offer_id) -> Offer:
-    offer = Offer.objects.get(id=offer_id)
+def get_offer_by_id(offer_id: str) -> Offer:
+    offer = Offer.objects.get(offer_id=offer_id)
     return offer
 
 
@@ -170,7 +176,6 @@ def _create_receiving_model(data: dict) -> ReceivingModel:
     except KeyError:
         raise KeyError("Data object doesn't have price field")
     receiving_model.save()
-    print(f"receiving_model-{receiving_model}")
 
     return receiving_model
 
@@ -184,7 +189,6 @@ def _create_blogger_model(data: dict) -> BloggerModel:
     except KeyError:
         raise KeyError("Data object doesn't have enough information for blogger model")
     blogger_model.save()
-    print(f"blogger_model-{blogger_model}")
 
     _create_list_of_languages(data=data, blogger_model=blogger_model)
     _create_list_of_specializations(data=data, blogger_model=blogger_model)

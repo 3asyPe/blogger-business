@@ -1,7 +1,11 @@
 from django.conf import settings
 from django.db import models
+from django.db.models.signals import pre_save
 
-from.utils import upload_image_path_offer
+from.utils import (
+    upload_image_path_offer,
+    create_offer_id,
+)
 
 from account.models import Location
 from business.models import Business
@@ -47,6 +51,7 @@ class Offer(models.Model):
         - Validity (calengar)
         + Blogger's model (sorting)
     '''
+    offer_id = models.CharField(max_length=8, null=True, blank=True)
     business = models.ForeignKey(Business, on_delete=models.CASCADE)
     image = models.ImageField(upload_to=upload_image_path_offer, null=True, blank=True)
     title = models.CharField(max_length=255)
@@ -82,3 +87,12 @@ class BloggerModelSpecialization(models.Model):
 class SubscribersNumberGroup(models.Model):
     group = models.IntegerField()
     blogger_model = models.ForeignKey(BloggerModel, on_delete=models.CASCADE, related_name="subscriber_groups")
+
+
+def pre_save_offer_receiver(sender, instance, *args, **kwargs):
+    if not instance.offer_id:
+        create_offer_id(instance=instance, Klass=type(instance))
+   
+
+
+pre_save.connect(pre_save_offer_receiver, sender=Offer)

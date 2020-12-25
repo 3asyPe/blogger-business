@@ -1,5 +1,10 @@
+import string
 import random
 import os
+
+
+LETTERS = string.ascii_letters
+NUMBERS = string.digits
 
 
 def get_filename_ext(filename):
@@ -27,3 +32,19 @@ def querydict_to_dict(query_dict):
         data[key] = v
     return data
     
+
+def generate_random_key(length=None) -> str:
+    if length is None:
+        length = random.randint(30, 45)
+    
+    letters_and_numbers = f'{LETTERS}{NUMBERS}'
+
+    # convert printable from string to list and shuffle
+    letters_and_numbers = list(letters_and_numbers)
+    random.shuffle(letters_and_numbers)
+
+    # generate random key and convert to string
+    random_key = random.choices(letters_and_numbers, k=length)
+    random_key = ''.join(random_key)
+
+    return random_key

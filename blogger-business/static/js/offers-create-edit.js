@@ -11,7 +11,7 @@ var defaultProperties;
 
 function fetchOfferData(offer_id){
     console.log(offer_id)
-    fetch("/api/offers/" + offer_id + "/")
+    fetch("/api/offers/get/" + offer_id + "/")
     .then(response => {
         return response.json()
     })
@@ -148,7 +148,7 @@ form.addEventListener('submit', function(ev) {
     var oReq = new XMLHttpRequest()
 
     if (editMode){
-        url = "/api/offers/edit/" + defaultProperties.id + "/"
+        url = "/api/offers/edit/" + defaultProperties.offer_id + "/"
     } else {
         url = "/api/offers/create/"
     }
@@ -475,7 +475,7 @@ if (editMode){
                 No: {},
                 Yes: function(){
                     request = new XMLHttpRequest()
-                    request.open("DELETE", "/api/offers/delete/" + defaultProperties.id + "/", true)
+                    request.open("DELETE", "/api/offers/delete/" + defaultProperties.offer_id + "/", true)
                     request.setRequestHeader('X-CSRFToken', csrftoken);
                     request.onload = function(oEvent) {
                         if (request.status == 200) {

@@ -61,7 +61,7 @@ function createOfferDiv(data){
     }
 
     new_validity = `${da}-${mo}-${ye}`
-    defaultOffer =  '<div class="offer-card offer-' + data.id + ' col-lg-12 col-12">' +
+    defaultOffer =  '<div class="offer-card offer-' + data.offer_id + ' col-lg-12 col-12">' +
                 priceDiv +
                 '<div class="offer-card-inner">' +
                     '<div class="media-part col-4">' +
@@ -127,9 +127,9 @@ function createOfferDiv(data){
                     '</div>' +
                 '</div>' +
                 '<div class="offer-action-buttons">' +
-                    '<button class="action-btn"><i class="fas fa-times action-icon" onclick="rateOffer(false, ' + data.id + ')"></i></button>' +
+                    '<button class="action-btn"><i class="fas fa-times action-icon" onclick="rateOffer(false, ' + data.offer_id + ')"></i></button>' +
                     '<div class="offer-action-title">Send a request?</div>' +
-                    '<button class="action-btn"><i class="fas fa-check action-icon" onclick="rateOffer(true, ' + data.id + ')"></i></button>' +
+                    '<button class="action-btn"><i class="fas fa-check action-icon" onclick="rateOffer(true, ' + data.offer_id + ')"></i></button>' +
                 '</div>' +
             '</div>'
     

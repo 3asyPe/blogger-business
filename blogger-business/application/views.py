@@ -43,7 +43,7 @@ def fetch_applications(request):
 
 @api_view(["GET"])
 @allowed_users(["BUSINESS"])
-def fetch_application_for_offer(request, offer_id:int):
+def fetch_application_for_offer(request, offer_id: str):
     try:
         offer = get_offer_by_id(offer_id=offer_id)
     except Offer.DoesNotExist:
