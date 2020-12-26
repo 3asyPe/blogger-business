@@ -13,8 +13,12 @@ def contact_view(request):
 
 
 def about_view(request):
-    return HttpResponse("<h1>About page</h1>")
+    return HttpResponse("pages/about.html")
 
 
 def terms_of_use_view(request):
     return render(request, "pages/terms-of-use.html", {})
+
+
+def privacy_policy_view(request):
+    return render(request, "pages/privacy-policy.html")
