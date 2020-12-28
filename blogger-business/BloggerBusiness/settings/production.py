@@ -1,7 +1,7 @@
 import os
 from . import secret
 from . import languages
-
+from BloggerBusiness.google_api import google_conf
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -32,6 +32,14 @@ MANAGERS = (
 
 ADMINS = MANAGERS
 
+GOOGLE_CLIENT_ID = google_conf.CLIENT_ID
+GOOGLE_CLIENT_SECRET = google_conf.CLIENT_SECRET
+GOOGLE_PATH_TO_CLIENT_SECRET = google_conf.PATH_TO_CLIENT_SECRET
+GOOGLE_SCOPES = google_conf.SCOPES
+GOOGLE_ACCESS_TYPE = google_conf.ACCESS_TYPE
+GOOGLE_INCLUDE_GRANTED_SCOPES = google_conf.INCLUDE_GRANTED_SCOPES
+GOOGLE_LOGIN_HINT = google_conf.LOGIN_HINT
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -53,7 +61,8 @@ INSTALLED_APPS = [
     'blogger',
     'business',
     'emails',
-    'offer'
+    'offer',
+    'youtube',
 ]
 
 

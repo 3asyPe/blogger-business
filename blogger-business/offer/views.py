@@ -18,6 +18,7 @@ from .services import (
     create_new_offer, 
     get_offers_for_blogger,
     get_offers_for_business,
+    get_offer_by_id,
     get_offer_by_id_secured,
     edit_offer_by_id_secured,
     delete_offer_by_id_secured,
@@ -143,13 +144,10 @@ def get_offer_for_edit(request, offer_id: str):
 def rate_offer(request):
     offer_id = request.data.get("offerId")
     upvote = request.data.get("upvote")
-    business = request.user.business
     try:
-        offer = get_offer_by_id_secured(business=business, offer_id=offer_id)
+        offer = get_offer_by_id(offer_id=offer_id)
     except Offer.DoesNotExist:
         return Response({"message": f"There is no offer with id {offer_id}"}, status=404)
-    except PermissionError:
-        return Response({"message": "You are not allowed to rate this offer"}, stutus=403)
         
     create_application(
         offer=offer,

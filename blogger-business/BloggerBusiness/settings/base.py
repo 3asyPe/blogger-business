@@ -1,6 +1,7 @@
 import os
 from . import secret
 from . import languages
+from BloggerBusiness.google_api import google_conf
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -53,7 +54,8 @@ INSTALLED_APPS = [
     'blogger',
     'business',
     'emails',
-    'offer'
+    'offer',
+    'youtube',
 ]
 
 

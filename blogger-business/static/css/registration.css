@@ -128,3 +128,109 @@
     color: red;
     margin-right: 3px;
 }
+
+.social-buttons{
+    display: flex;
+}
+
+.social-item{
+    display: flex;
+    align-items: center;
+    margin: 0 5px;
+    border-radius: 30px;
+    background-color: #f8f9fa;
+    font-size: 13px;
+    font-weight: 500;
+    transition: color 0s linear;
+}
+
+.social-item:hover{
+    color: white;
+}
+
+.social-item:hover .social-item-icon{
+    fill: white;
+}
+
+#google-sign-in-or-out-button:hover{
+    background: #ff0000;
+}
+
+#facebook-sign-in-or-out-button:hover{
+    background-color: #f09433; 
+    background: -moz-linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); 
+    background: -webkit-linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); 
+    background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); 
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f09433', endColorstr='#bc1888',GradientType=1 );
+}
+
+.social-item-icon-div{
+    position: relative;
+    margin: auto 5px auto 0;
+    width: 17px;
+    height: 17px;
+}
+
+.social-item-icon{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 17px;
+    height: 17px;
+}
+
+.social-item-text{
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden; 
+    width: 105px;
+    white-space: nowrap;
+}
+
+.social-item-delete{
+    display: flex;
+    margin: 0;
+}
+
+.social-item-delete-divider{
+    margin: 0 5px;
+    font-size: 19px;
+    font-weight: 100;
+    line-height: 1;
+}
+
+.social-item-delete-icon-div{
+    position: relative;
+    margin: auto 0;
+    width: 11px;
+    height: 11px;
+}
+
+.social-item-delete-icon{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 11px;
+    height: 11px;
+}
+
+.activated{
+    background-color: #ff0000;
+    color: white;
+}
+
+.activated:hover{
+    color: #282828;
+}
+
+.activated:hover .social-item-icon{
+    fill: #282828;
+}
+
+.activated:hover .social-item-delete-icon{
+    fill: #282828;
+}
+
+.activated-icon{
+    fill: white;
+}

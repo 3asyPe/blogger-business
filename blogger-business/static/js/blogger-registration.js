@@ -1,24 +1,3 @@
-$.confirm({
-    title: 'Blogger registration',
-    content: 'You can fill out the form or sign in via Facebook',
-    theme: 'material',
-    buttons: {
-        form: function () {
-            showForm()
-        },
-        facebook: function() {
-
-        }
-    },
-    animation: 'zoom',
-    closeAnimation: 'scale'
-});
-
-function showForm(){
-    let div_form = document.querySelector(".registration")
-    div_form.classList.remove("d-none")    
-}
-
 fetch("/api/blog-languages")
     .then(response => {
         return response.json()
@@ -118,6 +97,19 @@ form.addEventListener('submit', async function(ev) {
         return false
     }
 
+    if (!googleConnected){
+        $('[data-toggle="youtube-popover"]').popover("show")
+        youtubeBtn = document.querySelector("#youtube-account")
+        youtubeBtn.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+        })
+        return false
+    }
+
+    appendUserDataToFormData(googleUser, oData)
+    oData.append("google_code", googleAuthCode)
+
     oData.append("accountType", "blogger");
 
     var oReq = new XMLHttpRequest()
@@ -166,6 +158,13 @@ function getUsernameField(){
     return document.querySelector("#blog_name")
 }
 
+function appendUserDataToFormData(user, formData){
+    basicProfile = user.getBasicProfile()
+    formData.append("google_email", basicProfile.getEmail())
+    formData.append("google_name", basicProfile.getName())
+    formData.append("google_image_url", basicProfile.getImageUrl())
+}
+
 document.querySelector("#blog_name").onfocus = function(e){
     $('[data-toggle="username-popover"]').popover("hide")
     if (e.target.classList.contains("invalid-field")){
@@ -173,6 +172,9 @@ document.querySelector("#blog_name").onfocus = function(e){
     }
 }
 
+document.querySelector("#google-sign-in-or-out-button").onfocus = function(e){
+    $('[data-toggle="youtube-popover"]').popover("hide")
+}
 
 // // Set limit of choosing specializations to max 3
 

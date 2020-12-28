@@ -27,6 +27,7 @@ node_modules/
 # local project items
 parse.py
 blogger-business/BloggerBusiness/settings/secret.py
+blogger-business/BloggerBusiness/google_api/files/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

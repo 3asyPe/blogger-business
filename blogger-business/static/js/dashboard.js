@@ -1,7 +1,7 @@
 saw_help = localStorage.getItem('blogger-help')
 
 if (!saw_help){
-    $("#myModal").modal()
+    // $("#myModal").modal()
     localStorage.setItem('blogger-help', true)
 }
 
@@ -127,9 +127,9 @@ function createOfferDiv(data){
                     '</div>' +
                 '</div>' +
                 '<div class="offer-action-buttons">' +
-                    '<button class="action-btn"><i class="fas fa-times action-icon" onclick="rateOffer(false, ' + data.offer_id + ')"></i></button>' +
+                    '<button class="action-btn"><i class="fas fa-times action-icon" onclick="rateOffer(false, \'' + data.offer_id + '\')"></i></button>' +
                     '<div class="offer-action-title">Send a request?</div>' +
-                    '<button class="action-btn"><i class="fas fa-check action-icon" onclick="rateOffer(true, ' + data.offer_id + ')"></i></button>' +
+                    '<button class="action-btn"><i class="fas fa-check action-icon" onclick="rateOffer(true, \'' + data.offer_id + '\')"></i></button>' +
                 '</div>' +
             '</div>'
     

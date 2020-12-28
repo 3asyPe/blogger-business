@@ -16,6 +16,7 @@ def create_user(username: str, email: str, password: str) -> Optional[User]:
 
 
 def custom_login(request, username: str, password: str) -> Optional[User]:
+    username = username.lower()
     user = authenticate(request, username=username, password=password)
     if user is not None:
         if not user.is_active:

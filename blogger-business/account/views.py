@@ -33,6 +33,8 @@ from business.services import (
     edit_business_profile_image,
 )
 
+from youtube.services import create_youtube_model
+
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -47,8 +49,6 @@ def login_view(request):
 
 @api_view(["POST"])
 def login_account(request):
-    print(f"user-{request.user}")
-    print(request.POST)
     username = request.POST.get("username")
     password = request.POST.get("password")
     try:
@@ -70,10 +70,8 @@ def login_account(request):
 
 
 def registration_view(request):
-    print("registration view")
     account_type = request.GET.get("type") or request.POST.get("type")
     if account_type == "bl":
-        print("render")
         return render(request, "blogger/registration.html", {})
     elif account_type == "bu":
         return render(request, "business/registration.html", {})

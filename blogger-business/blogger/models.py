@@ -31,7 +31,6 @@ class Blogger(models.Model):
     blog_name = models.CharField(max_length=100)
     email = models.EmailField(max_length=255, unique=True)
     instagram = models.CharField(max_length=255, null=True, blank=True)
-    youtube = models.CharField(max_length=255, null=True, blank=True)
     phone = PhoneNumberField()
     location = models.OneToOneField(Location, on_delete=models.SET_NULL, null=True, blank=True)
     sex = models.CharField(max_length=1, choices=SEXES)

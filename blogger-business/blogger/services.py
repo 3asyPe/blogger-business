@@ -13,6 +13,7 @@ from emails.services import (
     send_verification_for_new_email,
     verification_email_is_sent,
 )
+from youtube.services import create_youtube_model
 
 
 User = get_user_model()
@@ -88,8 +89,20 @@ def _create_blogger(data: dict, image, user: User) -> Blogger:
 
     _create_list_of_languages(data=data, blogger=blogger)
     _create_list_of_specializations(data=data, blogger=blogger)
+    _create_youtube_model(data=data, blogger=blogger)
     
     return blogger
+
+
+def _create_youtube_model(blogger: Blogger, data):
+    try:
+        code = data["google_code"]
+        name = data["google_name"]
+        email = data["google_email"]
+        image_url = data["google_image_url"]
+    except KeyError:
+        raise KeyError("Data objects doesn't have one of youtube field")
+    youtube = create_youtube_model(blogger=blogger, code=code, name=name, email=email, image_url=image_url)
 
 
 def _change_location(blogger: Blogger, data: dict) -> Location:
