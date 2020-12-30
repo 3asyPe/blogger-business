@@ -1,5 +1,5 @@
 var GoogleAuth;
-var SCOPE = 'https://www.googleapis.com/auth/yt-analytics.readonly'
+var SCOPE = "https://www.googleapis.com/auth/youtube.readonly https://www.googleapis.com/auth/yt-analytics.readonly"
 function handleClientLoad() {
     // Load the API's client and auth2 modules.
     // Call the initClient function after the modules load.
@@ -20,14 +20,9 @@ function initClient() {
         'scope': SCOPE,
 }).then(function () {
     GoogleAuth = gapi.auth2.getAuthInstance();
-    revokeAccess()
 
     // Listen for sign-in state changes.
     GoogleAuth.isSignedIn.listen(updateSigninStatus);
-
-    // Handle initial sign-in state. (Determine if user is already signed in.)
-    var user = GoogleAuth.currentUser.get();
-    setSigninStatus();
 
     // Call handleAuthClick function when user clicks on
     //      "Sign In/Authorize" button.
