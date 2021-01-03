@@ -17,6 +17,11 @@ CLIENT_SECRET = settings.GOOGLE_CLIENT_SECRET
 CLIENT_ID = settings.GOOGLE_CLIENT_ID
 
 
+def update_channel_info(youtube) -> bool:
+    updated = youtube.refresh_channel_info()
+    return updated
+
+
 def create_youtube_model(blogger, code: str, name: str, email=None, image_url=None) -> Youtube:
     credentials = authorize_user(code=code)
     youtube = Youtube.objects.create_new(
@@ -26,7 +31,8 @@ def create_youtube_model(blogger, code: str, name: str, email=None, image_url=No
         image_url=image_url,
         credentials=credentials
     )
-    youtube_statistics = create_youtube_statistics_model(youtube)
+    if youtube.channel_id is not None:
+        youtube_statistics = create_youtube_statistics_model(youtube)
     return youtube
 
 

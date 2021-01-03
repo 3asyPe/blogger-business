@@ -155,7 +155,7 @@
         <div class="info-block bottom-part">
             <div class="statistics-title">My statistics</div>
             <div class="statistics-content">
-                <div class="media-statistics youtube-statistics">
+                <div class="media-statistics" id="youtube-statistics">
                     <div class="statistics-title-link-div" id="youtube-link-div">
                         <div class="statistics-title-link">
                             <svg class="statistics-title-icon youtube">
@@ -164,9 +164,13 @@
                             <div class="statistics-title-text">youtube</div>
                         </div>
                     </div>
-                    <div class="statistics-disabled" id="youtube-statistics-disabled">
+                    <div class="statistics-disabled" id="google-is-not-connected">
                         <div class="statistics-disabled-text">Please&nbsp;</div>
                         <a href="" class="statistics-disabled-link">connect account</a>
+                    </div>
+                    <div class="statistics-disabled d-none" id="youtube-does-not-exist">
+                        <div class="statistics-disabled-text">Youtube channel does not exist.&nbsp;</div>
+                        <button class="refresh-btn" onclick="refreshChannelInfo()">Refresh</button>
                     </div>
                     <div class="statistics-total d-none" id ="youtube-total-statistics">
                         <div class="statistics-block-item">

@@ -42,8 +42,9 @@ class YoutubeManager(models.Manager):
         )
         response = request_snippet_and_id_for_channel(youtube)
         s_dict = parse_snippet_and_id(response)
-        youtube.name = s_dict["name"]
-        youtube.channel_id = s_dict["channel_id"]
+        if s_dict is not None:
+            youtube.name = s_dict["name"]
+            youtube.channel_id = s_dict["channel_id"]
         youtube.save(using=self._db)
         return youtube
 
@@ -79,6 +80,21 @@ class Youtube(models.Model):
         self.token_expires_in = credentials.expires_in
         self.save()
 
+    def refresh_channel_info(self) -> bool:
+        response = request_snippet_and_id_for_channel(self)
+        s_dict = parse_snippet_and_id(response)
+        if s_dict is not None:
+            if self.channel_id is None:
+                YoutubeStatistics.objects.create_new(youtube=self)
+            else:
+                self.statistics.update_total_statistics()
+                self.statistics.udpate_statistics_for_last_month()
+            self.name = s_dict["name"]
+            self.channel_id = s_dict["channel_id"]
+            self.save()
+            return True
+        return False
+
     def fetch_credentials(self):
         credentials = oauth2client.client.GoogleCredentials(
             access_token=None,
@@ -95,6 +111,8 @@ class Youtube(models.Model):
         return credentials
 
     def get_url(self):
+        if not self.channel_id:
+            return None
         return f"https://www.youtube.com/channel/{self.channel_id}"
 
     def __str__(self):

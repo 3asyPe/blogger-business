@@ -47,14 +47,21 @@ function pullBlogDataIntoHtml(){
 
 function pullStatisticsIntoHtml(){
     if (!defaultProfileData.youtube){
-        youtubeIsNotConnected()
+        googleAccountIsNotConnected()
+    } else if (!defaultProfileData.youtube.channel_id){
+        youtubeChannelDoesNotExist()
     } else {
         youtubeIsConnected()
         pullYoutubeStatisticsIntoHtml()
     }
 }
 
-function youtubeIsNotConnected(){
+function googleAccountIsNotConnected(){
+    let youtubeStats = document.querySelector("#youtube-statistics")
+    if (!youtubeStats.classList.contains("disabled-block")){
+        youtubeStats.classList.add("disabled-block")
+    }
+
     let youtubeLinkDiv = document.querySelector("#youtube-link-div")
     youtubeLinkDiv.innerHTML = '<div class="statistics-title-link no-hover-link">' +
                                     '<svg class="statistics-title-icon youtube">' +
@@ -63,9 +70,14 @@ function youtubeIsNotConnected(){
                                     '<div class="statistics-title-text">youtube</div>' +
                                 '</div>'
 
-    let youtubeStatisticsDisabled = document.querySelector("#youtube-statistics-disabled")
-    if (youtubeStatisticsDisabled.classList.contains("d-none")){
-        youtubeStatisticsDisabled.classList.remove("d-none")
+    let googleIsNotConnected = document.querySelector("#google-is-not-connected")
+    if (googleIsNotConnected.classList.contains("d-none")){
+        googleIsNotConnected.classList.remove("d-none")
+    }
+
+    let youtubeDoesNotExist = document.querySelector("#youtube-does-not-exist")
+    if (!youtubeDoesNotExist.classList.contains("d-none")){
+        youtubeDoesNotExist.classList.add("d-none")
     }
 
     let youtubeTotalStatistics = document.querySelector("#youtube-total-statistics")
@@ -79,7 +91,26 @@ function youtubeIsNotConnected(){
     }
 }
 
+function youtubeChannelDoesNotExist(){
+    googleAccountIsNotConnected()
+    
+    let googleIsNotConnected = document.querySelector("#google-is-not-connected")
+    if (!googleIsNotConnected.classList.contains("d-none")){
+        googleIsNotConnected.classList.add("d-none")
+    }
+
+    let youtubeDoesNotExist = document.querySelector("#youtube-does-not-exist")
+    if (youtubeDoesNotExist.classList.contains("d-none")){
+        youtubeDoesNotExist.classList.remove("d-none")
+    }
+}
+
 function youtubeIsConnected(){
+    let youtubeStats = document.querySelector("#youtube-statistics")
+    if (youtubeStats.classList.contains("disabled-block")){
+        youtubeStats.classList.remove("disabled-block")
+    }
+
     let youtubeLinkDiv = document.querySelector("#youtube-link-div")
     youtubeLink = defaultProfileData.youtube.url
     youtubeLinkDiv.innerHTML = '<a href="' + youtubeLink + '" add target="_blank" class="statistics-title-link">' +
@@ -89,9 +120,14 @@ function youtubeIsConnected(){
                                     '<div class="statistics-title-text">youtube</div>' +
                                 '</a>'
 
-    let youtubeStatisticsDisabled = document.querySelector("#youtube-statistics-disabled")
-    if (!youtubeStatisticsDisabled.classList.contains("d-none")){
-        youtubeStatisticsDisabled.classList.add("d-none")
+    let googleIsNotConnected = document.querySelector("#google-is-not-connected")
+    if (!googleIsNotConnected.classList.contains("d-none")){
+        googleIsNotConnected.classList.add("d-none")
+    }
+
+    let youtubeDoesNotExist = document.querySelector("#youtube-does-not-exist")
+    if (!youtubeDoesNotExist.classList.contains("d-none")){
+        youtubeDoesNotExist.classList.add("d-none")
     }
 
     let youtubeTotalStatistics = document.querySelector("#youtube-total-statistics")
@@ -131,6 +167,34 @@ function pullYoutubeStatisticsIntoHtml(){
 
     let youtubeMonthDislikes = document.querySelector("#youtube-month-dislikes")
     youtubeMonthDislikes.innerHTML = toShortenNumber(statistics.month_dislikes)
+}
+
+function refreshChannelInfo(){
+    let refreshBtn = document.querySelector(".refresh-btn")
+    defaultInnerHtml = refreshBtn.innerHTML
+    refreshBtn.innerHTML = 'Loading <i class="fas fa-spinner fa-spin"></i>'
+
+    fetch("/api/youtube/refresh/", {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": csrftoken, // 👈👈👈 Set the token
+                "Content-Type": "application/json"
+            },
+    }).then(response => {
+            refreshBtn.innerHTML = defaultInnerHtml
+            if (!response.ok) { 
+                throw response
+            }
+            return response.json()
+    }).then(data => {     
+        data = JSON.parse(data)
+        console.log(data)
+        defaultProfileData.youtube = data
+        youtubeIsConnected()
+        pullYoutubeStatisticsIntoHtml()
+    }).catch(error => {
+        
+    })
 }
 
 function toShortenNumber(number){

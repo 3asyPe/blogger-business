@@ -2,6 +2,7 @@ from datetime import date
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from googleapiclient.discovery import build
+from typing import Optional
 
 
 API_ANALYTICS_SERVICE_NAME = "youtubeAnalytics"
@@ -83,8 +84,14 @@ def parse_month_statistics(response) -> dict:
     return s_dict
 
 
-def parse_total_statistics(response) -> dict:
-    statistics = response["items"][-1]["statistics"]
+def parse_total_statistics(response) -> Optional[dict]:
+    ''' Response doesn't have items if youtube account doesn't exist.
+    It might happen if user have a google account but doesn't have a youtube
+    '''
+    try:
+        statistics = response["items"][-1]["statistics"]
+    except KeyError:
+        return None
 
     s_dict = {
         "views": statistics["viewCount"],
@@ -94,8 +101,14 @@ def parse_total_statistics(response) -> dict:
     return s_dict
 
 
-def parse_snippet_and_id(response) -> dict:
-    snippet = response["items"][-1]["snippet"]
+def parse_snippet_and_id(response) -> Optional[dict]:
+    ''' Response doesn't have items if youtube account doesn't exist.
+    It might happen if user have a google account but doesn't have a youtube
+    '''
+    try:
+        snippet = response["items"][-1]["snippet"]
+    except KeyError:
+        return None
     channel_id = response["items"][-1]["id"]
     name = snippet["title"]
     
