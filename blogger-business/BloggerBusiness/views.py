@@ -1,4 +1,3 @@
-from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 
 from rest_framework.response import Response
@@ -9,11 +8,11 @@ def home_view(request):
 
 
 def contact_view(request):
-    return render(request, "base.html", {})
+    return render(request, "pages/contact.html", {})
 
 
 def about_view(request):
-    return HttpResponse("pages/about.html")
+    return render(request, "pages/about.html")
 
 
 def terms_of_use_view(request):
