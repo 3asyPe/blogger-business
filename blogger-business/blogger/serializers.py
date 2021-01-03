@@ -4,6 +4,7 @@ from .models import Blogger, BlogSpecialization, BlogLanguage
 from account.serializers import LocationSerializer
 from emails.models import EmailActivation
 from emails.serializers import UserProfileEmailActivationSerializer
+from youtube.serializers import YoutubeSerializer
 
 from rest_framework import serializers
 
@@ -33,6 +34,7 @@ class BloggerSerializer(serializers.ModelSerializer):
     languages = BlogLanguageSerializer(many=True)
     location = LocationSerializer()
     email_activation = serializers.SerializerMethodField()
+    youtube = YoutubeSerializer()
 
     class Meta:
         model = Blogger

@@ -6,6 +6,8 @@ function pullFullDataIntoHtml(){
 
     pullBlogDataIntoHtml()
 
+    pullStatisticsIntoHtml()
+
     fetchLanguages()
     fetchSpecializations()
 }
@@ -41,6 +43,141 @@ function pullBlogDataIntoHtml(){
         emailActivationDiv = document.querySelector(".email-activation")
         emailActivationDiv.innerHTML = ''
     }
+}
+
+function pullStatisticsIntoHtml(){
+    if (!defaultProfileData.youtube){
+        youtubeIsNotConnected()
+    } else {
+        youtubeIsConnected()
+        pullYoutubeStatisticsIntoHtml()
+    }
+}
+
+function youtubeIsNotConnected(){
+    let youtubeLinkDiv = document.querySelector("#youtube-link-div")
+    youtubeLinkDiv.innerHTML = '<div class="statistics-title-link no-hover-link">' +
+                                    '<svg class="statistics-title-icon youtube">' +
+                                        '<use xlink:href="#youtube"></use>' +
+                                    '</svg>' +
+                                    '<div class="statistics-title-text">youtube</div>' +
+                                '</div>'
+
+    let youtubeStatisticsDisabled = document.querySelector("#youtube-statistics-disabled")
+    if (youtubeStatisticsDisabled.classList.contains("d-none")){
+        youtubeStatisticsDisabled.classList.remove("d-none")
+    }
+
+    let youtubeTotalStatistics = document.querySelector("#youtube-total-statistics")
+    if (!youtubeTotalStatistics.classList.contains("d-none")){
+        youtubeTotalStatistics.classList.add("d-none")
+    }
+
+    let youtubeMonthStatistics = document.querySelector("#youtube-month-statistics")
+    if (!youtubeMonthStatistics.classList.contains("d-none")){
+        youtubeMonthStatistics.classList.add("d-none")
+    }
+}
+
+function youtubeIsConnected(){
+    let youtubeLinkDiv = document.querySelector("#youtube-link-div")
+    youtubeLink = defaultProfileData.youtube.url
+    youtubeLinkDiv.innerHTML = '<a href="' + youtubeLink + '" add target="_blank" class="statistics-title-link">' +
+                                    '<svg class="statistics-title-icon youtube">' +
+                                        '<use xlink:href="#youtube"></use>' +
+                                    '</svg>' +
+                                    '<div class="statistics-title-text">youtube</div>' +
+                                '</a>'
+
+    let youtubeStatisticsDisabled = document.querySelector("#youtube-statistics-disabled")
+    if (!youtubeStatisticsDisabled.classList.contains("d-none")){
+        youtubeStatisticsDisabled.classList.add("d-none")
+    }
+
+    let youtubeTotalStatistics = document.querySelector("#youtube-total-statistics")
+    if (youtubeTotalStatistics.classList.contains("d-none")){
+        youtubeTotalStatistics.classList.remove("d-none")
+    }
+
+    let youtubeMonthStatistics = document.querySelector("#youtube-month-statistics")
+    if (youtubeMonthStatistics.classList.contains("d-none")){
+        youtubeMonthStatistics.classList.remove("d-none")
+    }
+}
+
+function pullYoutubeStatisticsIntoHtml(){
+    statistics = defaultProfileData.youtube.statistics
+    
+    let youtubeSubscribers = document.querySelector("#youtube-subscribers")
+    youtubeSubscribers.innerHTML = toShortenNumber(statistics.subscribers)
+
+    let youtubeVideos = document.querySelector("#youtube-videos")
+    youtubeVideos.innerHTML = toShortenNumber(statistics.total_video_count)
+
+    let youtubeViews = document.querySelector("#youtube-views")
+    youtubeViews.innerHTML = toShortenNumber(statistics.total_views)
+
+    let youtubeMonthSubscribers = document.querySelector("#youtube-month-subscribers")
+    youtubeMonthSubscribers.innerHTML = toShortenNumber(statistics.month_subscribers_gained)
+
+    let youtubeMonthViews = document.querySelector("#youtube-month-views")
+    youtubeMonthViews.innerHTML = toShortenNumber(statistics.month_views)
+    
+    let youtubeMonthComments = document.querySelector("#youtube-month-comments")
+    youtubeMonthComments.innerHTML = toShortenNumber(statistics.month_comments)
+
+    let youtubeMonthlikes = document.querySelector("#youtube-month-likes")
+    youtubeMonthlikes.innerHTML = toShortenNumber(statistics.month_likes)
+
+    let youtubeMonthDislikes = document.querySelector("#youtube-month-dislikes")
+    youtubeMonthDislikes.innerHTML = toShortenNumber(statistics.month_dislikes)
+}
+
+function toShortenNumber(number){
+    function abbreviate(number, maxPlaces) {
+        number = Number(number)
+        var abbr
+        if(number >= 1e9) {
+          abbr = 'B'
+        }
+        else if(number >= 1e6) {
+          abbr = 'M'
+        }
+        else if(number >= 1e3) {
+          abbr = 'K'
+        }
+        else {
+          abbr = ''
+        }
+        return annotate(number, maxPlaces, abbr)
+      }
+      
+      function annotate(number, maxPlaces, abbr) {
+        // set places to false to not round
+        var rounded = 0
+        switch(abbr) {
+            case 'B':
+                rounded = number / 1e9
+                break
+            case 'M':
+                rounded = number / 1e6
+                break
+            case 'K':
+                rounded = number / 1e3
+                break
+            case '':
+                rounded = number
+                break
+        }
+        if(maxPlaces !== false) {
+            var test = new RegExp('\\.\\d{' + (maxPlaces + 1) + ',}$')
+            if(test.test(('' + rounded))) {
+                rounded = rounded.toFixed(maxPlaces)
+            }
+        }
+        return rounded + abbr
+    }
+    return abbreviate(number, 1)
 }
 
 function fetchPersonalData(){

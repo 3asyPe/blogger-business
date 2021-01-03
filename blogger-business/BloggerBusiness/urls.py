@@ -19,8 +19,9 @@ urlpatterns = [
     path('', include('application.urls')),
     path('', include('blogger.urls')),
     path('', include('business.urls')),
-    path('', include('offer.urls')),
     path('', include('emails.urls')),
+    path('', include('offer.urls')),
+    path('', include('youtube.urls'))
 ]
 
 if settings.DEBUG:

@@ -6,6 +6,7 @@ import oauth2client
 from django.conf import settings
 
 from .models import Youtube, YoutubeStatistics
+from blogger.models import Blogger
 
 
 SCOPES = settings.GOOGLE_SCOPES
@@ -42,3 +43,10 @@ def authorize_user(code):
     flow.fetch_token(code=code)
     credentials = flow.credentials
     return credentials
+
+
+def get_youtube_by_blogger(blogger: Blogger):
+    qs = Youtube.objects.filter(blogger=blogger)
+    if not qs.exists():
+        raise Youtube.DoesNotExist()
+    return qs.first()

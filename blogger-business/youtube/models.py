@@ -94,6 +94,9 @@ class Youtube(models.Model):
         credentials.refresh(http)
         return credentials
 
+    def get_url(self):
+        return f"https://www.youtube.com/channel/{self.channel_id}"
+
     def __str__(self):
         return self.name
 

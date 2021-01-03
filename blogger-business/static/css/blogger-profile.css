@@ -1,3 +1,15 @@
+.profile-container-inner{
+    flex-direction: column;
+}
+
+.top-part{
+    display: flex;
+}
+
+.bottom-part{
+    border: none;
+}
+
 .media-title{
     font-size: 24px;
     text-align: center;
@@ -9,10 +21,131 @@
     font-size: 20px;
 }
 
-.statistics{
-    border-bottom: none;
-}
-
 .birthday-div{
     display: flex;
+}
+
+.statistics-title{
+    font-size: 30px;
+    font-weight: 500;
+    text-align: center;
+    margin: 20px;
+}
+
+.statistics-content{
+    display: flex;
+}
+
+.media-statistics{
+    width: 50%;
+}
+
+.statistics-title-link-div{
+    display: flex;
+    justify-content: center;
+}
+
+.statistics-title-link{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    transition: color .1s linear;
+}
+
+.statistics-title-link:hover{
+    color: #282828;
+    text-decoration: none;
+}
+
+.statistics-title-link:hover .instagram{
+    fill: #fb3958;
+}
+
+.statistics-title-link:hover .youtube{
+    fill: #FF0000;
+}
+
+.no-hover-link{
+    color: black !important;
+}
+
+.no-hover-link .youtube{
+    fill: black !important;
+}
+
+.no-hover-link .instagram{
+    fill: black !important;
+}
+
+.statistics-title-icon{
+    display: block;
+    height: 30px;
+    width: 30px;
+    margin-right: 5px;
+    transition: fill .1s linear;
+}
+
+.statistics-title-text{
+    text-transform: uppercase;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.disabled-block{
+    opacity: 0.8;
+}
+
+.statistics-total{
+    display: flex;
+    justify-content: space-around;
+    margin: 15px 0;
+}
+
+.statistics-block-item{
+    display: flex;
+    align-items: center;
+}
+
+.statistics-item-icon{
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+}
+
+.statistics-item-total{
+    font-size: 20px;
+    line-height: 1.2;
+    font-weight: 500;
+}
+
+.statistics-month-title{
+    font-size: 22px;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.statistics-block-item-month{
+    width: 75%;
+    margin: 5px auto;
+    font-size: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.statistics-item-title-month{
+    padding: 0;
+}
+
+.statistics-item-month{
+    text-align: right;
+}
+
+.statistics-disabled{
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+    font-size: 24px;
+    color: black;
 }
