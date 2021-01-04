@@ -62,6 +62,23 @@ function createOfferDiv(data){
 }
 
 function createApplicationDiv(data){
+    youtube = data.blogger.youtube
+    if (youtube && youtube.channel_id){
+        youtubeStatisticsHtml = '' +
+            `<div class="statistics-block">
+                <div class="statistics-title">Followers:</div>
+                <div class="statistics-number">` + toShortenNumber(youtube.statistics.subscribers) + `</div>
+            </div>
+            <div class="statistics-block">
+                <div class="statistics-title">Videos:</div>
+                <div class="statistics-number">` + toShortenNumber(youtube.statistics.total_video_count) + `</div>
+            </div>
+            <div class="statistics-block">
+                <div class="statistics-title">Views:</div>
+                <div class="statistics-number">` + toShortenNumber(youtube.statistics.total_views) + `</div>
+            </div>`
+    }
+
     application = '<div class="application-shell" id="application-' + data.id + '">' +
                     '<div class="application">' +
                         '<div class="stretcher"></div>' +
@@ -75,12 +92,7 @@ function createApplicationDiv(data){
                                     '<div class="application-name">' + data.blogger.blog_name + '</div>' +
                                     '<div class="application-links">' +
                                         '<a class="application-link" href="#">' +
-                                            '<svg class="application-link-icon">' +
-                                                '<use xlink:href="#instagram"></use>' +
-                                            '</svg>' +
-                                        '</a>' +
-                                        '<a class="application-link" href="#">' +
-                                            '<svg class="application-link-icon">' +
+                                            '<svg class="application-link-icon" id="youtube-application-icon">' +
                                                 '<use xlink:href="#youtube"></use>' +
                                             '</svg>' +
                                         '</a>' +
@@ -90,27 +102,12 @@ function createApplicationDiv(data){
                             '<div class="application-statistics">' +
                                 '<div class="application-statistics-title">' +
                                     '<svg class="application-statistics-title-icon">' +
-                                        '<use xlink:href="#instagram"></use>' +
+                                        '<use xlink:href="#youtube"></use>' +
                                     '</svg>' +
                                     '<div class="application-statistics-title-text">Statistics</div>' +
                                 '</div>' +
                                 '<div class="statistics-inner">' +
-                                    '<div class="statistics-block">' +
-                                        '<div class="statistics-title">Followers:</div>' +
-                                        '<div class="statistics-number">100k</div>' +
-                                    '</div>' +
-                                    '<div class="statistics-block">' +
-                                        '<div class="statistics-title">Comments:</div>' +
-                                        '<div class="statistics-number">1.8k</div>' +
-                                    '</div>' +
-                                    '<div class="statistics-block">' +
-                                        '<div class="statistics-title">Likes:</div>' +
-                                        '<div class="statistics-number">257k</div>' +
-                                    '</div>' +
-                                    '<div class="statistics-block">' +
-                                        '<div class="statistics-title">Frequency:</div>' +
-                                        '<div class="statistics-number"></div>' +
-                                    '</div>' +
+                                    youtubeStatisticsHtml +
                                 '</div>' +
                             '</div>' +
                         '</div>' +
@@ -130,6 +127,82 @@ function openBloggerProfileModal(application){
         specializationsHtml += '<div class="block-item">' + specialization.specialization + '</div>'
     }
 
+    let youtube = application.blogger.youtube
+    let youtubeHtml = '' + 
+        `<div class="statistics-title-link-div no-hover-link" id="youtube-link-div">
+            <div class="statistics-title-link">
+                <svg class="statistics-title-icon youtube">
+                    <use xlink:href="#youtube"></use>
+                </svg>
+                <div class="statistics-title-text">youtube</div>
+            </div>
+        </div>
+        <div class="statistics-disabled" id="google-is-not-connected">
+            <div class="statistics-disabled-text">Account isn't connected</div>
+        </div>`
+    let youtubeUrlHtml = ""
+    if (youtube && youtube.channel_id){
+        youtubeHtml = '' + 
+            `<div class="statistics-title-link-div" id="youtube-link-div">
+                <a href="` + application.blogger.youtube.url + `" class="statistics-title-link">
+                    <svg class="statistics-title-icon youtube">
+                        <use xlink:href="#youtube"></use>
+                    </svg>
+                    <div class="statistics-title-text">youtube</div>
+                </a>
+            </div>
+            <div class="statistics-total" id ="youtube-total-statistics">
+                <div class="statistics-block-item">
+                    <svg class="statistics-item-icon youtube">
+                        <use xlink:href="#subscribers"></use>
+                    </svg>
+                    <div class="statistics-item-total" id="youtube-subscribers">` + toShortenNumber(youtube.statistics.subscribers) + `</div>
+                </div>
+                <div class="statistics-block-item">
+                    <svg class="statistics-item-icon youtube">
+                        <use xlink:href="#videos"></use>
+                    </svg>
+                    <div class="statistics-item-total" id="youtube-videos">` + toShortenNumber(youtube.statistics.total_video_count) + `</div>
+                </div>
+                <div class="statistics-block-item">
+                    <svg class="statistics-item-icon youtube">
+                        <use xlink:href="#views"></use>
+                    </svg>
+                    <div class="statistics-item-total" id="youtube-views">` + toShortenNumber(youtube.statistics.total_views) + `</div>
+                </div>
+            </div>
+            <div class="statistics-month" id="youtube-month-statistics">
+                <div class="statistics-month-title">December</div>
+                <div class="statistics-block-item-month">
+                    <div class="statistics-item-title-month col-6">New subscribers: </div>
+                    <div class="statistics-item-month" id="youtube-month-subscribers">` + toShortenNumber(youtube.statistics.month_subscribers_gained) + `</div>
+                </div>
+                <div class="statistics-block-item-month">
+                    <div class="statistics-item-title-month col-6">Views: </div>
+                    <div class="statistics-item-month" id="youtube-month-views">` + toShortenNumber(youtube.statistics.month_views) + `</div>
+                </div>
+                <div class="statistics-block-item-month">
+                    <div class="statistics-item-title-month col-6">Comments: </div>
+                    <div class="statistics-item-month" id="youtube-month-comments">` + toShortenNumber(youtube.statistics.month_comments) + `</div>
+                </div>
+                <div class="statistics-block-item-month">
+                    <div class="statistics-item-title-month col-6">Likes: </div>
+                    <div class="statistics-item-month" id="youtube-month-likes">` + toShortenNumber(youtube.statistics.month_likes) + `</div>
+                </div>
+                <div class="statistics-block-item-month">
+                    <div class="statistics-item-title-month col-6">Dislikes: </div>
+                    <div class="statistics-item-month" id="youtube-month-dislikes">` + toShortenNumber(youtube.statistics.month_dislikes) + `</div>
+                </div>
+            </div>`
+
+        youtubeUrlHtml = '' +
+        `<div class="profile-block-item">
+            <div class="block-item-title">Youtube:</div>
+            <a class="email" target="_blank" id="youtube" href="` + application.blogger.youtube.url + `">` + application.blogger.youtube.name + `</a>
+        </div>`
+    }
+
+    instagramUrlHtml = ''
     $.confirm({
         title: application.blogger.blog_name,
         closeIcon: true,
@@ -138,109 +211,73 @@ function openBloggerProfileModal(application){
         draggable: false,
         theme: 'material',
         content: '' +
-            '<div class="profile-container-inner">' +
-                '<div class="profile-top-part">' +
-                    '<div class="modal-profile-image-div">' +
-                        '<div class="stretcher"></div>' +
-                        '<img src="' + application.blogger.image + '" id="modal-profile-image" class="image img-fluid">' +
-                    '</div>' +
-                    '<div class="profile-block">' +
-                        '<div class="profile-block-item">' +
-                            '<div class="block-item-title">Location:</div>' +
-                            '<div class="block-item" id="location">' +
-                                '<div class="location-item" id="country">' + application.blogger.location.country +'</div>' +
-                                '<span>,&nbsp</span>' +
-                                '<div class="location-item" id="city">' + application.blogger.location.city + '</div>' +
-                            '</div>' +
-                        '</div>' +
-                        '<div class="profile-block-item">' +
-                            '<div class="block-item-title">Birthday:</div>' +
-                            '<div class="block-item" id="birthday">' + application.blogger.birthday + '</div>' +
-                        '</div>' +
-                        '<div class="profile-block-item">' +
-                            '<div class="block-item-title">Languages:</div>' +
-                            '<div class="block-items" id="languages">' +
+            `<div class="profile-container-inner">
+                <div class="profile-top-part">
+                    <div class="modal-profile-image-div">
+                        <div class="stretcher"></div>
+                        <img src="` + application.blogger.image + `" id="modal-profile-image" class="image img-fluid">
+                    </div>
+                    <div class="profile-block">
+                        <div class="profile-block-item">
+                            <div class="block-item-title">Location:</div>
+                            <div class="block-item" id="location">
+                                <div class="location-item" id="country">` + application.blogger.location.country +`</div>
+                                <span>,&nbsp</span>
+                                <div class="location-item" id="city">` + application.blogger.location.city + `</div>
+                            </div>
+                        </div>
+                        <div class="profile-block-item">
+                            <div class="block-item-title">Birthday:</div>
+                            <div class="block-item" id="birthday">` + application.blogger.birthday + `</div>
+                        </div>
+                        <div class="profile-block-item">
+                            <div class="block-item-title">Languages:</div>
+                            <div class="block-items" id="languages">` +
                                 languagesHtml +
-                            '</div>' +
-                        '</div>' +
-                        '<div class="profile-block-item">' +
-                            '<div class="block-item-title">Specializations:</div>' +
-                            '<div class="block-items" id="specializations">' +
+                            `</div>
+                        </div>
+                        <div class="profile-block-item">
+                            <div class="block-item-title">Specializations:</div>
+                            <div class="block-items" id="specializations">` +
                                 specializationsHtml +
-                            '</div>' +
-                        '</div>' +
-                        '<div class="profile-block-item">' +
-                            '<div class="block-item-title">Phone:</div>' +
-                            '<div class="block-item" id="phone">' + application.blogger.phone + '</div>' +
-                        '</div>' +
-                        '<div class="profile-block-item">' +
-                            '<div class="block-item-title">Email:</div>' +
-                            '<div class="email" id="email">' + application.blogger.email + '</div>' +
-                        '</div>' +
-                    '</div>' +
-                '</div>' +
-                '<div class="bottom-part">' +
-                    '<div class="profile-statistics">' +
-                        '<div class="block-title">Statistics</div>' +
-                        '<div class="profile-statistics-content">' +
-                            '<div class="media-statistics">' +
-                                '<a href="' + application.blogger.instagram + '" class="media-title-link">' +
-                                    '<svg class="block-title-icon instagram">' +
-                                        '<use xlink:href="#instagram"></use>' +
-                                    '</svg>' +
-                                    '<div class="block-title-text">instagram</div>' +
-                                '</a>' +
-                                '<div class="media-data">' +
-                                    '<div class="media-block-item">' +
-                                        '<div class="block-item-title">Followers:</div>' +
-                                        '<div class="block-item">100k</div>' +
-                                    '</div>' +
-                                    '<div class="media-block-item">' +
-                                        '<div class="block-item-title">Comments:</div>' +
-                                        '<div class="block-item">1.8k</div>' +
-                                    '</div>' +
-                                    '<div class="media-block-item">' +
-                                        '<div class="block-item-title">Likes:</div>' +
-                                        '<div class="block-item">257k</div>' +
-                                    '</div>' +
-                                    '<div class="media-block-item">' +
-                                        '<div class="block-item-title">Frequency:</div>' +
-                                        '<div class="block-item"></div>' +
-                                    '</div>' +
-                                '</div>' +
-                            '</div>' +
-                            '<div class="media-statistics">' +
-                                '<a href="' + application.blogger.youtube + '" class="media-title-link">' +
-                                    '<svg class="block-title-icon youtube">' +
-                                        '<use xlink:href="#youtube"></use>' +
-                                    '</svg>' +
-                                    '<div class="block-title-text">youtube</div>' +
-                                '</a>' +
-                                '<div class="media-data">' +
-                                    '<div class="media-block-item">' +
-                                        '<div class="block-item-title">Followers:</div>' +
-                                        '<div class="block-item">100k</div>' +
-                                    '</div>' +
-                                    '<div class="media-block-item">' +
-                                        '<div class="block-item-title">Comments:</div>' +
-                                        '<div class="block-item">1.8k</div>' +
-                                    '</div>' +
-                                    '<div class="media-block-item">' +
-                                        '<div class="block-item-title">Likes:</div>' +
-                                        '<div class="block-item">257k</div>' +
-                                    '</div>' +
-                                    '<div class="media-block-item">' +
-                                        '<div class="block-item-title">Frequency:</div>' +
-                                        '<div class="block-item"></div>' +
-                                    '</div>' +
-                                '</div>' +
-                            '</div>' +
-                        '</div>' +
-                        '<div class="application-buttons">' +
-                        '</div>' +
-                    '</div>' +
-                '</div>' +
-            '</div>',
+                            `</div>
+                        </div>
+                        <div class="profile-block-item">
+                            <div class="block-item-title">Phone:</div>
+                            <div class="block-item" id="phone">` + application.blogger.phone + `</div>
+                        </div>
+                        <div class="profile-block-item">
+                            <div class="block-item-title">Email:</div>
+                            <div class="email" id="email">` + application.blogger.email + `</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bottom-part">
+                    <div class="profile-statistics">
+                        <div class="block-title">Statistics</div>
+                        <div class="profile-statistics-content">
+                            <div class="media-statistics" id="youtube-statistics">` +
+                                youtubeHtml +
+                            `</div>
+                            <div class="media-statistics instagram-statistics disabled-block">
+                                <div class="statistics-title-link-div" id="instagram-link-div">
+                                    <div class="statistics-title-link no-hover-link">
+                                        <svg class="statistics-title-icon instagram">
+                                            <use xlink:href="#instagram"></use>
+                                        </svg>
+                                        <div class="statistics-title-text">instagram</div>
+                                    </div>
+                                </div>
+                                <div class="statistics-disabled" id="facebook-is-not-connected">
+                                    <div class="statistics-disabled-text">Account isn't connected</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="application-buttons">
+                        </div>
+                    </div>
+                </div>
+            </div>`,
         buttons: {
             "refuse": {
                 btnClass: "btn-red",
@@ -272,23 +309,17 @@ function openBloggerProfileModal(application){
                         draggable: false,
                         title: "Contacts of blogger",
                         content: "" +
-                            '<div class="profile-block-item">' +
-                                '<div class="block-item-title">Phone:</div>' +
-                                '<div class="block-item" id="phone">' + application.blogger.phone + '</div>' +
-                            '</div>' +
-                            '<div class="profile-block-item">' +
-                                '<div class="block-item-title">Email:</div>' +
-                                '<div class="email" id="email">' + application.blogger.email + '</div>' +
-                            '</div>' +
-                            '<div class="profile-block-item">' +
-                                '<div class="block-item-title">Instagram:</div>' +
-                                '<a class="block-item" id="instagram" href="' + application.blogger.instagram + '">' + application.blogger.instagram + '</a>' +
-                            '</div>' +
-                            '<div class="profile-block-item">' +
-                                '<div class="block-item-title">Youtube:</div>' +
-                                '<a class="email" id="youtube" href="' + application.blogger.youtube + '">' + application.blogger.youtube + '</a>' +
-                            '</div>' +
-                            'If you are working with this blogger and have contacts you can hide this application.',
+                            `<div class="profile-block-item">
+                                <div class="block-item-title">Phone:</div>
+                                <div class="block-item" id="phone">` + application.blogger.phone + `</div>
+                            </div>
+                            <div class="profile-block-item">
+                                <div class="block-item-title">Email:</div>
+                                <div class="email" id="email">` + application.blogger.email + `</div>
+                            </div>` +
+                            instagramUrlHtml +
+                            youtubeUrlHtml +
+                            `If you are working with this blogger and have contacts you can hide this application.`,
 
                         buttons: {
                             close: function(){},
@@ -350,4 +381,49 @@ function rateApplication(upvote, application){
     request.send(data)
 }
 
-
+function toShortenNumber(number){
+    function abbreviate(number, maxPlaces) {
+        number = Number(number)
+        var abbr
+        if(number >= 1e9) {
+          abbr = 'B'
+        }
+        else if(number >= 1e6) {
+          abbr = 'M'
+        }
+        else if(number >= 1e3) {
+          abbr = 'K'
+        }
+        else {
+          abbr = ''
+        }
+        return annotate(number, maxPlaces, abbr)
+      }
+      
+      function annotate(number, maxPlaces, abbr) {
+        // set places to false to not round
+        var rounded = 0
+        switch(abbr) {
+            case 'B':
+                rounded = number / 1e9
+                break
+            case 'M':
+                rounded = number / 1e6
+                break
+            case 'K':
+                rounded = number / 1e3
+                break
+            case '':
+                rounded = number
+                break
+        }
+        if(maxPlaces !== false) {
+            var test = new RegExp('\\.\\d{' + (maxPlaces + 1) + ',}$')
+            if(test.test(('' + rounded))) {
+                rounded = rounded.toFixed(maxPlaces)
+            }
+        }
+        return rounded + abbr
+    }
+    return abbreviate(number, 1)
+}

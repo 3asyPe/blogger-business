@@ -69,7 +69,6 @@ class User(AbstractBaseUser):
         try:
             return self.blogger is not None
         except AttributeError:
-            print("is not a blogger")
             return False
 
     @property
@@ -77,7 +76,6 @@ class User(AbstractBaseUser):
         try:
             return self.business is not None
         except AttributeError:
-            print("is not a business")
             return False
 
     def __str__(self):

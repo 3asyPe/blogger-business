@@ -135,10 +135,10 @@ class YoutubeStatistics(models.Model):
 
     subscribers = models.IntegerField(default=0)
     total_video_count = models.IntegerField(default=0)
-    total_views = models.IntegerField(default=0)
+    total_views = models.BigIntegerField(default=0)
     total_updated = models.DateTimeField(blank=True, null=True)
 
-    month_views = models.IntegerField(default=0)
+    month_views = models.BigIntegerField(default=0)
     month_comments = models.IntegerField(default=0)
     month_subscribers_gained = models.IntegerField(default=0)
     month_likes = models.IntegerField(default=0)
