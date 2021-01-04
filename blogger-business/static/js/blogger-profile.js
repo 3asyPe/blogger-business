@@ -118,7 +118,12 @@ function youtubeIsConnected(){
                                         '<use xlink:href="#youtube"></use>' +
                                     '</svg>' +
                                     '<div class="statistics-title-text">youtube</div>' +
-                                '</a>'
+                                '</a>' +
+                                '<button class="statistics-update-btn" onclick="updateStatistics()">' +
+                                    '<svg class="statistics-update-btn-icon">' +
+                                        '<use xlink:href="#refresh"></use>' +
+                                    '</svg>' +
+                                '</button>'
 
     let googleIsNotConnected = document.querySelector("#google-is-not-connected")
     if (!googleIsNotConnected.classList.contains("d-none")){
@@ -177,7 +182,7 @@ function refreshChannelInfo(){
     fetch("/api/youtube/refresh/", {
             method: "POST",
             headers: {
-                "X-CSRFToken": csrftoken, // 👈👈👈 Set the token
+                "X-CSRFToken": csrftoken,
                 "Content-Type": "application/json"
             },
     }).then(response => {
@@ -194,6 +199,33 @@ function refreshChannelInfo(){
         pullYoutubeStatisticsIntoHtml()
     }).catch(error => {
         
+    })
+}
+
+function updateStatistics(){
+    let updateBtn = document.querySelector(".statistics-update-btn")
+    defaultInnerHtml = updateBtn.innerHTML
+    updateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'
+    fetch("/api/youtube/statistics/update/", {
+        method: "POST",
+        headers: {
+            "X-CSRFToken": csrftoken,
+            "Content-Type": "application/json"
+        },
+    }).then(response => {
+        updateBtn.innerHTML = defaultInnerHtml
+        if (!response.ok) { 
+            throw response
+        }
+        return response.json()
+    }).then(data => {     
+        data = JSON.parse(data)
+        console.log(data)
+        defaultProfileData.youtube.statistics = data
+        youtubeIsConnected()
+        pullYoutubeStatisticsIntoHtml()
+    }).catch(error => {
+        console.log(error)
     })
 }
 

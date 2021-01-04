@@ -86,6 +86,10 @@
     background-color: transparent;
 }
 
+.info-edit-item:focus{
+    outline: none;
+}
+
 .info-edit-icon{
     width: 15px;
     height: 15px;

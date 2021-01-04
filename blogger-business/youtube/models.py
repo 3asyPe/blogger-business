@@ -124,7 +124,7 @@ class YoutubeStatisticsManager(models.Manager):
         youtube_statistics = self.model(
             youtube=youtube,
         )
-        youtube_statistics.udpate_statistics_for_last_month()
+        youtube_statistics.update_statistics_for_last_month()
         youtube_statistics.update_total_statistics()
         youtube_statistics.save(using=self._db)
         return youtube_statistics
@@ -149,7 +149,7 @@ class YoutubeStatistics(models.Model):
 
     objects = YoutubeStatisticsManager()
 
-    def udpate_statistics_for_last_month(self):
+    def update_statistics_for_last_month(self):
         response = request_statistics_for_last_month(self.youtube)
         statistics = parse_month_statistics(response)
         set_statistics_for_last_month(youtube_statistics=self, statistics=statistics)
