@@ -2,6 +2,8 @@ import string
 import random
 import os
 
+from datetime import datetime
+
 
 LETTERS = string.ascii_letters
 NUMBERS = string.digits
@@ -11,6 +13,12 @@ def get_filename_ext(filename):
     base_name = os.path.basename(filename)
     name, ext = os.path.splitext(filename)
     return name, ext
+
+
+def parse_isoformat_time(isof_time: str) -> datetime:
+    isof_time = isof_time.replace('Z', '+00:00')
+    date = datetime.fromisoformat(isof_time)
+    return date
 
 
 def upload_image_path(instance, filename, prefix):

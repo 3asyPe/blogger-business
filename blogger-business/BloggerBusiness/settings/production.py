@@ -114,17 +114,14 @@ SEXES = [
     ("W", "WOMAN"),
 ]
 
-OFFER_STATES = [
-    ("ACCEPTED", "ACCEPTED"),
-    ("DECLINED", "DECLINED"),
-    ("REQUESTED", "REQUESTED")
-]
-
 AGE_GROUPS = [
-    ("KIDS", "Kids"),
-    ("TEENAGERS", "Teenagers"),
-    ("ADULTS", "Adults"),
-    ("OLD", "Old")
+    ("13–17", "13–17 years"),
+    ("18–24", "18–24 years"),
+    ("25–34", "25–34 years"),
+    ("35–44", "35–44 years"),
+    ("45–54", "45–54 years"),
+    ("55–64", "55–64 years"),
+    ("65+", "65+ years"),
 ]
 
 

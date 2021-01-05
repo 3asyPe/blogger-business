@@ -7,7 +7,11 @@ from django.conf import settings
 
 from typing import Optional
 
-from .models import Youtube, YoutubeStatistics
+from .models import (
+    Youtube, 
+    YoutubeStatistics,
+    YoutubeAudience,
+)
 from blogger.models import Blogger
 
 
@@ -41,12 +45,19 @@ def create_youtube_model(blogger, code: str, name: str, email=None, image_url=No
     )
     if youtube.channel_id is not None:
         youtube_statistics = create_youtube_statistics_model(youtube)
+        youtube_audience = create_youtube_audience_model(youtube)
     return youtube
 
 
 def create_youtube_statistics_model(youtube: Youtube) -> YoutubeStatistics:
     youtube_statistics = YoutubeStatistics.objects.create_new(youtube=youtube)
     return youtube_statistics
+
+
+def create_youtube_audience_model(youtube: Youtube) -> YoutubeAudience:
+    youtube_audience = YoutubeAudience.objects.create_new(youtube=youtube)
+    return youtube_audience
+
 
 def authorize_user(code):
     flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(

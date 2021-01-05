@@ -28,8 +28,8 @@ class BloggerModel(models.Model):
     '''
     # if null -> any location is allowed
     location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True, blank=True)
-    age_group = models.CharField(max_length=50)
-    sex = models.CharField(max_length=3)
+    age_group = models.CharField(max_length=50, choices=AGE_GROUPS)
+    sex = models.CharField(max_length=3, choices=SEXES)
 
 
 class ReceivingModel(models.Model):

@@ -4,6 +4,7 @@ from dateutil.relativedelta import relativedelta
 from googleapiclient.discovery import build
 from typing import Optional
 
+from BloggerBusiness.utils import parse_isoformat_time
 
 API_ANALYTICS_SERVICE_NAME = "youtubeAnalytics"
 API_ANALYTICS_VERSION = "v2"
@@ -34,17 +35,17 @@ def request_statistics_for_last_month(youtube):
         ids='channel==MINE',
         startDate=start_date,
         endDate=start_date,
-        metrics='dislikes,views,likes,subscribersGained,comments',
+        metrics='dislikes,likes,views,subscribersGained,comments',
         dimensions='month',
-        sort='month',
+        sort='month'
     ).execute()
     print(response)
     return response
 
 
 def request_total_statistics(youtube):
-    dataApi = get_data_service(youtube)
-    response = dataApi.channels().list(
+    data_api = get_data_service(youtube)
+    response = data_api.channels().list(
         part="statistics",
         mine=True,
     ).execute()
@@ -53,10 +54,26 @@ def request_total_statistics(youtube):
 
 
 def request_snippet_and_id_for_channel(youtube):
-    dataApi = get_data_service(youtube)
-    response = dataApi.channels().list(
+    data_api = get_data_service(youtube)
+    response = data_api.channels().list(
         part="snippet",
         mine=True,
+    ).execute()
+    print(response)
+    return response
+
+
+def request_audience_info(youtube):
+    youtubeAnalytics = get_analytics_service(youtube)
+    start_date = youtube.published_at.strftime("%Y-%m-%d")
+    end_date = date.today()
+    response = youtubeAnalytics.reports().query(   
+        ids='channel==MINE',
+        startDate=start_date,
+        endDate=end_date,
+        metrics='viewerPercentage',
+        dimensions='ageGroup,gender',
+        sort='gender,ageGroup',
     ).execute()
     print(response)
     return response
@@ -111,10 +128,25 @@ def parse_snippet_and_id(response) -> Optional[dict]:
         return None
     channel_id = response["items"][-1]["id"]
     name = snippet["title"]
+    published_at = parse_isoformat_time(snippet["publishedAt"])
     
     s_dict = {
         "channel_id": channel_id,
-        "name": name
+        "name": name,
+        "published_at": published_at,
+    }
+    return s_dict
+
+
+def parse_audience_info(response) -> dict:
+    info = response["rows"][0]
+
+    age_group = _parse_response_age_group(info[0])
+    sex = _parse_response_gender(info[1])
+
+    s_dict = {
+        "age_group": age_group,
+        "sex": sex,
     }
     return s_dict
 
@@ -138,3 +170,30 @@ def set_total_statistics(youtube_statistics, statistics):
     youtube_statistics.total_video_count = statistics["video_count"]
     youtube_statistics.save()
     return youtube_statistics
+
+
+def set_refreshed_channel_info(youtube, info):
+    youtube.name = info["name"]
+    youtube.channel_id = info["channel_id"]
+    youtube.published_at = info["published_at"]
+    youtube.save()
+    return youtube
+
+
+def set_audience_info(youtube_audience, info):
+    print(info)
+    youtube_audience.age_group = info["age_group"]
+    youtube_audience.sex = info["sex"]
+    youtube_audience.save()
+    return youtube_audience
+
+
+def _parse_response_age_group(r_age_group: str) -> str:
+    return r_age_group.replace("age", "")
+
+
+def _parse_response_gender(r_gender: str) -> str:
+    if r_gender == "male":
+        return "M"
+    else:
+        return "W"

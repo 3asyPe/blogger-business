@@ -13,11 +13,15 @@ from .utils import (
     request_statistics_for_last_month,
     request_total_statistics,
     request_snippet_and_id_for_channel,
+    request_audience_info,
     parse_month_statistics,
     parse_total_statistics,
     parse_snippet_and_id,
+    parse_audience_info,
     set_statistics_for_last_month,
     set_total_statistics,
+    set_refreshed_channel_info,
+    set_audience_info,
 )
 from blogger.models import Blogger
 
@@ -27,6 +31,9 @@ API_VERSION = "v2"
 SCOPES = settings.GOOGLE_SCOPES
 CLIENT_SECRET = settings.GOOGLE_CLIENT_SECRET
 CLIENT_ID = settings.GOOGLE_CLIENT_ID
+
+AGE_GROUPS = settings.AGE_GROUPS
+SEXES = settings.SEXES
 
 
 class YoutubeManager(models.Manager):
@@ -43,8 +50,7 @@ class YoutubeManager(models.Manager):
         response = request_snippet_and_id_for_channel(youtube)
         s_dict = parse_snippet_and_id(response)
         if s_dict is not None:
-            youtube.name = s_dict["name"]
-            youtube.channel_id = s_dict["channel_id"]
+            set_refreshed_channel_info(youtube=youtube, info=s_dict)
         youtube.save(using=self._db)
         return youtube
 
@@ -57,8 +63,9 @@ class Youtube(models.Model):
     image_url = models.URLField(blank=True, null=True)
     refresh_token = models.CharField(max_length=255)
     access_token = models.CharField(max_length=255)
-    updated_token = models.DateField()
+    updated_token = models.DateTimeField()
     token_expires_in = models.IntegerField() 
+    published_at = models.DateField(blank=True, null=True)
 
     objects = YoutubeManager()
 
@@ -88,10 +95,8 @@ class Youtube(models.Model):
                 YoutubeStatistics.objects.create_new(youtube=self)
             else:
                 self.statistics.update_total_statistics()
-                self.statistics.udpate_statistics_for_last_month()
-            self.name = s_dict["name"]
-            self.channel_id = s_dict["channel_id"]
-            self.save()
+                self.statistics.update_statistics_for_last_month()
+            set_refreshed_channel_info(youtube=youtube, info=s_dict)
             return True
         return False
 
@@ -158,6 +163,37 @@ class YoutubeStatistics(models.Model):
         response = request_total_statistics(self.youtube)
         statistics = parse_total_statistics(response)
         set_total_statistics(youtube_statistics=self, statistics=statistics)
+
+    def __str__(self):
+        return self.youtube.name
+
+
+class YoutubeAudienceManager(models.Manager):
+    def create_new(self, youtube: Youtube):
+        youtube_audience = self.model(
+            youtube=youtube
+        )
+        youtube_audience.update_info()
+        youtube_audience.save(using=self._db)
+        return youtube_audience
+
+
+class YoutubeAudience(models.Model):
+    youtube = models.OneToOneField(Youtube, on_delete=models.CASCADE, related_name="audience")
+    age_group = models.CharField(max_length=50, default="18-24")
+    sex = models.CharField(max_length=1, choices=SEXES, default="M")
+
+    updated = models.DateTimeField(auto_now=True)
+
+    objects = YoutubeAudienceManager()
+
+    def update_info(self):
+        response = request_audience_info(youtube=self.youtube)
+        s_dict = parse_audience_info(response=response)
+        set_audience_info(youtube_audience=self, info=s_dict)
+
+    def __str__(self):
+        return self.youtube.name
 
 
 def pre_save_youtube_change_token_receiver(sender, instance, *args, **kwargs):
