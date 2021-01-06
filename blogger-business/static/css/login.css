@@ -1,6 +1,50 @@
+.base-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #f8f9fa;
+}
+
+.login-card{
+    position: relative;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    padding: 30px 55px;
+    width: 550px;
+    background-color: #fff;
+    margin: 30px auto;
+    color: #373737;
+}
+
 .login-form{
     display: block;
-    margin: 200px auto;
+    margin: 130px auto;
+}
+
+.login-input{
+    display: block;
+
+    width: 100%;
+    height: calc(1.5em + .75rem + 2px);
+    margin: 20px auto 0;
+    padding: .375rem .75rem;
+
+    border: none;
+    border-radius: 0;
+    border-bottom: 2px solid rgb(117, 117, 117);
+
+    font-size: 20px;
+
+    transition: border-color .1s linear;
+}
+
+.login-input::placeholder{
+    color: rgb(117, 117, 117);
+}
+
+.login-input:focus{
+    outline: none;
+    border-color: #373737;;
 }
 
 .form-title{
@@ -9,34 +53,10 @@
     text-align: center;
 }
 
-.form-control{
-    border: none;
-    border-radius: 0;
-    border-bottom: 2px solid rgb(117, 117, 117);
-
-    margin-top: 20px;
-    font-size: 20px;
-
-    transition: border-color .1s linear;
-    outline: none;
-}
-
-.form-control:focus{
-    border-color: #000;
-}
-
 .help-links{
-    margin-top: 20px;
-    padding: 0 12px;
+    margin-top: auto;
     display: flex;
     justify-content: space-between;
-}
-
-.registration{
-    display: block;
-    text-align: center;
-    margin: auto;
-    color: rgb(117, 117, 117);
 }
 
 .help-link{
@@ -44,19 +64,24 @@
     color: rgb(117, 117, 117);
 }
 
+.help-link:hover{
+    color: #373737;
+}
+
 .btn-login{
     display: block;
-    margin: 20px auto 15px;
+    margin: 30px auto 15px;
     width: 150px;
     font-size: 20px;
 
     border-radius: 20px;
-    border: 2px #000 solid;
-    transition: background-color .1s linear;
+    border: 2px #373737 solid;
+    transition: background-color, color .1s linear;
 }
 
 .btn-login:hover{
-    background-color: rgb(107, 152, 194);
+    background-color: #373737;
+    color: #fff;
 }
 
 .alert{

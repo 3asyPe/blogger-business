@@ -52,7 +52,7 @@
 .statistics-title-link{
     display: flex;
     justify-content: center;
-    color: black;
+    color: #373737;
     transition: color .1s linear;
 }
 
@@ -70,15 +70,15 @@
 }
 
 .no-hover-link{
-    color: black !important;
+    color: #373737 !important;
 }
 
 .no-hover-link .youtube{
-    fill: black !important;
+    fill: #373737 !important;
 }
 
 .no-hover-link .instagram{
-    fill: black !important;
+    fill: #373737 !important;
 }
 
 .statistics-title-icon{
@@ -179,7 +179,7 @@
     justify-content: center;
     margin: 10px;
     font-size: 24px;
-    color: black;
+    color: #373737;
 }
 
 .refresh-btn{

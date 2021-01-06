@@ -12,10 +12,8 @@ h1, h2, h3, h4, h5, h6{
     position: relative;
     min-height: 100vh;
     padding: 56px 0;
-}
-
-.home-container{
-    
+    background-color: #fff;
+    color: #373737;
 }
 
 .home-container-inner{
@@ -56,14 +54,14 @@ h1, h2, h3, h4, h5, h6{
     border-radius: 10px;
     font-size: 16px;
     font-weight: 500;
-    color: black;
+    color: #373737;
     text-transform: uppercase;
     transition: background-color .1s linear;
 }
 
 .applications-link:hover{
     background-color: #eff0f1;
-    color: black;
+    color: #373737;
     text-decoration: none;
 }
 
@@ -112,7 +110,7 @@ h1, h2, h3, h4, h5, h6{
 }
 
 .footer-link:hover{
-    color: rgba(0,0,0,.9);
+    color: #373737;
     text-decoration: none;
 }
 

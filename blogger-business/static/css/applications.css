@@ -11,7 +11,7 @@
     z-index: 2;
     padding: 20px;
     margin: 10px auto;
-    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    box-shadow: 0 0 5px #ff00004d;
     background-color: #ff00004d;
 }
 
@@ -25,8 +25,8 @@
     justify-content: center;
     align-items: center;
     height: 100px;
-    border-top: 2px solid black;
-    border-bottom: 2px solid black;
+    border-top: 2px solid #373737;
+    border-bottom: 2px solid #373737;
 }
 
 .offer-title{
@@ -269,15 +269,15 @@
 }
 
 .no-hover-link{
-    color: black !important;
+    color: #373737 !important;
 }
 
 .no-hover-link .youtube{
-    fill: black !important;
+    fill: #373737 !important;
 }
 
 .no-hover-link .instagram{
-    fill: black !important;
+    fill: #373737 !important;
 }
 
 .statistics-title-icon{
@@ -350,5 +350,5 @@
     margin: 10px;
     font-size: 24px;
     margin-top: 30px;
-    color: black;
+    color: #373737;
 }

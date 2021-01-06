@@ -10,9 +10,9 @@
 
     font-size: 20px;
     background-color: #ff0000a3;
+    box-shadow: 0 0 3px #ff0000a3;
     border-radius: 20px;
-    border: 2px solid #ff0000a3;
-    color: #000;
+    color: #373737;
     transition: background-color, color .1s linear;
 }
 
@@ -76,7 +76,7 @@
     display: flex;
     align-items: center;
     font-size: 16px;
-    color: black;   
+    color: #373737;   
 }
 
 .column-content{
@@ -168,12 +168,13 @@
 
     font-size: 18px;
     border-radius: 20px;
-    border: 2px #000 solid;
-    transition: background-color .1s linear;
+    border: 2px #373737 solid;
+    transition: background-color, color .1s linear;
 }
 
 .save-offer:hover{
-    background-color: rgb(107, 152, 194);
+    background-color: #373737;
+    color: #fff;
 }
 
 .warning-background{

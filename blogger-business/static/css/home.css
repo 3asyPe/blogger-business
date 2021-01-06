@@ -12,13 +12,13 @@
 
     font-size: 50px;
     color: rgb(77, 76, 76);
-    border-bottom: 3px solid rgb(107, 152, 194)
+    border-bottom: 3px solid #f8f9fa;
 }
 
 .about-link:hover{
     text-decoration: none;
-    color: #000;
-    border-color: #000;
+    color: #373737;
+    border-color: #373737;
 }
 
 .advantage{
@@ -56,23 +56,24 @@
     margin: 20px 40px;
 }
 
-.authentication-btn{
+.home-btn{
     margin: 10px auto;
 
-    border: 2px solid;
+    border: 2px solid #373737;
     border-radius: 10px;
     text-transform: uppercase;
     font-weight: 500;
     font-size: 20px;
-    transition: background-color .1s linear;
+    transition: background-color, color .1s linear;
 }
 
 .btn-blogger{
     width: 195px;
 }
 
-.authentication-btn:hover{
-    background-color: rgb(107, 152, 194);
+.home-btn:hover{
+    background-color: #373737;
+    color: #fff;
 }
 
 .btn-business{
@@ -97,7 +98,7 @@
 .app-btn{
     margin: 10px;
 
-    border: 2px solid;
+    border: 2px solid #373737;
     border-radius: 10px;
     font-size:18px;
     font-weight: 500;

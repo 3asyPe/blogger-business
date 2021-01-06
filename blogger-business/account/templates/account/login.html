@@ -10,23 +10,23 @@
 
 {% block content %}
 
-<div class="container">
+<div class="login-card">
     <div class="form-title">Login</div>
-    <div class="custom-alert col-lg-6 mx-auto">
+    <div class="custom-alert">
     </div>
-    <form class="login-form col-lg-6" action="api/login/complete" method=POST id="login-form">
+    <form class="login-form" action="api/login/complete" method=POST id="login-form">
         {% csrf_token %}
         <div class="form-group">
-            <input type="text" required class="form-control" placeholder="Your username" name="username">
-            <input type="password" required class="form-control" placeholder="Your password" name="password">
-        </div>
-        <div class="help-links">
-            <a href="/accounts/password_reset/" class="help-link">Reset password</a>
-            <a href="/registration/" class="registration">Sign up</a>
-            <a href="" class="help-link">Common issues</a>
+            <input type="text" required class="login-input" placeholder="Your username" name="username">
+            <input type="password" required class="login-input" placeholder="Your password" name="password">
         </div>
         <button type="submit" class="btn btn-login">Login</button>
     </form>
+    <div class="help-links">
+        <a href="/accounts/password_reset/" class="help-link">Reset password</a>
+        <a href="/registration/" class="help-link">Sign up</a>
+        <a href="" class="help-link">Common issues</a>
+    </div>
 </div>
 
 <script src="{% static 'js/login.js' %}"></script>

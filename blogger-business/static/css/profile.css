@@ -25,8 +25,8 @@
     margin-top: 20px;
     width: 100%;
     padding: 0;
-    border: 2px solid #000;
-    transition: background .1s linear;
+    border: 2px solid #373737;
+    transition: background, color .1s linear;
 }
 
 .btn-save-change-image{
@@ -34,13 +34,14 @@
     width: 100%;
     font-size: 20px;
     padding: 5px;
-    border: 2px solid #000;
-    transition: background .1s linear;
+    border: 2px solid #373737;
+    transition: background, color .1s linear;
 }
 
 .btn-change-image:hover,
 .btn-save-change-image:hover{
-    background-color: rgb(107, 152, 194);
+    background-color:#373737;
+    color: #fff;
 }
 
 .form-label-image{
@@ -61,7 +62,7 @@
 }
 
 .info-block{
-    border-bottom: 1px solid #000;
+    border-bottom: 1px solid #373737;
     position: relative;
     padding: 10px 0;
 }
@@ -115,7 +116,7 @@
     width: 100%;
     font-size: 20px;
     font-weight: 500;
-    border-bottom: 1px solid #000;
+    border-bottom: 1px solid #373737;
     border-radius: 0;
 }
 
