@@ -23,46 +23,39 @@
                 <input id="image-input" class="image-input" name="image" type="file" onchange="previewImage(event)"/>
             </div>
             <div class="form-group">
-                <label for="business_name" class="col-3 col-form-label form-label">
+                <div class="form-group-name col-8">
                     <i class="fas fa-exclamation-circle" data-toggle="tooltip" data-placement="top" title="This is a username field"></i>
-                    Company name:
-                </label>
-                <input type="text" required name="business_name" id="business_name" class="form-control col-7" placeholder="Enter company name" data-toggle="username-popover" data-trigger="none" data-content="Username is already taken">
+                    <input type="text" required name="business_name" id="business_name" class="custom-form-control"
+                        placeholder="Enter company name" data-toggle="username-popover" 
+                        data-trigger="none" data-content="Username is already taken">
+                </div>
             </div>
             <div class="form-group">
-                <label for="business_owner_name" class="col-3 col-form-label form-label"> Name of the representative</label>
-                <input type="text" required name="business_owner_name" id="business_owner_name" class="form-control col-7" placeholder="Enter name of the representative">
+                <input type="text" required name="business_owner_name" id="business_owner_name" class="custom-form-control col-8" placeholder="Enter name of the representative">
             </div>
             <div class="form-group">
-                <label for="email" class="col-3 col-form-label form-label">Your email:</label>
-                <input type="text" required name="email" id="email" class='form-control col-7' placeholder="Enter email" data-toggle="email-popover" data-trigger="none" data-content="Email is already taken">
+                <input type="text" required name="email" id="email" class='custom-form-control col-8' placeholder="Enter email" data-toggle="email-popover" data-trigger="none" data-content="Email is already taken">
             </div> 
             <div class="form-group">
-                <label for="phone" class="col-3 col-form-label form-label">Your phone:</label>
-                <input type="text" required name="phone" class='form-control col-7' placeholder="Enter phone">
+                <input type="text" required name="phone" id="phone" class='custom-form-control col-8' placeholder="Enter phone">
             </div>
             <div class="form-group">
-                <label for="country" class="col-3 col-form-label form-label">Main country of the company:</label>
-                <input type="text" required name='country' id='country' class='form-control col-7' placeholder="Enter country">
+                <input type="text" required name='country' id='country' class='custom-form-control col-8' placeholder="Enter main country">
             </div>
             <div class="form-group">
-                <label for="city" class="col-3 col-form-label form-label">Main city of the company:</label>
-                <input type="text" required name='city' id='city' class='form-control col-7' placeholder="Enter city">
+                <input type="text" required name='city' id='city' class='custom-form-control col-8' placeholder="Enter main city">
             </div> 
             <div class="form-group">
-                <label for="site" class="col-3 col-form-label form-label">You web-site:</label>
-                <input type="text" required name="site" id="site" class='form-control col-7' placeholder="Enter link to your web-site">
+                <input type="text" required name="site" id="site" class='custom-form-control col-8' placeholder="Enter link to your web-site">
             </div>
             <div class="form-group">
-                <label for="instagram" class="col-3 col-form-label form-label">You instagram:</label>
-                <input type="text" required name="instagram" id="instagram" class='form-control col-7' placeholder="Enter link or username of your instagram">
+                <input type="text" required name="instagram" id="instagram" class='custom-form-control col-8' placeholder="Enter link or username of your instagram">
             </div>
             <div class="form-group">
-                <label for="site" class="col-3 col-form-label form-label">You facebook:</label>
-                <input type="text" required name="facebook" id="facebook" class='form-control col-7' placeholder="Enter link to your facebook account">
+                <input type="text" required name="facebook" id="facebook" class='custom-form-control col-8' placeholder="Enter link to your facebook account">
             </div>             
     
-            <div class="custom-control custom-checkbox offset-3">
+            <div class="custom-control custom-checkbox form-group">
                 <input type="checkbox" id="terms-of-use" class="custom-control-input" required>
                 <label for="terms-of-use" class="custom-control-label">
                     I have read, understood and accepted

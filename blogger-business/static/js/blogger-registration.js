@@ -1,37 +1,102 @@
+var availableTags = new Map();
+var keys = []
+
 fetch("/api/blog-languages")
     .then(response => {
         return response.json()
     })
     .then(data => {
         const languages = data.languages
-        let selectEl = document.querySelector("#languages")
-        let selectElHTML = selectEl.innerHTML
         for(let language of languages){
-            selectElHTML += getLanguageOptionHtml(language)
+            availableTags.set(camelize(language.language), language.prefix)
         }
-        selectEl.innerHTML = selectElHTML
     })
 
-fetch("/api/blog-specializations")
-    .then(response => {
-        return response.json()
-    })
-    .then(data => {
-        const specializations = data.specializations
-        let selectEl = document.querySelector("#specializations")
-        let selectElHTML = selectEl.innerHTML
-        for(let specialization of specializations){
-            selectElHTML += getSpecializationOptionHtml(specialization)
-        }
-        selectEl.innerHTML = selectElHTML
-    })
+$(".language-input" ).autocomplete({
+    source: function(request, response) {
+        var results = $.ui.autocomplete.filter(Array.from(availableTags.keys()), request.term);
+        response(results.slice(0, 10));
+    }
+});
 
-function getLanguageOptionHtml(language){
-    return "<option class='language-option' value='" + language.prefix + "'>" + language.language + "</option>"
+function addLanguageInput(id){
+    previousId = parseInt(id) - 1
+    languageInput = document.querySelector("#language-" + previousId)
+    languagePrefix = availableTags.get(camelize(languageInput.value))
+    if (!languagePrefix){
+        $("#language-" + previousId).popover("show")
+        if (!languageInput.classList.contains("invalid-field")){
+            languageInput.classList.add("invalid-field")
+        }
+        return 
+    }
+
+    languageInputs = $(".language-inputs")
+    nextId = parseInt(id) + 1
+    newLanguageInputHtml = '' +
+        `<div class="language-input-div" id="language-div-` + id + `">
+            <input type="text" class="language-input custom-form-control" name="languages" id="language-` + id + `" placeholder="Enter language"
+                data-toggle="language-popover" data-trigger="none" data-content="Language syntax error" data-placement="bottom">
+            <button type="button" class="add-language-btn action-language-btn" id="add-language-` + id + `" onclick="addLanguageInput(` + nextId + `)">
+                <svg class="add-language-btn-icon action-language-btn-icon">
+                    <use xlink:href="#plus"></use>
+                </svg>
+            </button>
+            <button type="button" class="remove-language-btn action-language-btn" id="remove-language-` + id + `" onclick="removeLanguageInput(` + id + `)">
+                <svg class="remove-language-btn-icon action-language-btn-icon">
+                    <use xlink:href="#remove"></use>
+                </svg>
+            </button>
+        </div>`
+        
+    languageInputs.append(newLanguageInputHtml)
+    $("#language-" + id).autocomplete({
+        source: function(request, response) {
+            var results = $.ui.autocomplete.filter(Array.from(availableTags.keys()), request.term);
+            response(results.slice(0, 10));
+        }
+    })
+    
+    document.querySelector("#language-" + id).onfocus = function(e){
+        $("#language-" + id).popover("hide")
+        if (e.target.classList.contains("invalid-field")){
+            e.target.classList.remove("invalid-field")
+        }
+    }
+
+    checkOnRemoveAndAddButtons(3)
 }
 
-function getSpecializationOptionHtml(specialization){
-    return "<option class='specialization-option' value='" + specialization.prefix + "'>" + specialization.specialization + "</option>"
+function removeLanguageInput(id){
+    languageInputs = document.querySelector(".language-inputs")
+    languageInput = languageInputs.querySelector("#language-div-" + id)
+    languageInputs.removeChild(languageInput)
+    checkOnRemoveAndAddButtons(3)
+}
+
+function checkOnRemoveAndAddButtons(limit){
+    let languageInputs = document.querySelector(".language-inputs")
+    i = 0
+    for (let languageInputDiv of languageInputs.children){
+        i += 1
+        let addBtn = languageInputDiv.querySelector(".add-language-btn")
+        let removeBtn = languageInputDiv.querySelector(".remove-language-btn")
+        if (languageInputDiv == languageInputs.lastChild && i != limit){
+            if (addBtn.classList.contains("d-none")){
+                addBtn.classList.remove("d-none")
+            }
+            if (!removeBtn.classList.contains("d-none")){
+                removeBtn.classList.add("d-none")
+            }
+        } else {
+            if (!addBtn.classList.contains("d-none")){
+                addBtn.classList.add("d-none")
+            }
+            if (removeBtn.classList.contains("d-none")){
+                removeBtn.classList.remove("d-none")
+            }
+        }
+    }
 }
 
 // Adding content in the birthday field
@@ -82,10 +147,46 @@ form.addEventListener('submit', async function(ev) {
     var oData = new FormData(form)
     
     if(oData.get('image').size === 0){
-        $.alert({
-            title: 'Image is also required',
-            content: "Please fill the image field",
-            theme: 'material',
+        imageDiv = document.querySelector(".label-image")
+        if (!imageDiv.classList.contains("invalid-field")){
+            imageDiv.classList.add("invalid-field")
+        }
+        imageDiv.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+        })
+        saveBtn.innerHTML = defaultSaveBtnHtml
+        return
+    }
+
+    let languageInputs = document.querySelector(".language-inputs")
+    let languages = []
+    for(let languageInputDiv of languageInputs.children){
+        languageInput = languageInputDiv.querySelector(".language-input")
+        languagePrefix = availableTags.get(camelize(languageInput.value))
+        if (!languagePrefix){
+            $(languageInput).popover("show")
+            if (!languageInput.classList.contains("invalid-field")){
+                languageInput.classList.add("invalid-field")
+            }
+            saveBtn.innerHTML = defaultSaveBtnHtml
+            return 
+        }
+        languages.push(languagePrefix)
+    }
+    oData.delete("languages")
+    for (let language of languages){
+        oData.append("languages" ,language)
+    }
+
+    if ($('input[name=specializations]:checked').length == 0){
+        console.log("error")
+        specInput = document.querySelector("#spec-kids")
+        specInput.setCustomValidity("Please select at least one specialization")
+        specInput.reportValidity()
+        specInput.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
         })
         saveBtn.innerHTML = defaultSaveBtnHtml
         return
@@ -99,7 +200,7 @@ form.addEventListener('submit', async function(ev) {
 
     if (!googleConnected){
         $('[data-toggle="youtube-popover"]').popover("show")
-        youtubeBtn = document.querySelector("#youtube-account")
+        youtubeBtn = document.querySelector("#google-sign-in-or-out-button")
         youtubeBtn.scrollIntoView({
             behavior: "smooth",
             block: "center",
@@ -172,15 +273,54 @@ document.querySelector("#blog_name").onfocus = function(e){
     }
 }
 
+document.querySelector(".image-placeholder").onclick = function(e){
+    labelImage = document.querySelector(".label-image")
+    if (labelImage.classList.contains("invalid-field")){
+        labelImage.classList.remove("invalid-field")
+    }
+}
+
+document.querySelector("#language-1").onfocus = function(e){
+    $("#language-1").popover("hide")
+    if (e.target.classList.contains("invalid-field")){
+        e.target.classList.remove("invalid-field")
+    }
+}
+
 document.querySelector("#google-sign-in-or-out-button").onfocus = function(e){
     $('[data-toggle="youtube-popover"]').popover("hide")
 }
 
 // // Set limit of choosing specializations to max 3
 
-$("#specializations").on('change', function(e) {
-    if (Object.keys($(this).val()).length > 3) {
-        $('option[value="' +$(this).val().toString().split(',')[3] + '"]').prop('selected', false);
-
-    }
+var limit = 3;
+$('input.spec-checkbox').on('change', function(evt) {
+   if($('input[name=specializations]:checked').length > limit) {
+       this.checked = false;
+   }
 });
+
+var elements = $("input[type=text]");
+elements.each(function(index){
+    $(this).on("invalid", function(e){
+        e.preventDefault();
+        if (!e.target.classList.contains("invalid-field")){
+            e.target.classList.add("invalid-field")
+        }
+        $(this).get(0).scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+        })
+    })
+    $(this).on("focus", function(e) {
+        if (e.target.classList.contains("invalid-field")){
+            e.target.classList.remove("invalid-field")
+        }
+    });
+})
+
+function camelize(str) {
+    return str.replace(/\W+(.)/g, function(match, chr){
+        return chr.toUpperCase();
+    });
+}

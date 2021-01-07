@@ -671,7 +671,7 @@ function putLanguagesDivsIntoHtml(id){
     var languagesDiv = document.querySelector("#" + id)
     var languages = ""
     for(const language of defaultProfileData.languages){
-        languages += "<div class='block-item'>" + language.language + "</div>"
+        languages += "<div class='block-item language'>" + language.language + "</div>"
     }
     languagesDiv.innerHTML = languages
 }

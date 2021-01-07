@@ -26,6 +26,13 @@
 			c-10.524,10.524-10.524,27.586,0,38.109c10.524,10.524,27.586,10.523,38.109,0L256,294.11l209.997,209.998
 			c10.524,10.524,27.587,10.523,38.11,0c10.523-10.524,10.523-27.586,0-38.109L294.111,256.001z"/>
     </symbol>
+    <symbol id="plus" viewBox="0 0 512 512">
+        <path d="M492,236H276V20c0-11.046-8.954-20-20-20c-11.046,0-20,8.954-20,20v216H20c-11.046,0-20,8.954-20,20s8.954,20,20,20h216
+			v216c0,11.046,8.954,20,20,20s20-8.954,20-20V276h216c11.046,0,20-8.954,20-20C512,244.954,503.046,236,492,236z"/>
+    </symbol>
+    <symbol id="remove" viewBox="0 0 510 510">
+        <path id="XMLID_1476_" d="m118.832 467.243c1.193 24.006 20.863 42.757 44.944 42.757h182.447c24.081 0 43.753-18.75 44.944-42.757l26.28-302.243h-324.895zm181.168-227.243h30v165h-30zm-60 0h30v165h-30zm-60 0h30v165h-30z"/><path id="XMLID_1481_" d="m330 75v-30c0-24.812-20.186-45-45-45h-60c-24.812 0-45 20.188-45 45v30h-120v60h390v-60zm-120 0v-30c0-8.271 6.73-15 15-15h60c8.272 0 15 6.729 15 15v30z"/>
+    </symbol>
 </svg>
 
 <div class="registration">
@@ -41,99 +48,192 @@
                 <input id="image-input" class="image-input" name="image" type="file" onchange="previewImage(event)"/>
             </div>
             <div class="form-group">
-                <label for="blog_name" class="col-3 col-form-label form-label">
+                <div class="form-group-name col-8">
                     <i class="fas fa-exclamation-circle" data-toggle="tooltip" data-placement="top" title="This is a username field"></i>
-                    Your blog name:
-                </label>
-                <input type="text" required name="blog_name" id="blog_name" class="form-control col-7"
-                        placeholder="Enter blog name" data-toggle="username-popover" 
-                        data-trigger="none" data-content="Username is already taken">
+                    <input type="text" required name="blog_name" id="blog_name" class="custom-form-control"
+                    placeholder="Enter blog name" data-toggle="username-popover" 
+                    data-trigger="none" data-content="Username is already taken">
+                </div>
+            </div>
+            <div class="social-buttons">
+                <button type='button' id="facebook-sign-in-or-out-button" class="btn social-item btn-instagram">
+                    <div class="social-item-icon-div">
+                        <svg class="social-item-icon instagram">
+                            <use xlink:href="#instagram"></use>
+                        </svg>
+                    </div>
+                    <div class="social-item-text">
+                        Comming Soon
+                    </div>
+                    <div class="social-item-delete d-none">
+                        <div class="social-item-delete-divider">|</div>
+                        <div class="social-item-delete-icon-div">
+                            <svg class="social-item-delete-icon cancel">
+                                <use xlink:href="#cancel"></use>
+                            </svg>
+                        </div>
+                    </div>
+                </button>
+                <button type='button' id="google-sign-in-or-out-button" class="btn social-item btn-youtube"
+                        data-toggle="youtube-popover" data-trigger="none" data-content="Youtube account is required" data-placement="top">
+                    <div class="social-item-icon-div">
+                        <svg class="social-item-icon youtube" id="youtube-icon">
+                            <use xlink:href="#youtube"></use>
+                        </svg>
+                    </div>
+                    <div class="social-item-text" id="youtube-button-text">
+                        Connect YouTube
+                    </div>
+                    <div class="social-item-delete d-none" id="youtube-delete">
+                        <div class="social-item-delete-divider">|</div>
+                        <div class="social-item-delete-icon-div">
+                            <svg class="social-item-delete-icon cancel" id="youtube-cancel">
+                                <use xlink:href="#cancel"></use>
+                            </svg>
+                        </div>
+                    </div>
+                </button>
             </div>
             <div class="form-group">
-                <div class="form-label col-3">Social networks:</div>
-                <div class="social-buttons">
-                    <button type='button' id="facebook-sign-in-or-out-button" class="btn social-item btn-instagram">
-                        <div class="social-item-icon-div">
-                            <svg class="social-item-icon instagram">
-                                <use xlink:href="#instagram"></use>
+                <input type="text" required name="email" id="email" class='custom-form-control col-8' placeholder="Enter email" data-toggle="email-popover" data-trigger="none" data-content="Email is already taken">
+            </div> 
+            <div class="form-group">
+                <input type="text" required name="phone" class='custom-form-control col-8' placeholder="Enter phone">
+            </div>
+            <div class="form-group">
+                <input type="text" required name='country' id='country' class='custom-form-control col-8' placeholder="Enter country">
+            </div>
+            <div class="form-group">
+                <input type="text" required name='city' id='city' class='custom-form-control col-8' placeholder="Enter city">
+            </div> 
+            <div class="form-group languages-block">
+                <div class="languages-title">Languages of blog (max 3)</div>
+                <div class="language-inputs">
+                    <div class="language-input-div" id="language-div-1">
+                        <input type="text" class="language-input custom-form-control" name="languages" id="language-1" placeholder="Enter language" 
+                                data-toggle="language-popover" data-trigger="none" data-content="Language syntax error" data-placement="top">
+                        <button type="button" class="add-language-btn action-language-btn" id="add-language-1" onclick="addLanguageInput(2)">
+                            <svg class="add-language-btn-icon action-language-btn-icon">
+                                <use xlink:href="#plus"></use>
                             </svg>
-                        </div>
-                        <div class="social-item-text">
-                            Comming Soon
-                        </div>
-                        <div class="social-item-delete d-none">
-                            <div class="social-item-delete-divider">|</div>
-                            <div class="social-item-delete-icon-div">
-                                <svg class="social-item-delete-icon cancel">
-                                    <use xlink:href="#cancel"></use>
-                                </svg>
-                            </div>
-                        </div>
-                    </button>
-                    <button type='button' id="google-sign-in-or-out-button" class="btn social-item btn-youtube"
-                            data-toggle="youtube-popover" data-trigger="none" data-content="Youtube account is required" data-placement="top">
-                        <div class="social-item-icon-div">
-                            <svg class="social-item-icon youtube" id="youtube-icon">
-                                <use xlink:href="#youtube"></use>
+                        </button>
+                        <button type="button" class="remove-language-btn action-language-btn d-none" id="remove-language-1" onclick="removeLanguageInput(1)">
+                            <svg class="remove-language-btn-icon action-language-btn-icon">
+                                <use xlink:href="#remove"></use>
                             </svg>
-                        </div>
-                        <div class="social-item-text" id="youtube-button-text">
-                            Connect YouTube
-                        </div>
-                        <div class="social-item-delete d-none" id="youtube-delete">
-                            <div class="social-item-delete-divider">|</div>
-                            <div class="social-item-delete-icon-div">
-                                <svg class="social-item-delete-icon cancel" id="youtube-cancel">
-                                    <use xlink:href="#cancel"></use>
-                                </svg>
-                            </div>
-                        </div>
-                    </button>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+            <div class="form-group spec-checkboxes-block">
+                <div class="spec-title">Specializations of blog (max 3)</div>
+                <div class="spec-checkboxes custom-control custom-checkbox">
+                    <div class="spec-checkbox-div">
+                        <input type="checkbox" id="spec-kids" name="specializations" value="KIDS" class="spec-checkbox custom-control-input">
+                        <label for="spec-kids" class="spec-checkbox-label custom-control-label">Kids</label>
+                    </div>
+                    <div class="spec-checkbox-div">
+                        <input type="checkbox" id="spec-beauty" name="specializations" value="BEAUTY" class="spec-checkbox custom-control-input">
+                        <label for="spec-beauty" class="spec-checkbox-label custom-control-label">Beauty</label>
+                    </div>
+                    <div class="spec-checkbox-div">
+                        <input type="checkbox" id="spec-travel" name="specializations" value="TRAVEL" class="spec-checkbox custom-control-input">
+                        <label for="spec-travel" class="spec-checkbox-label custom-control-label">Travel</label>
+                    </div>
+                    <div class="spec-checkbox-div">
+                        <input type="checkbox" id="spec-sport" name="specializations" value="SPORT" class="spec-checkbox custom-control-input">
+                        <label for="spec-sport" class="spec-checkbox-label custom-control-label">Sport</label>
+                    </div>
+                    <div class="spec-checkbox-div">
+                        <input type="checkbox" id="spec-humor" name="specializations" value="HUMOR" class="spec-checkbox custom-control-input">
+                        <label for="spec-humor" class="spec-checkbox-label custom-control-label">Humor</label>
+                    </div>
+                    <div class="spec-checkbox-div">
+                        <input type="checkbox" id="spec-society" name="specializations" value="SOCIETY" class="spec-checkbox custom-control-input">
+                        <label for="spec-society" class="spec-checkbox-label custom-control-label">Society</label>
+                    </div>
+                    <div class="spec-checkbox-div">
+                        <input type="checkbox" id="spec-business" name="specializations" value="BUSINESS/FINANCES" class="spec-checkbox custom-control-input">
+                        <label for="spec-business" class="spec-checkbox-label custom-control-label">Business/Finances</label>
+                    </div>
+                    <div class="spec-checkbox-div">
+                        <input type="checkbox" id="spec-design" name="specializations" value="DESIGN" class="spec-checkbox custom-control-input">
+                        <label for="spec-design" class="spec-checkbox-label custom-control-label">Design</label>
+                    </div>
+                    <div class="spec-checkbox-div">
+                        <input type="checkbox" id="spec-games" name="specializations" value="VIDEO GAMES" class="spec-checkbox custom-control-input">
+                        <label for="spec-games" class="spec-checkbox-label custom-control-label">Video games</label>
+                    </div>
+                    <div class="spec-checkbox-div">
+                        <input type="checkbox" id="spec-animals" name="specializations" value="ANIMALS" class="spec-checkbox custom-control-input">
+                        <label for="spec-animals" class="spec-checkbox-label custom-control-label">Animals</label>
+                    </div>
+                    <div class="spec-checkbox-div">
+                        <input type="checkbox" id="spec-tech" name="specializations" value="TECH" class="spec-checkbox custom-control-input">
+                        <label for="spec-tech" class="spec-checkbox-label custom-control-label">Technologies/Gadgets</label>
+                    </div>
+                    <div class="spec-checkbox-div">
+                        <input type="checkbox" id="spec-it" name="specializations" value="IT" class="spec-checkbox custom-control-input">
+                        <label for="spec-it" class="spec-checkbox-label custom-control-label">IT</label>
+                    </div>
+                    <div class="spec-checkbox-div">
+                        <input type="checkbox" id="spec-creativity" name="specializations" value="CREATIVITY" class="spec-checkbox custom-control-input">
+                        <label for="spec-creativity" class="spec-checkbox-label custom-control-label">Creativity</label>
+                    </div>
+                    <div class="spec-checkbox-div">
+                        <input type="checkbox" id="spec-food" name="specializations" value="FOOD/DRINKS" class="spec-checkbox custom-control-input">
+                        <label for="spec-food" class="spec-checkbox-label custom-control-label">Food/Drinks</label>
+                    </div>
+                    <div class="spec-checkbox-div">
+                        <input type="checkbox" id="spec-lifestyle" name="specializations" value="LIFESTYLE" class="spec-checkbox custom-control-input">
+                        <label for="spec-lifestyle" class="spec-checkbox-label custom-control-label">Lifestyle</label>
+                    </div>
+                    <div class="spec-checkbox-div">
+                        <input type="checkbox" id="spec-music" name="specializations" value="MUSIC/MOVIES" class="spec-checkbox custom-control-input">
+                        <label for="spec-music" class="spec-checkbox-label custom-control-label">Music/Movies</label>
+                    </div>
+                    <div class="spec-checkbox-div">
+                        <input type="checkbox" id="spec-education" name="specializations" value="EDUCATION" class="spec-checkbox custom-control-input">
+                        <label for="spec-education" class="spec-checkbox-label custom-control-label">Education</label>
+                    </div>
+                    <div class="spec-checkbox-div">
+                        <input type="checkbox" id="spec-health" name="specializations" value="HEALTH" class="spec-checkbox custom-control-input">
+                        <label for="spec-health" class="spec-checkbox-label custom-control-label">Health</label>
+                    </div>
+                    <div class="spec-checkbox-div">
+                        <input type="checkbox" id="spec-web" name="specializations" value="WEB-SITES/APPLICATIONS" class="spec-checkbox custom-control-input">
+                        <label for="spec-web" class="spec-checkbox-label custom-control-label">Web-sites/Applications</label>
+                    </div>
+                    <div class="spec-checkbox-div">
+                        <input type="checkbox" id="spec-auto" name="specializations" value="AUTO/MOTO" class="spec-checkbox custom-control-input">
+                        <label for="spec-auto" class="spec-checkbox-label custom-control-label">Auto/Moto</label>
+                    </div>
+                    <div class="spec-checkbox-div">
+                        <input type="checkbox" id="spec-books" name="specializations" value="BOOKS" class="spec-checkbox custom-control-input">
+                        <label for="spec-books" class="spec-checkbox-label custom-control-label">Books</label>
+                    </div>
+                    <div class="spec-checkbox-div">
+                        <input type="checkbox" id="spec-house" name="specializations" value="HOUSE/RENOVATION" class="spec-checkbox custom-control-input">
+                        <label for="spec-house" class="spec-checkbox-label custom-control-label">House/Renovation</label>
+                    </div>
                 </div>
             </div>
             <div class="form-group">
-                <label for="email" class="col-3 col-form-label form-label">Your email:</label>
-                <input type="text" required name="email" id="email" class='form-control col-7' placeholder="Enter email" data-toggle="email-popover" data-trigger="none" data-content="Email is already taken">
-            </div> 
-            <div class="form-group">
-                <label for="phone" class="col-3 col-form-label form-label">Your phone:</label>
-                <input type="text" required name="phone" class='form-control col-7' placeholder="Enter phone">
-            </div>
-            <div class="form-group">
-                <label for="languages" class="col-3 col-form-label form-label">Languages of blog:</label>
-                <select id="languages" required name="languages" multiple class="custom-select col-4">
-                    
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="country" class="col-3 col-form-label form-label">Country:</label>
-                <input type="text" required name='country' id='country' class='form-control col-7' placeholder="Enter country">
-            </div>
-            <div class="form-group">
-                <label for="city" class="col-3 col-form-label form-label">City:</label>
-                <input type="text" required name='city' id='city' class='form-control col-7' placeholder="Enter city">
-            </div> 
-            <div class="form-group">
-                <label for="specializations" class="col-3 col-form-label form-label">Specializations of blog (max 3):</label>
-                <select id="specializations" required name="specializations" multiple class="multiselect custom-select col-4">
-                    
-                </select>
-            </div> 
-            <div class="form-group checkboxes">
-                <div class="col-3 col-form-label form-label">Sex:</div>
+                <div class="col-form-label form-label sex-label">Sex:</div>
                 <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" name="sex" class="custom-control-input" required id="sexM" value="M">
+                    <input type="radio" name="sex" class="custom-control-input" required="" id="sexM" value="M">
                     <label for="sexM" class="custom-control-label">Man</label>
                 </div>
                 <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" name="sex" class="custom-control-input" required id="sexW" value="W">
+                    <input type="radio" name="sex" class="custom-control-input" required="" id="sexW" value="W">
                     <label for="sexW" class="custom-control-label">Woman</label>
                 </div>
             </div>
             <div class="form-group row">
-                <div class="col-3 col-form-label form-label">Birthday:</div>
+                <div class="col-form-label form-label">Birthday:</div>
                 
-                <select name="month" onchange="enterDay()" required class="custom-select col-1 birthday-">
+                <select name="month" onchange="enterDay()" required class="custom-select birthday-select">
                     <option value="1" selected>Jan</option>
                     <option value="2">Feb</option>
                     <option value="3">Mar</option>
@@ -148,14 +248,14 @@
                     <option value="12">Dec</option>
                 </select>
                 
-                <select name="day" required class="custom-select col-1">
+                <select name="day" required class="custom-select birthday-select">
                 </select>
                 
-                <select name="year" required onchange="enterDay()" class="custom-select col-1">
+                <select name="year" required onchange="enterDay()" class="custom-select birthday-select">
                 </select>
             </div>
             
-            <div class="custom-control custom-checkbox offset-3">
+            <div class="custom-control custom-checkbox form-group">
                 <input type="checkbox" id="terms-of-use" class="custom-control-input" required>
                 <label for="terms-of-use" class="custom-control-label">
                     I have read, understood and accepted

@@ -199,3 +199,7 @@
 .refresh-btn:hover{
     background-color: #eceef0;
 }
+
+.language{
+    text-transform: capitalize;
+}
