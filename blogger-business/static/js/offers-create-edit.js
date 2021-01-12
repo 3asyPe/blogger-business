@@ -22,12 +22,14 @@ function fetchOfferData(offer_id){
 
             defaultProperties = data
 
+            setMinSubscribers(defaultProperties.blogger_model.min_subscribers)
+            setMaxSubscribers(defaultProperties.blogger_model.max_subscribers)
+
             fetchLanguages()
-            fetchSpecializations()
-            selectGroupOfSubscribers()
+            insertLanguages()
+            selectSpecializations()
+            selectAgeGroups()
             selectSex()
-            let ageGroupSelect = document.querySelector("#age_group")
-            ageGroupSelect.value = data.blogger_model.age_group
 
             if (data.price){
                 let priceInput = document.querySelector("#price")
@@ -132,7 +134,6 @@ var form = document.querySelector("#offer-form");
 form.addEventListener('submit', function(ev) {
     ev.preventDefault()
     var oData = new FormData(form)
-    console.log(new FormData(form))
     oData = getDataFromExampleCard(oData)
 
     if (oData == false){
@@ -143,7 +144,42 @@ form.addEventListener('submit', function(ev) {
         return false
     }
 
-    console.log(oData)
+    oData.delete("min_subscribers")
+    oData.delete("max_subscribers")
+    oData.append("min_subscribers", min_subscribers)
+    oData.append("max_subscribers", max_subscribers)
+
+    let languageInputs = document.querySelector(".language-inputs")
+    let languages = []
+    for(let languageInputDiv of languageInputs.children){
+        languageInput = languageInputDiv.querySelector(".language-input")
+        languagePrefix = availableTags.get(camelize(languageInput.value))
+        if (!languagePrefix){
+            $(languageInput).popover("show")
+            if (!languageInput.classList.contains("invalid-field")){
+                languageInput.classList.add("invalid-field")
+            }
+            saveBtn.innerHTML = defaultSaveBtnHtml
+            return 
+        }
+        languages.push(languagePrefix)
+    }
+    oData.delete("languages")
+    for (let language of languages){
+        oData.append("languages" ,language)
+    }
+
+    if ($('input[name=specializations]:checked').length == 0){
+        specInput = document.querySelector("#spec-kids")
+        specInput.setCustomValidity("Please select at least one specialization")
+        specInput.reportValidity()
+        specInput.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+        })
+        saveBtn.innerHTML = defaultSaveBtnHtml
+        return
+    }
 
     var oReq = new XMLHttpRequest()
 
@@ -337,6 +373,8 @@ function showImage(source){
     imagePlaceholder.hide()
 }
 
+var availableTags = new Map();
+
 function fetchLanguages(){
     fetch("/api/blog-languages")
     .then(response => {
@@ -344,12 +382,9 @@ function fetchLanguages(){
     })
     .then(data => {
         const languages = data.languages
-        let selectEl = document.querySelector("#languages")
-        let selectElHTML = selectEl.innerHTML
         for(let language of languages){
-            selectElHTML += getLanguageOptionHtml(language)
+            availableTags.set(camelize(language.language), language.prefix)
         }
-        selectEl.innerHTML = selectElHTML
     })
 }
 
@@ -357,56 +392,44 @@ if (!editMode){
     fetchLanguages()
 }
 
-function fetchSpecializations(){
-    fetch("/api/blog-specializations")
-    .then(response => {
-        return response.json()
-    })
-    .then(data => {
-        const specializations = data.specializations
-        let selectEl = document.querySelector("#specializations")
-        let selectElHTML = selectEl.innerHTML
-        for(let specialization of specializations){
-            selectElHTML += getSpecializationOptionHtml(specialization)
-        }
-        selectEl.innerHTML = selectElHTML
-    })
-}
-    
-if (!editMode){
-    fetchSpecializations()
-}
+$(".language-input" ).autocomplete({
+    source: function(request, response) {
+        var results = $.ui.autocomplete.filter(Array.from(availableTags.keys()), request.term);
+        response(results.slice(0, 10));
+    }
+});
 
-function getLanguageOptionHtml(language){
-    if (editMode){
-        for(let curLang of defaultProperties.blogger_model.languages){
-            if (curLang.language == language.prefix){
-                return "<option class='language-option' selected value='" + language.prefix + "'>" + language.language + "</option>"
+function selectAgeGroups(){
+    let ageGroupSelects = document.querySelector("#age_groups")
+    for (let option of ageGroupSelects.options){
+        for (let defSpec of defaultProperties.blogger_model.age_groups){
+            if (defSpec.age_group == option.value){
+                option.selected = true;
             }
         }
     }
-    return "<option class='language-option' value='" + language.prefix + "'>" + language.language + "</option>"
 }
 
-
-function getSpecializationOptionHtml(specialization){
-    if (editMode){
-        for(let curSpec of defaultProperties.blogger_model.specializations){
-            if (curSpec.specialization == specialization.prefix){
-                return "<option class='specialization-option' selected value='" + specialization.prefix + "'>" + specialization.specialization + "</option>"
+function selectSpecializations(){
+    let specSelects = document.getElementsByName("specializations")
+    for (let option of specSelects){
+        for (let defSpec of defaultProperties.blogger_model.specializations){
+            if (defSpec.specialization == option.value){
+                option.checked = true;
             }
         }
     }
-    return "<option class='specialization-option' value='" + specialization.prefix + "'>" + specialization.specialization + "</option>"
 }
 
-function selectGroupOfSubscribers(){
-    let subscribersSelect = document.querySelector("#subscribers_number_groups")
-    for (let option of subscribersSelect){
-        for (let receivedOption of defaultProperties.blogger_model.subscriber_groups){
-            if (receivedOption.group == option.value){
-                option.selected = true
-            }
+function insertLanguages(){
+    let languages = defaultProperties.blogger_model.languages
+    let firstLanguageInput = document.querySelector("#language-1")
+    firstLanguageInput.value = languages[0].language
+    if (languages.length > 1){
+        let id = 2
+        for (let language of languages.slice(1)){
+            addLanguageInput(id, language.language, false)
+            id += 1
         }
     }
 }
@@ -425,12 +448,97 @@ function selectSex(){
 
 // Set limit of choosing specializations to max 5
 
-$("#specializations").on('change', function(e) {
-    if (Object.keys($(this).val()).length > 5) {
-        $('option[value="' +$(this).val().toString().split(',')[5] + '"]').prop('selected', false);
-
-    }
+var specLimit = 5;
+$('input.spec-checkbox').on('change', function(evt) {
+   if($('input[name=specializations]:checked').length > specLimit) {
+       this.checked = false;
+   }
 });
+
+function addLanguageInput(id, value, check=true){
+    if (!value){
+        value = ""
+    }
+    if (check){
+        previousId = parseInt(id) - 1
+        languageInput = document.querySelector("#language-" + previousId)
+        languagePrefix = availableTags.get(camelize(languageInput.value))
+        if (!languagePrefix){
+            $("#language-" + previousId).popover("show")
+            if (!languageInput.classList.contains("invalid-field")){
+                languageInput.classList.add("invalid-field")
+            }
+            return 
+        }
+    }
+
+    languageInputs = $(".language-inputs")
+    nextId = parseInt(id) + 1
+    newLanguageInputHtml = '' +
+        `<div class="language-input-div" id="language-div-` + id + `">
+            <input type="text" class="language-input custom-form-control" name="languages" id="language-` + id + `" placeholder="Enter language"
+                value="` + value + `" data-toggle="language-popover" data-trigger="none" data-content="Language syntax error" data-placement="bottom">
+            <button type="button" class="add-language-btn action-language-btn" id="add-language-` + id + `" onclick="addLanguageInput(` + nextId + `)">
+                <svg class="add-language-btn-icon action-language-btn-icon">
+                    <use xlink:href="#plus"></use>
+                </svg>
+            </button>
+            <button type="button" class="remove-language-btn action-language-btn" id="remove-language-` + id + `" onclick="removeLanguageInput(` + id + `)">
+                <svg class="remove-language-btn-icon action-language-btn-icon">
+                    <use xlink:href="#remove"></use>
+                </svg>
+            </button>
+        </div>`
+        
+    languageInputs.append(newLanguageInputHtml)
+    $("#language-" + id).autocomplete({
+        source: function(request, response) {
+            var results = $.ui.autocomplete.filter(Array.from(availableTags.keys()), request.term);
+            response(results.slice(0, 10));
+        }
+    })
+    
+    document.querySelector("#language-" + id).onfocus = function(e){
+        $("#language-" + id).popover("hide")
+        if (e.target.classList.contains("invalid-field")){
+            e.target.classList.remove("invalid-field")
+        }
+    }
+
+    checkOnRemoveAndAddButtons(specLimit)
+}
+
+function removeLanguageInput(id){
+    languageInputs = document.querySelector(".language-inputs")
+    languageInput = languageInputs.querySelector("#language-div-" + id)
+    languageInputs.removeChild(languageInput)
+    checkOnRemoveAndAddButtons(specLimit)
+}
+
+function checkOnRemoveAndAddButtons(limit){
+    let languageInputs = document.querySelector(".language-inputs")
+    i = 0
+    for (let languageInputDiv of languageInputs.children){
+        i += 1
+        let addBtn = languageInputDiv.querySelector(".add-language-btn")
+        let removeBtn = languageInputDiv.querySelector(".remove-language-btn")
+        if (languageInputDiv == languageInputs.lastChild && i != limit){
+            if (addBtn.classList.contains("d-none")){
+                addBtn.classList.remove("d-none")
+            }
+            if (!removeBtn.classList.contains("d-none")){
+                removeBtn.classList.add("d-none")
+            }
+        } else {
+            if (!addBtn.classList.contains("d-none")){
+                addBtn.classList.add("d-none")
+            }
+            if (removeBtn.classList.contains("d-none")){
+                removeBtn.classList.remove("d-none")
+            }
+        }
+    }
+}
 
 function enterDay(){
     var kcyear = document.getElementsByName("year")[0],
@@ -495,3 +603,70 @@ if (editMode){
     deleteBtn.hide()
 }
     
+document.querySelector("#language-1").onfocus = function(e){
+    $("#language-1").popover("hide")
+    if (e.target.classList.contains("invalid-field")){
+        e.target.classList.remove("invalid-field")
+    }
+}
+
+var min_subscribers = 500000
+var max_subscribers = 1000000
+$("#slider-range").slider({
+    range: true,
+    min: 0,
+    max: 50000000,
+    step: 1000,
+    values: [min_subscribers, max_subscribers],
+    change: function( event, ui ){
+        if (ui.values[0] > ui.values[1]){
+            ui.values[0] = ui.values[1]
+        }
+        if (ui.values[1] < ui.values[0]){
+            ui.values[1] = ui.values[0]
+        }
+        if (ui.values[0] > ui.max){
+            ui.values[0] = ui.max
+        }
+        if (ui.values[0] < ui.min){
+            ui.values[0] = ui.min
+        }
+        if (ui.values[1] > ui.max){
+            ui.values[1] = ui.max
+        }
+        if (ui.values[1] < ui.min){
+            ui.values[1] = ui.min
+        }
+        
+        min_subscribers = ui.values[0]
+        max_subscribers = ui.values[1]
+        $("#min_subscribers").val(toShortenNumber(min_subscribers))
+        $("#max_subscribers").val(toShortenNumber(max_subscribers))
+    },
+    slide: function( event, ui ) {
+        
+    }
+});
+$("#min_subscribers").val(toShortenNumber($("#slider-range").slider("values", 0)))
+$("#max_subscribers").val(toShortenNumber($("#slider-range").slider("values", 1)))
+
+function setMinSubscribers(val){
+    $("#slider-range").slider("values", 0, parseShortenNumber(val))
+}
+
+function setMaxSubscribers(val){
+    $("#slider-range").slider("values", 1, parseShortenNumber(val))
+}
+
+$("#min_subscribers").on("change", function(){
+    setMinSubscribers($(this).val())
+})
+$("#max_subscribers").on("change", function () {
+    setMaxSubscribers($(this).val())
+})
+
+function camelize(str) {
+    return str.replace(/\W+(.)/g, function(match, chr){
+        return chr.toUpperCase();
+    });
+}

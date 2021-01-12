@@ -147,9 +147,68 @@
 }
 
 .form-group{
+    font-family: 'Roboto', sans-serif;
     margin: 30px;
     display: flex;
     align-items: center;
+    justify-content: center;
+}
+
+.custom-select{
+    display: flex;
+    justify-content: center;
+    border: none;
+    border-radius: 7px;
+    background-color: #f8f9fa;
+    margin: 2px;
+}
+
+#age_groups{
+    margin: 0;
+    width: 350px;
+}
+
+.custom-form-control{
+    display: block;
+    width: 100%;
+    height: calc(1.5em + .75rem + 2px);
+    font-size: 1rem;
+    line-height: 1.5;
+
+    border: none;
+    border-radius: 30px;
+    color: #373737;
+    background-color: #f8f9fa;
+    font-weight: 500;
+    padding: 6px 16px;
+    transition: border-color, box-shadow, background-color .1s linear;
+}
+
+.custom-form-control{
+    outline: none;
+}
+
+.custom-control{
+    padding-left: 1.2rem;
+}
+
+.custom-control-label::after,
+.custom-control-label::before{
+    left: -1.2rem;
+}
+
+.spec-checkboxes{
+    display: flex;
+    flex-wrap: wrap;
+    width: 60%;
+}
+
+.spec-checkbox-div{
+    width: 50%;
+}
+
+.sex-label{
+    margin-right: 1rem;
 }
 
 .form-label{
@@ -179,4 +238,157 @@
 
 .warning-background{
     background-color: rgba(255, 0, 0, 0.233);
+}
+
+.block-with-title{
+    flex-direction: column;
+}
+
+.block-title{
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.language-input-div{
+    display: flex;
+    margin-top: 10px;
+}
+
+.language-input-div:first-child{
+    margin: 0;
+}
+
+.action-language-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+    border-radius: 50%;
+    padding: 3px;
+    width: 38px;
+    height: 38px;
+    background-color: #fff;
+    transition: background-color .1s linear;
+}
+
+.add-language-btn{
+    border: 2px solid  #373737;
+}
+
+.add-language-btn:hover{
+    background-color: #373737;
+}
+
+.action-language-btn:hover .action-language-btn-icon{
+    fill: #fff;
+}
+
+.action-language-btn:focus{
+    outline: none;
+}
+
+.add-language-btn-icon{
+    width: 20px;
+    height: 20px;
+    fill:  #373737;
+    transition: fill .1s linear;
+}
+
+.remove-language-btn{
+    border: 2px solid  #ff0000a3;
+}
+
+.remove-language-btn-icon{
+    width: 20px;
+    height: 20px;
+    fill:  #ff0000a3;
+    transition: fill .1s linear;
+}
+
+.remove-language-btn:hover{
+    background-color: #ff0000a3;
+}
+
+.language-input{
+    width: 350px;
+    transition: background-color, .1s linear;
+}
+
+.invalid-field{
+    background-color: rgba(255, 0, 0, 0.233);
+}
+
+.popover {
+    border-radius: 4px;
+    font-size: 13px;
+    background-color: #f91313;
+    opacity: 0.9;
+}
+
+.popover-body{
+    padding: 5px 10px;
+    color: white;
+}
+
+.tooltip {
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+.tooltip-inner{
+    background-color: #f91313;
+}
+
+.ui-menu{
+    background-color: #fff;
+    width: 200px;
+    border-radius: 10px;
+    box-shadow: 0 0 3px rgba(0,0,0,0.5);
+    padding-left: 15px;
+    list-style-type:none;
+    overflow: hidden;
+}
+
+.ui-menu .ui-menu-item{
+    font-size: 16px;
+    line-height: 2.5;
+    font-weight: 500;
+    text-transform: capitalize;
+    border-bottom: 1px solid #f8f9fa;
+}
+
+.ui-menu-item:last-child{
+    border-bottom: none;
+}
+
+.ui-menu .ui-menu-item-wrapper:hover{
+    background-color: #f8f9fa;
+    border:none;
+    color: #373737;
+    margin-left: -15px;
+    padding-left: 15px;
+}
+
+.ui-menu-item-wrapper:hover .ui-menu-item{
+    background-color: #f8f9fa;
+}
+
+.ui-helper-hidden-accessible{
+    display: none;
+}
+
+.custom-slider{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.subscribers-input{
+    width: 80px;
+    display: block;
+    text-align: center;
 }

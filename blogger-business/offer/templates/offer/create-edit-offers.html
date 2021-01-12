@@ -5,11 +5,23 @@
 {% block base_title %}Offer{% endblock %}
 
 {% block base_head %}
+<!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
+<link rel="stylesheet" href="{% static 'css/ui-slider.css' %}">
 <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
 <link rel="stylesheet" href="{% static 'css/offers-create-edit.css' %}">
 {% endblock %}
 
 {% block content %}
+
+<svg style="display: none">
+    <symbol id="plus" viewBox="0 0 512 512">
+        <path d="M492,236H276V20c0-11.046-8.954-20-20-20c-11.046,0-20,8.954-20,20v216H20c-11.046,0-20,8.954-20,20s8.954,20,20,20h216
+			v216c0,11.046,8.954,20,20,20s20-8.954,20-20V276h216c11.046,0,20-8.954,20-20C512,244.954,503.046,236,492,236z"/>
+    </symbol>
+    <symbol id="remove" viewBox="0 0 510 510">
+        <path id="XMLID_1476_" d="m118.832 467.243c1.193 24.006 20.863 42.757 44.944 42.757h182.447c24.081 0 43.753-18.75 44.944-42.757l26.28-302.243h-324.895zm181.168-227.243h30v165h-30zm-60 0h30v165h-30zm-60 0h30v165h-30z"/><path id="XMLID_1481_" d="m330 75v-30c0-24.812-20.186-45-45-45h-60c-24.812 0-45 20.188-45 45v30h-120v60h390v-60zm-120 0v-30c0-8.271 6.73-15 15-15h60c8.272 0 15 6.729 15 15v30z"/>
+    </symbol>
+</svg>
 
 <div class="container">
     <div class="offers-header">
@@ -115,44 +127,152 @@
 
         <div class="blogger-model-title">Bloggers you want to work with</div>
         <input id="image-input" class="image-input" name="image" type="file" onchange="previewImage(event)"/>
-        <div class="form-group">
-            <label for="languages" class="form-label col-3">Languages of blog:</label>
-            <select id="languages" required name="languages" multiple class="custom-select">
+        <div class="form-group block-with-title">
+            <div class="block-title">Subscribers</div>
+            <div class="custom-slider">
+                <input type="text" class="subscribers-input custom-form-control" id="min_subscribers" name="min_subscribers"></input>
+                <div id="slider-range"></div>
+                <input type="text" class="subscribers-input custom-form-control" id="max_subscribers" name="max_subscribers"></input>
+            </div>
+        </div>
+        <div class="form-group block-with-title">
+            <div class="block-title">Age groups</div>
+            <select id="age_groups" required multiple name="age_groups" class="custom-select">
+                <option value="13–17">13–17 years</option>
+                <option value="18–24">18–24 years</option>
+                <option value="25–34">25–34 years</option>
+                <option value="35–44">35–44 years</option>
+                <option value="45–54">45–54 years</option>
+                <option value="55–64">55–64 years</option>
+                <option value="65+">65+ years</option>
             </select>
         </div>
-        <div class="form-group">
-            <label for="age_group" class="form-label col-3">Age group:</label>
-            <select id="age_group" required name="age_group" class="custom-select">
-                <option value="kids">Kids</option>
-                <option value="teens">Teens</option>
-                <option value="adults">Adults</option>
-                <option value="old">Old</option>
-            </select>
+        <div class="form-group block-with-title">
+            <div class="block-title">Languages of blog (max 5)</div>
+            <div class="language-inputs">
+                <div class="language-input-div" id="language-div-1">
+                    <input type="text" class="language-input custom-form-control" name="languages" id="language-1" placeholder="Enter language" 
+                            data-toggle="language-popover" data-trigger="none" data-content="Language syntax error" data-placement="top">
+                    <button type="button" class="add-language-btn action-language-btn" id="add-language-1" onclick="addLanguageInput(2)">
+                        <svg class="add-language-btn-icon action-language-btn-icon">
+                            <use xlink:href="#plus"></use>
+                        </svg>
+                    </button>
+                    <button type="button" class="remove-language-btn action-language-btn d-none" id="remove-language-1" onclick="removeLanguageInput(1)">
+                        <svg class="remove-language-btn-icon action-language-btn-icon">
+                            <use xlink:href="#remove"></use>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="form-group block-with-title">
+            <div class="block-title">Specializations of blog (max 5)</div>
+            <div class="spec-checkboxes custom-control custom-checkbox">
+                <div class="spec-checkbox-div">
+                    <input type="checkbox" id="spec-kids" name="specializations" value="KIDS" class="spec-checkbox custom-control-input">
+                    <label for="spec-kids" class="spec-checkbox-label custom-control-label">Kids</label>
+                </div>
+                <div class="spec-checkbox-div">
+                    <input type="checkbox" id="spec-beauty" name="specializations" value="BEAUTY" class="spec-checkbox custom-control-input">
+                    <label for="spec-beauty" class="spec-checkbox-label custom-control-label">Beauty</label>
+                </div>
+                <div class="spec-checkbox-div">
+                    <input type="checkbox" id="spec-travel" name="specializations" value="TRAVEL" class="spec-checkbox custom-control-input">
+                    <label for="spec-travel" class="spec-checkbox-label custom-control-label">Travel</label>
+                </div>
+                <div class="spec-checkbox-div">
+                    <input type="checkbox" id="spec-sport" name="specializations" value="SPORT" class="spec-checkbox custom-control-input">
+                    <label for="spec-sport" class="spec-checkbox-label custom-control-label">Sport</label>
+                </div>
+                <div class="spec-checkbox-div">
+                    <input type="checkbox" id="spec-humor" name="specializations" value="HUMOR" class="spec-checkbox custom-control-input">
+                    <label for="spec-humor" class="spec-checkbox-label custom-control-label">Humor</label>
+                </div>
+                <div class="spec-checkbox-div">
+                    <input type="checkbox" id="spec-society" name="specializations" value="SOCIETY" class="spec-checkbox custom-control-input">
+                    <label for="spec-society" class="spec-checkbox-label custom-control-label">Society</label>
+                </div>
+                <div class="spec-checkbox-div">
+                    <input type="checkbox" id="spec-business" name="specializations" value="BUSINESS/FINANCES" class="spec-checkbox custom-control-input">
+                    <label for="spec-business" class="spec-checkbox-label custom-control-label">Business/Finances</label>
+                </div>
+                <div class="spec-checkbox-div">
+                    <input type="checkbox" id="spec-design" name="specializations" value="DESIGN" class="spec-checkbox custom-control-input">
+                    <label for="spec-design" class="spec-checkbox-label custom-control-label">Design</label>
+                </div>
+                <div class="spec-checkbox-div">
+                    <input type="checkbox" id="spec-games" name="specializations" value="VIDEO GAMES" class="spec-checkbox custom-control-input">
+                    <label for="spec-games" class="spec-checkbox-label custom-control-label">Video games</label>
+                </div>
+                <div class="spec-checkbox-div">
+                    <input type="checkbox" id="spec-animals" name="specializations" value="ANIMALS" class="spec-checkbox custom-control-input">
+                    <label for="spec-animals" class="spec-checkbox-label custom-control-label">Animals</label>
+                </div>
+                <div class="spec-checkbox-div">
+                    <input type="checkbox" id="spec-tech" name="specializations" value="TECH" class="spec-checkbox custom-control-input">
+                    <label for="spec-tech" class="spec-checkbox-label custom-control-label">Technologies/Gadgets</label>
+                </div>
+                <div class="spec-checkbox-div">
+                    <input type="checkbox" id="spec-it" name="specializations" value="IT" class="spec-checkbox custom-control-input">
+                    <label for="spec-it" class="spec-checkbox-label custom-control-label">IT</label>
+                </div>
+                <div class="spec-checkbox-div">
+                    <input type="checkbox" id="spec-creativity" name="specializations" value="CREATIVITY" class="spec-checkbox custom-control-input">
+                    <label for="spec-creativity" class="spec-checkbox-label custom-control-label">Creativity</label>
+                </div>
+                <div class="spec-checkbox-div">
+                    <input type="checkbox" id="spec-food" name="specializations" value="FOOD/DRINKS" class="spec-checkbox custom-control-input">
+                    <label for="spec-food" class="spec-checkbox-label custom-control-label">Food/Drinks</label>
+                </div>
+                <div class="spec-checkbox-div">
+                    <input type="checkbox" id="spec-lifestyle" name="specializations" value="LIFESTYLE" class="spec-checkbox custom-control-input">
+                    <label for="spec-lifestyle" class="spec-checkbox-label custom-control-label">Lifestyle</label>
+                </div>
+                <div class="spec-checkbox-div">
+                    <input type="checkbox" id="spec-music" name="specializations" value="MUSIC/MOVIES" class="spec-checkbox custom-control-input">
+                    <label for="spec-music" class="spec-checkbox-label custom-control-label">Music/Movies</label>
+                </div>
+                <div class="spec-checkbox-div">
+                    <input type="checkbox" id="spec-education" name="specializations" value="EDUCATION" class="spec-checkbox custom-control-input">
+                    <label for="spec-education" class="spec-checkbox-label custom-control-label">Education</label>
+                </div>
+                <div class="spec-checkbox-div">
+                    <input type="checkbox" id="spec-health" name="specializations" value="HEALTH" class="spec-checkbox custom-control-input">
+                    <label for="spec-health" class="spec-checkbox-label custom-control-label">Health</label>
+                </div>
+                <div class="spec-checkbox-div">
+                    <input type="checkbox" id="spec-web" name="specializations" value="WEB-SITES/APPLICATIONS" class="spec-checkbox custom-control-input">
+                    <label for="spec-web" class="spec-checkbox-label custom-control-label">Web-sites/Applications</label>
+                </div>
+                <div class="spec-checkbox-div">
+                    <input type="checkbox" id="spec-auto" name="specializations" value="AUTO/MOTO" class="spec-checkbox custom-control-input">
+                    <label for="spec-auto" class="spec-checkbox-label custom-control-label">Auto/Moto</label>
+                </div>
+                <div class="spec-checkbox-div">
+                    <input type="checkbox" id="spec-books" name="specializations" value="BOOKS" class="spec-checkbox custom-control-input">
+                    <label for="spec-books" class="spec-checkbox-label custom-control-label">Books</label>
+                </div>
+                <div class="spec-checkbox-div">
+                    <input type="checkbox" id="spec-house" name="specializations" value="HOUSE/RENOVATION" class="spec-checkbox custom-control-input">
+                    <label for="spec-house" class="spec-checkbox-label custom-control-label">House/Renovation</label>
+                </div>
+            </div>
         </div>
         <div class="form-group">
-            <label for="subscribers_number_groups" class="form-label col-3">Number of subscribers:</label>
-            <select id="subscribers_number_groups" required multiple name="subscribers_number_groups" class="custom-select">
-                <option value="1">Less than 10k</option>
-                <option value="2">10k to 50k</option>
-                <option value="3">50k to 200k</option>
-                <option value="4">200k to 1m</option>
-                <option value="5">1m to 5m</option>
-                <option value="6">More than 5m</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="specializations" class="form-label col-3">Specializations of blog (max 5):</label>
-            <select id="specializations" required name="specializations" multiple class="multiselect custom-select">
-            </select>
-        </div> 
-        <div class="form-group">
-            <div class="form-label col-3">Sex:</div>
-            <label for="sexM" class="form-sub-label">Man</label>
-            <input type="radio" name="sex" required id="sexM" value="M">
-            <label for="sexW" class="form-sub-label">Woman</label>
-            <input type="radio" name="sex" required id="sexW" value="W">
-            <label for="sexAny" class="form-sub-label">Any</label>
-            <input type="radio" name="sex" required id="sexAny" value="ANY">
+            <div class="col-form-label form-label sex-label">Sex:</div>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="sex" class="custom-control-input" required="" id="sexM" value="M">
+                <label for="sexM" class="custom-control-label">Man</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="sex" class="custom-control-input" required="" id="sexW" value="W">
+                <label for="sexW" class="custom-control-label">Woman</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="sex" class="custom-control-input" required="" id="sexAny" value="ANY ">
+                <label for="sexAny" class="custom-control-label">Any</label>
+            </div>
         </div>
         
         <button type='submit' class='btn save-offer'>Save offer</button>
@@ -162,6 +282,7 @@
 <script>
     var csrftoken = "{{ csrf_token }}"
 </script>
+<script src="{% static 'js/number-shorter.js' %}"></script>
 <script src="{% static 'js/offers-create-edit.js' %}"></script>
 
 {% endblock %}

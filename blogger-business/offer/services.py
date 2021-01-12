@@ -6,7 +6,7 @@ from .models import (
     BloggerModel,
     BloggerModelLanguage,
     BloggerModelSpecialization,
-    SubscribersNumberGroup,
+    BloggerModelAgeGroup,
     ReceivingModel,
     Offer,
 )
@@ -59,15 +59,14 @@ def edit_offer_by_id_secured(data: dict, image, offer_id: str, business: Busines
 
 
 def create_new_offer(data: dict, image, business: Business) -> Offer:
-    blogger_model = _create_blogger_model(data=data)
     receiving_model = _create_receiving_model(data=data)
     offer = _create_new_offer(
         data=data, 
         image=image, 
         business=business, 
         receiving_model=receiving_model,
-        blogger_model=blogger_model,    
     )
+    blogger_model = _create_blogger_model(data=data, offer=offer)
     return offer
     
 
@@ -107,9 +106,14 @@ def _change_offer_data(data: dict, image, offer: Offer) -> Offer:
 def _change_blogger_model(data: dict, offer: Offer) -> BloggerModel:
     blogger_model = offer.blogger_model
     try:
-        blogger_model.age_group = data["age_group"]
+        blogger_model.min_subscribers = int(data["min_subscribers"])
     except KeyError:
-        raise KeyError("Data object doesn't have age group field")
+        raise KeyError("Data object doesn't have min_subscribers field")
+    
+    try:
+        blogger_model.max_subscribers = int(data["max_subscribers"])
+    except KeyError:
+        raise KeyError("Data object doesn't have max_subscribers field")
 
     try:
         blogger_model.sex = data["sex"]
@@ -117,8 +121,8 @@ def _change_blogger_model(data: dict, offer: Offer) -> BloggerModel:
         raise KeyError("Data object doesn't have sex field")
 
     _change_list_of_languages(data=data, blogger_model=blogger_model)
-    _change_list_of_subscribers_number_groups(data=data, blogger_model=blogger_model)
     _change_list_of_specializations(data=data, blogger_model=blogger_model)
+    _change_list_of_age_groups(data=data, blogger_model=blogger_model)
 
     blogger_model.save()
     return blogger_model
@@ -141,7 +145,7 @@ def _change_receiving_model(data: dict, offer: Offer) -> ReceivingModel:
 
 
 def _create_new_offer(data: dict, image, business: Business,
-                      receiving_model: ReceivingModel, blogger_model: BloggerModel) -> Offer:
+                      receiving_model: ReceivingModel) -> Offer:
     try:
         validity = _create_validity_object(data=data)
         barter = data.get("barter", False) == "on"
@@ -156,7 +160,6 @@ def _create_new_offer(data: dict, image, business: Business,
             barter=barter,
             receiving_model=receiving_model,
             validity=validity,
-            blogger_model=blogger_model,
         )
     except KeyError:
         raise KeyError("Data object doesn't have enough information for new offer")
@@ -179,12 +182,15 @@ def _create_receiving_model(data: dict) -> ReceivingModel:
 
     return receiving_model
 
-def _create_blogger_model(data: dict) -> BloggerModel:
+
+def _create_blogger_model(data: dict, offer: Offer) -> BloggerModel:
     try:
         blogger_model = BloggerModel.objects.create(
+            offer=offer,
             location=None,
-            age_group=data.get("age_group"),
-            sex=data.get("sex"),
+            sex=data["sex"],
+            min_subscribers=data["min_subscribers"],
+            max_subscribers=data["max_subscribers"],
         )
     except KeyError:
         raise KeyError("Data object doesn't have enough information for blogger model")
@@ -192,7 +198,7 @@ def _create_blogger_model(data: dict) -> BloggerModel:
 
     _create_list_of_languages(data=data, blogger_model=blogger_model)
     _create_list_of_specializations(data=data, blogger_model=blogger_model)
-    _create_list_of_subscribers_number_groups(data=data, blogger_model=blogger_model)
+    _create_list_of_age_groups(data=data, blogger_model=blogger_model)
 
     return blogger_model
 
@@ -222,34 +228,9 @@ def _change_list_of_languages(data: dict, blogger_model: BloggerModel):
         )
 
 
-def _change_list_of_subscribers_number_groups(data: dict, blogger_model: BloggerModel):
-    try:
-        new_groups = (data["subscribers_number_groups"])
-    except KeyError:
-        raise KeyError("Data object doesn't have subscribers number groups field")
-
-    if type(new_groups) == str:
-        new_groups = [new_groups]
-
-    cur_groups = SubscribersNumberGroup.objects.filter(blogger_model=blogger_model)
-
-    for cur_group in cur_groups:
-        try:
-            index_in_new = new_groups.index(cur_group.group)
-            cur_groups.pop(index_in_new)
-        except ValueError:
-            cur_group.delete()
-
-    for new_group in new_groups:
-        SubscribersNumberGroup.objects.create(
-            group=new_group, 
-            blogger_model=blogger_model
-        )
-
-
 def _change_list_of_specializations(data: dict, blogger_model: BloggerModel):
     try:
-        new_specializations = (data["specializations"])
+        new_specializations = data["specializations"]
     except KeyError:
         raise KeyError("Data object doesn't have specializations field")
 
@@ -272,18 +253,27 @@ def _change_list_of_specializations(data: dict, blogger_model: BloggerModel):
         )
 
 
-def _create_list_of_subscribers_number_groups(data: dict, blogger_model: BloggerModel):
+def _change_list_of_age_groups(data: dict, blogger_model: BloggerModel):
     try:
-        subscribers_number_groups = data.get("subscribers_number_groups")
+        new_age_groups = data["age_groups"]
     except KeyError:
-        raise KeyError("Data object doesn't have subscribers_number_groups field")
+        raise KeyError("Data object doesn't have age_groups field")
 
-    if type(subscribers_number_groups) == str:
-        subscribers_number_groups = [subscribers_number_groups]
+    if type(new_age_groups) == str:
+        new_age_groups = [new_age_groups]
 
-    for group in subscribers_number_groups:
-        SubscribersNumberGroup.objects.create(
-            group=group,
+    cur_age_groups = BloggerModelAgeGroup.objects.filter(blogger_model=blogger_model)
+
+    for cur_age_group in cur_age_groups:
+        try:
+            index_in_new = new_age_groups.index(cur_age_group.age_group)
+            new_age_groups.pop(index_in_new)
+        except ValueError:
+            cur_age_group.delete()
+
+    for new_age_group in new_age_groups:
+        BloggerModelAgeGroup.objects.create(
+            age_group=new_age_group, 
             blogger_model=blogger_model
         )
 
@@ -316,6 +306,22 @@ def _create_list_of_specializations(data: dict, blogger_model: BloggerModel):
     for specialization in specializations:
         BloggerModelSpecialization.objects.create(
             specialization=specialization, 
+            blogger_model=blogger_model
+        )
+
+
+def _create_list_of_age_groups(data: dict, blogger_model: BloggerModel):
+    try:
+        age_groups = data.get("age_groups")
+    except KeyError:
+        raise KeyError("Data object doesn't have age_groups field")
+    
+    if type(age_groups) == str:
+        age_groups = [age_groups]
+
+    for age_group in age_groups:
+        BloggerModelAgeGroup.objects.create(
+            age_group=age_group, 
             blogger_model=blogger_model
         )
 

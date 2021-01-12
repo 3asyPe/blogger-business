@@ -1,5 +1,4 @@
 var availableTags = new Map();
-var keys = []
 
 fetch("/api/blog-languages")
     .then(response => {
@@ -180,7 +179,6 @@ form.addEventListener('submit', async function(ev) {
     }
 
     if ($('input[name=specializations]:checked').length == 0){
-        console.log("error")
         specInput = document.querySelector("#spec-kids")
         specInput.setCustomValidity("Please select at least one specialization")
         specInput.reportValidity()

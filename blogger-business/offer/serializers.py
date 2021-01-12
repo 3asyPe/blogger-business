@@ -6,7 +6,7 @@ from .models import (
     BloggerModel,
     BloggerModelLanguage,
     BloggerModelSpecialization,
-    SubscribersNumberGroup,
+    BloggerModelAgeGroup,
 )
 from application.serializers import (
     ApplicationSerializerForCount,
@@ -23,13 +23,9 @@ class ReceivingModelSerializer(serializers.ModelSerializer):
         fields = ['delivery', 'address']
 
 
-class SubscribersNumberGroupSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SubscribersNumberGroup
-        fields = ["group"]
-
-
 class BloggerModelLanguageSerializer(serializers.ModelSerializer):
+    language = serializers.CharField(source="get_language_display")
+
     class Meta:
         model = BloggerModelLanguage
         fields = ["language"]
@@ -41,14 +37,20 @@ class BloggerModelSpecializationSerializer(serializers.ModelSerializer):
         fields = ["specialization"]
 
 
+class BloggerModelAgeGroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BloggerModelAgeGroup
+        fields = ["age_group"]
+
+
 class BloggerModelSerializer(serializers.ModelSerializer):
     languages = BloggerModelLanguageSerializer(many=True)
     specializations = BloggerModelSpecializationSerializer(many=True)
-    subscriber_groups = SubscribersNumberGroupSerializer(many=True)
+    age_groups = BloggerModelAgeGroupSerializer(many=True)
 
     class Meta:
         model = BloggerModel
-        fields = ["languages", "specializations", "subscriber_groups", "age_group", "sex"]
+        fields = ["languages", "specializations", "age_groups", "sex", "min_subscribers", "max_subscribers"]
 
 
 class OfferSerializer(serializers.ModelSerializer):

@@ -229,53 +229,6 @@ function updateStatistics(){
     })
 }
 
-function toShortenNumber(number){
-    function abbreviate(number, maxPlaces) {
-        number = Number(number)
-        var abbr
-        if(number >= 1e9) {
-          abbr = 'B'
-        }
-        else if(number >= 1e6) {
-          abbr = 'M'
-        }
-        else if(number >= 1e3) {
-          abbr = 'K'
-        }
-        else {
-          abbr = ''
-        }
-        return annotate(number, maxPlaces, abbr)
-      }
-      
-      function annotate(number, maxPlaces, abbr) {
-        // set places to false to not round
-        var rounded = 0
-        switch(abbr) {
-            case 'B':
-                rounded = number / 1e9
-                break
-            case 'M':
-                rounded = number / 1e6
-                break
-            case 'K':
-                rounded = number / 1e3
-                break
-            case '':
-                rounded = number
-                break
-        }
-        if(maxPlaces !== false) {
-            var test = new RegExp('\\.\\d{' + (maxPlaces + 1) + ',}$')
-            if(test.test(('' + rounded))) {
-                rounded = rounded.toFixed(maxPlaces)
-            }
-        }
-        return rounded + abbr
-    }
-    return abbreviate(number, 1)
-}
-
 function fetchPersonalData(){
     fetch("/api/blogger-profile-data/personal")
     .then(response => {

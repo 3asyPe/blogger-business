@@ -101,6 +101,7 @@ def edit_offer(request, offer_id: str):
     data = querydict_to_dict(request.POST)
     image = request.FILES.get("image")
     business = request.user.business
+    print(data)
     try:
         offer = edit_offer_by_id_secured(data=data, image=image, offer_id=offer_id, business=business)
     except Offer.DoesNotExist:
