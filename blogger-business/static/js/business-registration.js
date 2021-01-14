@@ -9,40 +9,71 @@ form.addEventListener('submit', async function(ev) {
     var oData = new FormData(form)
 
     if(oData.get('image').size === 0){
-        $.alert({
-            title: 'Image is also required',
-            content: "Please fill the image field",
-            theme: 'material',
+        imageDiv = document.querySelector(".label-image")
+        if (!imageDiv.classList.contains("invalid-field")){
+            imageDiv.classList.add("invalid-field")
+        }
+        imageDiv.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
         })
         saveBtn.innerHTML = defaultSaveBtnHtml
         return
     }
 
+    const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    let email = document.querySelector("#email")
+    if (!re.test(email.value)){
+        if (!email.classList.contains("invalid-field")){
+            email.classList.add("invalid-field")
+        }
+        email.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+        })
+        console.log("email")
+        saveBtn.innerHTML = defaultSaveBtnHtml
+        return
+    }
+
     if(!isValidHttpUrl(oData.get('site'))){
-        $.alert({
-            title: 'Web-site field is also required',
-            content: "Please fill the working url to your web-site",
-            theme: 'material',
+        let site = document.querySelector("#site")
+        if (!site.classList.contains("invalid-field")){
+            site.classList.add("invalid-field")
+            $('[data-toggle="site-popover"]').popover("show")
+        }
+        site.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
         })
         saveBtn.innerHTML = defaultSaveBtnHtml
         return
     }
 
     if(!isValidInstagramLinkOrUsername(oData.get('instagram'))){
-        $.alert({
-            title: 'Instagram field is also required',
-            content: "Please fill the working url or username of your instagram account",
-            theme: 'material',
+        let instagram = document.querySelector("#instagram")
+        if (!instagram.classList.contains("invalid-field")){
+            instagram.classList.add("invalid-field")
+            $('[data-toggle="instagram-popover"]').popover("show")
+        }
+        instagram.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
         })
+        console.log("insta")
         saveBtn.innerHTML = defaultSaveBtnHtml
         return
     }
 
     if(!isValidHttpUrl(oData.get('facebook'))){
-        $.alert({
-            title: 'Facebook field is also required',
-            content: "Please fill the working url to your facebook account",
-            theme: 'material',
+        let facebook = document.querySelector("#facebook")
+        if (!facebook.classList.contains("invalid-field")){
+            facebook.classList.add("invalid-field")
+            $('[data-toggle="facebook-popover"]').popover("show")
+        }
+        facebook.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
         })
         saveBtn.innerHTML = defaultSaveBtnHtml
         return
@@ -101,8 +132,48 @@ function getUsernameField(){
     return document.querySelector("#business_name")
 }
 
+var elements = $("input[type=text]");
+elements.each(function(index){
+    $(this).on("invalid", function(e){
+        e.preventDefault();
+        if (!e.target.classList.contains("invalid-field")){
+            e.target.classList.add("invalid-field")
+        }
+        $(this).get(0).scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+        })
+    })
+    $(this).on("focus", function(e) {
+        if (e.target.classList.contains("invalid-field")){
+            e.target.classList.remove("invalid-field")
+        }
+    });
+})
+
 document.querySelector("#business_name").onfocus = function(e){
     $('[data-toggle="username-popover"]').popover("hide")
+    if (e.target.classList.contains("invalid-field")){
+        e.target.classList.remove("invalid-field")
+    }
+}
+
+document.querySelector("#site").onfocus = function(e){
+    $('[data-toggle="site-popover"]').popover("hide")
+    if (e.target.classList.contains("invalid-field")){
+        e.target.classList.remove("invalid-field")
+    }
+}
+
+document.querySelector("#instagram").onfocus = function(e){
+    $('[data-toggle="instagram-popover"]').popover("hide")
+    if (e.target.classList.contains("invalid-field")){
+        e.target.classList.remove("invalid-field")
+    }
+}
+
+document.querySelector("#facebook").onfocus = function(e){
+    $('[data-toggle="facebook-popover"]').popover("hide")
     if (e.target.classList.contains("invalid-field")){
         e.target.classList.remove("invalid-field")
     }

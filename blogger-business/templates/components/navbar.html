@@ -6,47 +6,39 @@
 {% load static %}
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="{% if home_page %}{{ home_page }}{% else %}/{% endif %}">
-        <img src="{% static 'images/favicon.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
-    </a>
     {% if request.user.is_authenticated %}
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav">
-                <div class="nav-block">
-                    {% if request.user.is_blogger %}
-                    <li class="nav-item {% if request.path == dashboard_url %} active {% endif %}">
-                        <a class="nav-link" href="{{ dashboard_url }}">Dashboard</a>
-                    </li>
-                    {% endif %}
-                    {% if request.user.is_business %}
-                    <li class="nav-item {% if request.path == offers_url %} active {% endif %}">
-                        <a class="nav-link" href="{{ offers_url }}">My offers</a>
-                    </li>
-                    
-                    {% endif %}
-                </div>
-                    
-                <div class="nav-block">
-                    {% if request.user.is_business %}
-                        <a class="applications-link" href="{{ applications_url }}">
-                            <div class="nav-applications-count"></div>
-                            <i class="fas fa-envelope-open"></i>
-                        </a>
-                    {% endif %}
-                    <a class="profile-link" href="{{ profile_url }}">
-                        {% if request.user.is_blogger %}
-                            <img src="{{ request.user.blogger.image.url }}" id="profile-image-navbar" width="30" height="30" class="d-inline-block align-top profile-image" alt="">
-                        {% elif request.user.is_business %}
-                            <img src="{{ request.user.business.image.url }}" id="profile-image-navbar" width="30" height="30" class="d-inline-block align-top profile-image" alt="">
-                        {% endif %}
+        {% if request.user.is_blogger %}
+            <a class="navbar-brand" href="{{ dashboard_url }}">
+                <img src="{% static 'images/favicon.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+            </a>
+        {% else %}
+            <a class="navbar-brand" href="{{ offers_url }}">
+                <img src="{% static 'images/favicon.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+            </a>
+        {% endif %}
+    {% else %}
+        <a class="navbar-brand" href="{% if home_page %}{{ home_page }}{% else %}/{% endif %}">
+            <img src="{% static 'images/favicon.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+        </a>
+    {% endif %}
+    {% if request.user.is_authenticated %}
+        <ul class="navbar-nav">
+            <div class="nav-block">
+                {% if request.user.is_business %}
+                    <a class="applications-link" href="{{ applications_url }}">
+                        <div class="nav-applications-count"></div>
+                        <i class="fas fa-envelope-open"></i>
                     </a>
-                </div>
-
-            </ul>
-        </div>
+                {% endif %}
+                <a class="profile-link" href="{{ profile_url }}">
+                    {% if request.user.is_blogger %}
+                        <img src="{{ request.user.blogger.image.url }}" id="profile-image-navbar" width="30" height="30" class="d-inline-block align-top profile-image" alt="">
+                    {% elif request.user.is_business %}
+                        <img src="{{ request.user.business.image.url }}" id="profile-image-navbar" width="30" height="30" class="d-inline-block align-top profile-image" alt="">
+                    {% endif %}
+                </a>
+            </div>
+        </ul>
     {% endif %}
     
 </nav>

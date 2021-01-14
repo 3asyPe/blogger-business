@@ -145,6 +145,11 @@
     left: -1.2rem;
 }
 
+.custom-control-input{
+    position: unset;
+    left: auto;
+}
+
 .spec-checkboxes-block{
     flex-direction: column;
 }
@@ -163,6 +168,7 @@
 
 .spec-checkbox-div{
     width: 50%;
+    padding-left: 20px;
 }
 
 .birthday-select{
@@ -180,7 +186,7 @@
 }
 
 .invalid-field{
-    background-color: rgba(255, 0, 0, 0.233);
+    background-color: rgba(255, 0, 0, 0.233)!important;
 }
 
 .popover {
@@ -420,3 +426,81 @@
 .ui-helper-hidden-accessible{
     display: none;
 }
+
+@media(max-width: 767px){
+    .registration-inner{
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    .language-input{
+        width: 300px;
+    }
+
+    .spec-checkboxes{
+        width: 100%;
+    }
+
+    .spec-checkbox-div{
+        font-size: 14px;
+        padding-right: 5px;
+    }
+}
+
+@media(max-width: 380px){
+    .custom-form-control{
+        font-size: 14px;
+    }
+
+    .language-input{
+        width: 260px;
+    }
+
+    .social-item{
+        padding: 5px 10px;
+    }
+
+    .social-item-icon-div{
+        margin-right: 3px;
+    }
+
+    .social-item-text{
+        width: 95px;
+        font-size: 12px;
+    }
+
+    .spec-checkbox-div{
+        padding-left: 16px;
+    }
+
+    .custom-control-label::before,
+    .custom-control-label::after{
+        width: 0.8rem;
+        height: 0.8rem;
+        left: -1rem;
+    }
+}
+
+@media(max-width: 320px){
+    .language-input{
+        width: 210px;
+    }
+
+    .spec-checkbox-div{
+        font-size: 12px;
+    }
+
+    .birthday-label{
+        font-size: 14px;
+    }
+
+    .birthday-select{
+        font-size: 14px;
+        width: 70px;
+    }
+}
+
+

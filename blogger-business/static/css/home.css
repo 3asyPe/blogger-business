@@ -7,6 +7,10 @@
     align-items: center;
 }
 
+.about-div{
+    display: flex;
+}
+
 .about-link{
     margin-left: 60px;
 
@@ -85,6 +89,10 @@
     border-radius: 20px;
 }
 
+.app{
+    margin-bottom: 20px;
+}
+
 .app-title{
     font-size: 40px;
     text-align: center;
@@ -106,8 +114,25 @@
     width: 120px;
 }
 
+@media(max-width: 576px){
+    .about-link{
+        display: inline-block;
+        margin: auto;
+    }
 
-@media(max-width: 540px){
+    .agitation{
+        font-size: 40px;
+    }
+
+    .advantage-text{
+        font-size: 30px;
+    }
+
+    .advantage-icon{
+        height: 30px;
+        width: 30px;
+    }
+
     .authentication-btn{
         margin: 10px auto;
     }

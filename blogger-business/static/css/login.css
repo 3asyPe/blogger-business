@@ -93,3 +93,23 @@
     right: 50%;
     transform: translateX(50%);
 }
+
+@media(max-width: 585px){
+    .login-card{
+        width: 100%;
+        margin-right: auto;
+        margin-left: auto;
+    }
+}
+
+@media(max-width: 450px){
+    .login-card{
+        padding: 15px 20px;
+    }
+}
+
+@media(max-width: 360px){
+    .help-link{
+        font-size: 14px;
+    }
+}

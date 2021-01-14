@@ -158,6 +158,20 @@ form.addEventListener('submit', async function(ev) {
         return
     }
 
+    const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    let email = document.querySelector("#email")
+    if (!re.test(email)){
+        if (!email.classList.contains("invalid-field")){
+            email.classList.add("invalid-field")
+        }
+        email.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+        })
+        saveBtn.innerHTML = defaultSaveBtnHtml
+        return
+    }
+
     let languageInputs = document.querySelector(".language-inputs")
     let languages = []
     for(let languageInputDiv of languageInputs.children){
