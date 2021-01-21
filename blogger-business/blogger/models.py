@@ -48,8 +48,13 @@ class BlogLanguage(models.Model):
     language = models.CharField(max_length=2, choices=BLOG_LANGUAGES)
     blogger = models.ForeignKey(Blogger, on_delete=models.CASCADE, related_name='languages')
 
+    def __str__(self):
+        return f"{self.blogger} - {self.language}"
+
 
 class BlogSpecialization(models.Model):
     specialization = models.CharField(max_length=100, choices=BLOG_SPECIALIZATIONS)
     blogger = models.ForeignKey(Blogger, on_delete=models.CASCADE, related_name='specializations')
 
+    def __str__(self):
+        return f"{self.blogger} - {self.specialization}"

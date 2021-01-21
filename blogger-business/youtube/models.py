@@ -96,7 +96,7 @@ class Youtube(models.Model):
             else:
                 self.statistics.update_total_statistics()
                 self.statistics.update_statistics_for_last_month()
-            set_refreshed_channel_info(youtube=youtube, info=s_dict)
+            set_refreshed_channel_info(youtube=self, info=s_dict)
             return True
         return False
 

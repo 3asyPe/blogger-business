@@ -85,8 +85,8 @@ def parse_month_statistics(response) -> dict:
     date_str = statistics[0]
     month = datetime.strptime(date_str, "%Y-%m").month
     dislikes = statistics[1]
-    views = statistics[2]
-    likes = statistics[3]
+    likes = statistics[2]
+    views = statistics[3]
     subscribers_gained = statistics[4]
     comments = statistics[5]
 
