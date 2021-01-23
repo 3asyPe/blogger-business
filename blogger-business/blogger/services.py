@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.db import transaction
 
 from .models import (
     Blogger,
@@ -63,6 +64,7 @@ def edit_blogger_profile_blog_info(blogger: Blogger, data: dict) -> Blogger:
     return blogger
 
 
+@transaction.atomic
 def register_blogger(data: dict, image) -> Blogger:
     user = _create_user_blogger(data=data)
     blogger = _create_blogger(data=data, image=image, user=user)
@@ -92,7 +94,7 @@ def _create_blogger(data: dict, image, user: User) -> Blogger:
     _create_list_of_languages(data=data, blogger=blogger)
     _create_list_of_specializations(data=data, blogger=blogger)
     _create_youtube_model(data=data, blogger=blogger)
-    
+
     return blogger
 
 

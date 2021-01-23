@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.db import transaction
 from django.http import QueryDict
 
 from .models import Business
@@ -71,6 +72,7 @@ def edit_business_profile_image(business: Business, image) -> Business:
     return business
 
 
+@transaction.atomic
 def register_business(data: dict, image):
     user = _create_user_business(data=data)
     business = _create_business(data=data, image=image, user=user)

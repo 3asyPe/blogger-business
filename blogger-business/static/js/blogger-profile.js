@@ -146,6 +146,11 @@ function youtubeIsConnected(){
     }
 }
 
+const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+];
+
 function pullYoutubeStatisticsIntoHtml(){
     statistics = defaultProfileData.youtube.statistics
     
@@ -157,6 +162,9 @@ function pullYoutubeStatisticsIntoHtml(){
 
     let youtubeViews = document.querySelector("#youtube-views")
     youtubeViews.innerHTML = toShortenNumber(statistics.total_views)
+
+    let youtubeMonthTitle = document.querySelector("#youtube-month-title")
+    youtubeMonthTitle.innerHTML = monthNames[statistics.month_updated - 1]
 
     let youtubeMonthSubscribers = document.querySelector("#youtube-month-subscribers")
     youtubeMonthSubscribers.innerHTML = toShortenNumber(statistics.month_subscribers_gained)

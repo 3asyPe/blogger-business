@@ -159,8 +159,8 @@ form.addEventListener('submit', async function(ev) {
     }
 
     const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-    let email = document.querySelector("#email").value
-    if (!re.test(email)){
+    let email = document.querySelector("#email")
+    if (!re.test(email.value)){
         if (!email.classList.contains("invalid-field")){
             email.classList.add("invalid-field")
         }
