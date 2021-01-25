@@ -220,6 +220,11 @@ MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_cdn", "media_root")
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
+CELERY_BROKER_URL = secret.CELERY_BROKER_URL
+
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+
 # SSL/TLS
 CORS_REPLACE_HTTPS_REFERER      = False
 HOST_SCHEME                     = "http://"

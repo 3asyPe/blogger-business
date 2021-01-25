@@ -5,7 +5,6 @@ from django.shortcuts import render
 from django.http import Http404
 
 from .services import (
-    send_password_email,
     custom_login,
     get_next_url_after_login,
     get_next_path,

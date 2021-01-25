@@ -231,6 +231,11 @@ MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_cdn", "media_root")
 
 from BloggerBusiness.aws.conf import *
 
+CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", secret.CELERY_BROKER_URL)
+
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+
 # SSL/TLS
 CORS_REPLACE_HTTPS_REFERER      = True
 HOST_SCHEME                     = "https://"

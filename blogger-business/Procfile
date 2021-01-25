@@ -1,1 +1,2 @@
 web: gunicorn BloggerBusiness.wsgi
+worker: celery -A BloggerBusiness worker -l info

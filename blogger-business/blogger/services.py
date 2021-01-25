@@ -11,7 +11,8 @@ from account.models import Location
 from account.services import create_user
 from account.utils import generate_password, create_date_object
 from emails.services import (
-    send_verification_for_new_email,
+    EmailActivationRunner,
+    create_change_email_activation,
     verification_email_is_sent,
 )
 from youtube.services import (
@@ -58,16 +59,18 @@ def edit_blogger_profile_blog_info(blogger: Blogger, data: dict) -> Blogger:
         raise KeyError("Data object doesn't have email field")
     user = blogger.user
     if user.email != email and not verification_email_is_sent(user=user, email=email):
-        send_verification_for_new_email(user=user, email=email)
+        email_activation_runner = create_change_email_activation(user=user, email=email)
+        email_activation_runner.run()
 
     blogger.save()
     return blogger
 
 
-@transaction.atomic
 def register_blogger(data: dict, image) -> Blogger:
-    user = _create_user_blogger(data=data)
-    blogger = _create_blogger(data=data, image=image, user=user)
+    with transaction.atomic():
+        user, email_activation_runner = _create_user_blogger(data=data)
+        blogger = _create_blogger(data=data, image=image, user=user)
+    email_activation_runner.run()    
     return blogger
     
 
@@ -151,14 +154,14 @@ def _create_birthday_object(data: dict):
     return birthday
 
 
-def _create_user_blogger(data: dict) -> User:
+def _create_user_blogger(data: dict) -> (User, EmailActivationRunner):
     password = generate_password()
     try:
-        user = create_user(username=data['blog_name'], email=data['email'], password=password)
+        user, email_activation_runner = create_user(username=data['blog_name'], email=data['email'], password=password)
     except KeyError:
         raise KeyError("Data object doesn't have username or email field")
     print(f"user-{user}")
-    return user
+    return user, email_activation_runner
 
 
 def _change_list_of_languages(data: dict, blogger: Blogger):

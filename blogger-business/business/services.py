@@ -8,7 +8,8 @@ from account.models import Location
 from account.services import create_user
 from account.utils import generate_password
 from emails.services import (
-    send_verification_for_new_email,
+    EmailActivationRunner,
+    create_change_email_activation,
     verification_email_is_sent,
 )
 
@@ -43,7 +44,8 @@ def edit_business_profile_contact(business: Business, data: dict) -> Business:
         raise KeyError("Data object doesn't have email field")
     user = business.user
     if user.email != email and not verification_email_is_sent(user=user, email=email):
-        send_verification_for_new_email(user=user, email=email)
+        email_activation_runner = create_change_email_activation(user=user, email=email)
+        email_activation_runner.run()
 
     business.save()
     return business
@@ -72,10 +74,11 @@ def edit_business_profile_image(business: Business, image) -> Business:
     return business
 
 
-@transaction.atomic
 def register_business(data: dict, image):
-    user = _create_user_business(data=data)
-    business = _create_business(data=data, image=image, user=user)
+    with transaction.atomic():
+        user, email_activation_runner = _create_user_business(data=data)
+        business = _create_business(data=data, image=image, user=user)
+    email_activation_runner.run()
     return business
 
 
@@ -130,12 +133,12 @@ def _create_location(data: dict) -> Location:
     return location
 
 
-def _create_user_business(data: dict) -> User:
+def _create_user_business(data: dict) -> (User, EmailActivationRunner):
     password = generate_password()
     try:
-        user = create_user(username=data['business_name'], email=data['email'], password=password)
+        user, email_activation_runner = create_user(username=data['business_name'], email=data['email'], password=password)
     except KeyError:
         raise KeyError("Data object doesn't have field username or email field")
     print(f"user-{user}")
 
-    return user
+    return user, email_activation_runner

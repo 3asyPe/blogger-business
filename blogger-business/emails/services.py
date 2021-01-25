@@ -1,17 +1,18 @@
 import threading
 
+from django.db import transaction
+
 from .models import EmailActivation
+from .tasks import send_activation_email_task
 
 
-class EmailActivationThread(threading.Thread):
+class EmailActivationRunner:
     def __init__(self, email_activation_obj: EmailActivation, password=None):
         self.email_activation_obj = email_activation_obj
         self.password = password
-        threading.Thread.__init__(self)
 
-    def run (self):
-        print("sending email")
-        self.email_activation_obj.send_activation(password=self.password)
+    def run(self):
+        send_activation_email_task.delay(email_activation_id=self.email_activation_obj.id, password=self.password)
 
 
 def verification_email_is_sent(user, email):
@@ -21,14 +22,16 @@ def verification_email_is_sent(user, email):
     return False
 
 
-def send_verification_for_new_email(user, email):
+def create_change_email_activation(user, email) -> EmailActivationRunner:
     email_activation_obj = EmailActivation.objects.create(user=user, email=email, email_change=True)
-    EmailActivationThread(email_activation_obj=email_activation_obj).start()
+    email_activation_runner = EmailActivationRunner(email_activation_obj=email_activation_obj)
+    return email_activation_runner
 
 
-def send_password_email(user, email, password):
+def create_password_email_activation(user, email, password) -> EmailActivationRunner:
     email_activation_obj = EmailActivation.objects.create(user=user, email=email)
-    EmailActivationThread(email_activation_obj=email_activation_obj, password=password).start()
+    email_activation_runner = EmailActivationRunner(email_activation_obj=email_activation_obj, password=password)
+    return email_activation_runner
 
 
 def activate_email_and_get_redirect_url(key):
@@ -65,8 +68,8 @@ def reactivate_email_and_get_response_data(email):
     
     email_activation_obj = qs.first()
     user = email_activation_obj.user
-    new_activation = EmailActivation.objects.create(user=user, email=email)
-    new_activation.send_activation()
+    activation_runner = create_change_email_activation(user=user, email=email)
+    activation_runner.run()
     
     message = "The activation email was sent"
     status = 200

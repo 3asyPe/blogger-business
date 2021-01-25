@@ -2,6 +2,7 @@ var form = document.querySelector("#registration-form");
 
 form.addEventListener('submit', async function(ev) {
     ev.preventDefault()
+    console.log("now")
     saveBtn = document.querySelector("#save-btn")
     defaultSaveBtnHtml = saveBtn.innerHTML
     saveBtn.innerHTML = 'Loading <i class="fas fa-spinner fa-spin"></i>'
