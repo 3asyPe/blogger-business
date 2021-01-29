@@ -11,7 +11,15 @@ COUNTRIES = settings.COUNTRIES
 CITIES = settings.CITIES
 
 
+class UserQuerySet(models.query.QuerySet):
+    def get_active_ids(self):
+        return self.filter(is_active=True).values_list('id', flat=True)
+
+
 class UserManager(BaseUserManager):
+    def get_queryset(self):
+         return UserQuerySet(self.model, self._db)
+
     def create_user(self, username, email, password=None, is_active=False, is_staff=False, is_admin=False):
         if not username: 
             raise ValueError("User must have a username")
@@ -51,6 +59,9 @@ class UserManager(BaseUserManager):
             is_admin=True,
         )
         return user
+
+    def get_active_ids(self):
+        return self.get_queryset().get_active_ids()
 
 
 class User(AbstractBaseUser):

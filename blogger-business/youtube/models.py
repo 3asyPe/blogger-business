@@ -6,7 +6,7 @@ from datetime import timedelta
 
 from django.conf import settings
 from django.db import models
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save, post_save
 from django.utils import timezone
 
 from .utils import (
@@ -36,7 +36,18 @@ AGE_GROUPS = settings.AGE_GROUPS
 SEXES = settings.SEXES
 
 
+class YoutubeQuerySet(models.query.QuerySet):
+    def get_active_ids(self):
+        return self.filter(is_active=True).values_list('id', flat=True)
+
+    def get_active_accounts(self):
+        return self.filter(is_active=True)
+
+
 class YoutubeManager(models.Manager):
+    def get_queryset(self):
+        return YoutubeQuerySet(self.model, self._db)
+
     def create_new(self, blogger, name, email, image_url, credentials):
         youtube = self.model(
             blogger=blogger,
@@ -54,6 +65,12 @@ class YoutubeManager(models.Manager):
         youtube.save(using=self._db)
         return youtube
 
+    def get_active_ids(self):
+        return self.get_queryset().get_active_ids()
+
+    def get_active_accounts(self):
+        return self.get_queryset().get_active_accounts()
+
 
 class Youtube(models.Model):
     blogger = models.OneToOneField(Blogger, on_delete=models.CASCADE)
@@ -66,6 +83,7 @@ class Youtube(models.Model):
     updated_token = models.DateTimeField()
     token_expires_in = models.IntegerField() 
     published_at = models.DateField(blank=True, null=True)
+    is_active = models.BooleanField(default=False)
 
     objects = YoutubeManager()
 
@@ -194,6 +212,18 @@ class YoutubeAudience(models.Model):
 
     def __str__(self):
         return self.youtube.name
+
+
+def post_save_youtube_is_active_check(sender, instance, *args, **kwargs):
+    if instance.channel_id and hasattr(instance, "statistics") and not instance.is_active:
+        instance.is_active = True
+        instance.save()
+    elif (not instance.channel_id or not hasattr(instance, "statistics")) and instance.is_active:
+        instance.is_active = False
+        instance.save()
+
+
+post_save.connect(post_save_youtube_is_active_check, sender=Youtube)
 
 
 def pre_save_youtube_change_token_receiver(sender, instance, *args, **kwargs):

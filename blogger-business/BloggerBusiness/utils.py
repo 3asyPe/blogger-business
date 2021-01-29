@@ -3,10 +3,21 @@ import random
 import os
 
 from datetime import datetime
+from googleapiclient.discovery_cache.base import Cache
 
 
 LETTERS = string.ascii_letters
 NUMBERS = string.digits
+
+
+class MemoryCache(Cache):
+    _CACHE = {}
+
+    def get(self, url):
+        return MemoryCache._CACHE.get(url)
+
+    def set(self, url, content):
+        MemoryCache._CACHE[url] = content
 
 
 def get_filename_ext(filename):

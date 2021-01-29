@@ -33,6 +33,8 @@ requests = "*"
 oauth2client = "*"
 celery = "*"
 redis = "*"
+django-celery-beat = "*"
+flower = "*"
 
 [requires]
 python_version = "3.8"

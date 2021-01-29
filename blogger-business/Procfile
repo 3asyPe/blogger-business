@@ -1,2 +1,2 @@
 web: gunicorn BloggerBusiness.wsgi
-worker: celery -A BloggerBusiness worker -l info
+worker: celery -A BloggerBusiness worker --beat -S django -l info

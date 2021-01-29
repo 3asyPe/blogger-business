@@ -1,7 +1,10 @@
 import os
+
+from BloggerBusiness.google_api import google_conf
+from celery.schedules import crontab
+
 from . import secret
 from . import languages
-from BloggerBusiness.google_api import google_conf
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -54,6 +57,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'phonenumber_field',
     'storages',
+    'django_celery_beat',
 
     # Local
     'account',
@@ -235,6 +239,13 @@ CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", secret.CELERY_BROKER_URL
 
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
+
+CELERY_BEAT_SCHEDULE = {
+    "scheduled_task": {
+        "task": "youtube.tasks.update_all_channel_statistics_task",
+        "schedule": crontab(minute=0, hour=0),
+    },
+}
 
 # SSL/TLS
 CORS_REPLACE_HTTPS_REFERER      = True

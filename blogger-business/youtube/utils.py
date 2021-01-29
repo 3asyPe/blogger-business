@@ -4,7 +4,10 @@ from dateutil.relativedelta import relativedelta
 from googleapiclient.discovery import build
 from typing import Optional
 
-from BloggerBusiness.utils import parse_isoformat_time
+from BloggerBusiness.utils import (
+    parse_isoformat_time,
+    MemoryCache,
+)
 
 API_ANALYTICS_SERVICE_NAME = "youtubeAnalytics"
 API_ANALYTICS_VERSION = "v2"
@@ -14,12 +17,12 @@ API_DATA_VERSION = "v3"
 
 def get_data_service(youtube):
     credentials = youtube.fetch_credentials()
-    return build(API_DATA_SERVICE_NAME, API_DATA_VERSION, credentials=credentials)
+    return build(API_DATA_SERVICE_NAME, API_DATA_VERSION, credentials=credentials, cache=MemoryCache())
 
 
 def get_analytics_service(youtube):
     credentials = youtube.fetch_credentials()
-    return build(API_ANALYTICS_SERVICE_NAME, API_ANALYTICS_VERSION, credentials=credentials)
+    return build(API_ANALYTICS_SERVICE_NAME, API_ANALYTICS_VERSION, credentials=credentials, cache=MemoryCache())
 
 
 def get_date_a_month_ago() -> date:
